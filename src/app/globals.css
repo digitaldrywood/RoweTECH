@@ -119,7 +119,7 @@
 
   /* Feature highlight */
   .feature-highlight {
-    @apply relative pl-4 border-l-2 border-primary-500 3xl:pl-6 3xl:border-l-3;
+    @apply relative pl-4 border-l-2 border-primary-500 3xl:pl-6 3xl:border-l-4;
   }
 }
 
