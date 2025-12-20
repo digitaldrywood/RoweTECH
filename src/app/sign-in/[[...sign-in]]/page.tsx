@@ -1,22 +1,45 @@
 'use client'
 
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
+import { useState, useEffect } from 'react'
 
-// Check if Clerk is properly configured
+// Check if Clerk is properly configured (client-side only)
 const isClerkConfigured = (): boolean => {
+  if (typeof window === 'undefined') return false
   const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
   return Boolean(key && key !== 'YOUR_PUBLISHABLE_KEY' && key.startsWith('pk_'))
 }
 
-// Dynamically import SignIn to avoid issues when Clerk isn't configured
-const SignIn = dynamic(
-  () => import('@clerk/nextjs').then((mod) => mod.SignIn),
-  { ssr: false, loading: () => <div className="h-64 flex items-center justify-center"><div className="animate-pulse text-secondary-400">Loading...</div></div> }
-)
-
 export default function SignInPage() {
-  const clerkEnabled = isClerkConfigured()
+  const [mounted, setMounted] = useState(false)
+  const [clerkEnabled, setClerkEnabled] = useState(false)
+  const [SignInComponent, setSignInComponent] = useState<React.ComponentType<{ appearance: { elements: Record<string, string> } }> | null>(null)
+
+  useEffect(() => {
+    setMounted(true)
+    const enabled = isClerkConfigured()
+    setClerkEnabled(enabled)
+
+    if (enabled) {
+      import('@clerk/nextjs').then((mod) => {
+        setSignInComponent(() => mod.SignIn)
+      })
+    }
+  }, [])
+
+  // Loading state
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-secondary-50 flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md text-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center mx-auto mb-4 animate-pulse">
+            <span className="text-white font-bold text-2xl">RT</span>
+          </div>
+          <p className="text-secondary-400">Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   // If Clerk isn't configured, show a message
   if (!clerkEnabled) {
@@ -38,6 +61,20 @@ export default function SignInPage() {
     )
   }
 
+  // Show loading while Clerk component loads
+  if (!SignInComponent) {
+    return (
+      <div className="min-h-screen bg-secondary-50 flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md text-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <span className="text-white font-bold text-2xl">RT</span>
+          </div>
+          <p className="text-secondary-400 animate-pulse">Loading sign in...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-secondary-50 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
@@ -50,7 +87,7 @@ export default function SignInPage() {
             Sign in with your authorized Google account
           </p>
         </div>
-        <SignIn
+        <SignInComponent
           appearance={{
             elements: {
               rootBox: 'mx-auto',
