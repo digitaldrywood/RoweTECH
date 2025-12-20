@@ -9,10 +9,10 @@ const isClerkConfigured = (): boolean => {
   return Boolean(key && key !== 'YOUR_PUBLISHABLE_KEY' && key.startsWith('pk_'))
 }
 
-// Dynamically import UserButton only when needed
+// Dynamically import UserButton to avoid issues when Clerk isn't configured
 const UserButton = dynamic(
   () => import('@clerk/nextjs').then((mod) => mod.UserButton),
-  { ssr: false }
+  { ssr: false, loading: () => <div className="w-8 h-8 rounded-full bg-secondary-200 animate-pulse" /> }
 )
 
 export default function AdminLayout({

@@ -9,7 +9,7 @@ const isClerkConfigured = (): boolean => {
   return Boolean(key && key !== 'YOUR_PUBLISHABLE_KEY' && key.startsWith('pk_'))
 }
 
-// Dynamically import SignOutButton only when needed
+// Dynamically import SignOutButton to avoid issues when Clerk isn't configured
 const SignOutButton = dynamic(
   () => import('@clerk/nextjs').then((mod) => mod.SignOutButton),
   { ssr: false }

@@ -1,39 +1,49 @@
 'use client'
 
+import Link from 'next/link'
 import {
   SignInButton,
-  SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
+  useUser,
 } from '@clerk/nextjs'
+import { isAuthorizedAdmin } from '@/config/authorized-users'
 
 // Check if Clerk is properly configured
-const isClerkConfigured = () => {
+const isClerkConfigured = (): boolean => {
   const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-  return key && key !== 'YOUR_PUBLISHABLE_KEY' && key.startsWith('pk_')
+  return Boolean(key && key !== 'YOUR_PUBLISHABLE_KEY' && key.startsWith('pk_'))
 }
 
 export function DesktopAuthButtons() {
+  const { user } = useUser()
+  const isAdmin = isAuthorizedAdmin(user?.primaryEmailAddress?.emailAddress)
+
   if (!isClerkConfigured()) return null
 
   return (
-    <div className="flex items-center space-x-3 ml-4 3xl:ml-6">
+    <div className="flex items-center space-x-4 ml-4 3xl:ml-6">
       <SignedOut>
         <SignInButton mode="modal">
-          <button className="px-4 py-2 text-secondary-500 hover:text-secondary-600 font-medium transition-colors duration-200">
+          <button className="text-secondary-500 hover:text-secondary-600 font-medium transition-colors duration-200">
             Sign In
           </button>
         </SignInButton>
-        <SignUpButton mode="modal">
-          <button className="btn-primary">Sign Up</button>
-        </SignUpButton>
       </SignedOut>
       <SignedIn>
+        {isAdmin && (
+          <Link
+            href="/admin"
+            className="text-secondary-500 hover:text-secondary-600 font-medium transition-colors duration-200"
+          >
+            Admin
+          </Link>
+        )}
         <UserButton
           appearance={{
             elements: {
-              avatarBox: 'w-10 h-10',
+              avatarBox: 'w-9 h-9',
             },
           }}
         />
@@ -43,6 +53,9 @@ export function DesktopAuthButtons() {
 }
 
 export function MobileAuthButtons() {
+  const { user } = useUser()
+  const isAdmin = isAuthorizedAdmin(user?.primaryEmailAddress?.emailAddress)
+
   if (!isClerkConfigured()) return null
 
   return (
@@ -53,16 +66,21 @@ export function MobileAuthButtons() {
             Sign In
           </button>
         </SignInButton>
-        <SignUpButton mode="modal">
-          <button className="btn-primary text-center">Sign Up</button>
-        </SignUpButton>
       </SignedOut>
       <SignedIn>
+        {isAdmin && (
+          <Link
+            href="/admin"
+            className="text-secondary-500 hover:text-secondary-600 hover:bg-secondary-100 px-4 py-3 rounded-lg font-medium transition-all duration-200"
+          >
+            Admin Dashboard
+          </Link>
+        )}
         <div className="flex items-center space-x-3 px-4 py-3">
           <UserButton
             appearance={{
               elements: {
-                avatarBox: 'w-10 h-10',
+                avatarBox: 'w-9 h-9',
               },
             }}
           />
