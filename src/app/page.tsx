@@ -76,6 +76,7 @@ export default function Home() {
 
         {/* Industrial grid overlay */}
         <div className="absolute inset-0 industrial-grid opacity-30" />
+        <div className="sparkle-overlay" />
 
         {/* Diagonal accent lines */}
         <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-primary-500/50 via-primary-500/20 to-transparent" />
@@ -84,7 +85,7 @@ export default function Home() {
 
         {/* Content */}
         <div className="container-custom relative z-10 pt-32 pb-40">
-          <div className="max-w-none">
+          <div className="max-w-6xl xl:max-w-7xl mx-auto text-center">
             {/* Badge */}
             <FadeInUp>
               <div className="inline-flex items-center px-4 py-2 mb-8 border-l-4 border-primary-500 bg-secondary-900/50 backdrop-blur-sm">
@@ -112,7 +113,7 @@ export default function Home() {
 
             {/* Subheading */}
             <FadeInUp delay={0.2}>
-              <p className="text-2xl md:text-3xl xl:text-4xl text-secondary-200 max-w-4xl 2xl:max-w-5xl mb-12 border-l-2 border-secondary-700 pl-6 leading-relaxed">
+              <p className="text-2xl md:text-3xl xl:text-4xl text-secondary-200 max-w-4xl 2xl:max-w-5xl mx-auto mb-12 leading-relaxed">
                 Mold repair, custom fixtures, EOAT tooling, and CNC machining
                 for manufacturers who demand precision and reliability.
               </p>
@@ -120,7 +121,7 @@ export default function Home() {
 
             {/* CTAs */}
             <FadeInUp delay={0.3}>
-              <div className="flex flex-wrap gap-5">
+              <div className="flex flex-wrap gap-5 justify-center">
                 <Link href="/contact" className="btn-primary text-lg md:text-xl px-10 py-5">
                   <span className="flex items-center">
                     Request Quote
