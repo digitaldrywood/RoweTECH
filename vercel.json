@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "make build-static",
+  "outputDirectory": "dist",
+  "installCommand": "npm install && make setup-ci",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/$1" }
+  ],
+  "trailingSlash": true,
+  "cleanUrls": true
+}

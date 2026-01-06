@@ -29,6 +29,7 @@ rowetech
 
 # Go build artifacts
 tmp/
+dist/
 *.log
 
 # Generated files (regenerated on build)

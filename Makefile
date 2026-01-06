@@ -1,9 +1,10 @@
 SHELL := /bin/bash
 
-.PHONY: dev build test lint generate css css-watch migrate migrate-down migrate-status migrate-create setup clean run help
+.PHONY: dev build build-static test lint generate css css-watch migrate migrate-down migrate-status migrate-create setup setup-ci clean run help
 
 BINARY_NAME=rowetech
 MIGRATIONS_DIR=migrations
+DIST_DIR=dist
 
 dev:
 	@if [ -f tmp/air-combined.log ]; then \
@@ -15,6 +16,13 @@ dev:
 build: generate css
 	go build -o $(BINARY_NAME) ./cmd/server
 
+# Build static site for Vercel deployment
+build-static: generate css
+	@echo "Building static site..."
+	@mkdir -p $(DIST_DIR)
+	go run ./cmd/build $(DIST_DIR)
+	@echo "Static site built to $(DIST_DIR)/"
+
 test:
 	go test -v -race ./...
 
@@ -24,7 +32,7 @@ lint:
 
 generate:
 	templ generate
-	sqlc generate -f sqlc/sqlc.yaml
+	@if command -v sqlc &> /dev/null; then sqlc generate -f sqlc/sqlc.yaml; fi
 
 css:
 	npx @tailwindcss/cli -i static/css/input.css -o static/css/output.css --minify
@@ -55,9 +63,14 @@ setup:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	npm install
 
+# CI/CD setup (minimal - for Vercel)
+setup-ci:
+	go install github.com/a-h/templ/cmd/templ@latest
+
 clean:
 	rm -f $(BINARY_NAME)
 	rm -rf tmp/
+	rm -rf $(DIST_DIR)/
 	rm -f static/css/output.css
 
 run: build
@@ -67,6 +80,7 @@ help:
 	@echo "Available targets:"
 	@echo "  dev            - Run with Air hot reload"
 	@echo "  build          - Build the binary"
+	@echo "  build-static   - Build static site for Vercel"
 	@echo "  test           - Run tests"
 	@echo "  lint           - Run golangci-lint and templ fmt"
 	@echo "  generate       - Generate templ and sqlc code"
@@ -77,5 +91,6 @@ help:
 	@echo "  migrate-status - Show migration status"
 	@echo "  migrate-create - Create new migration (NAME=xxx)"
 	@echo "  setup          - Install development tools"
+	@echo "  setup-ci       - Install CI tools (Vercel)"
 	@echo "  clean          - Remove build artifacts"
 	@echo "  run            - Build and run the server"

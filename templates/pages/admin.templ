@@ -2,7 +2,7 @@ package pages
 
 import (
 	"rowetech/internal/meta"
-	"rowetech/internal/database/sqlc"
+	"rowetech/internal/database/models"
 	"rowetech/templates/layouts"
 )
 
@@ -33,7 +33,7 @@ templ adminCard(title, description, href, icon string) {
 	</a>
 }
 
-templ AdminGallery(items []sqlc.GalleryItem) {
+templ AdminGallery(items []models.GalleryItem) {
 	@layouts.Base(meta.New("Gallery Management", "Manage gallery items.").WithNoIndex()) {
 		<div class="min-h-screen bg-secondary-950 pt-24">
 			<div class="container-custom py-8">
