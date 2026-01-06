@@ -131,7 +131,7 @@ export default function ServicesPage() {
           </FadeInUp>
 
           <FadeInUp delay={0.2}>
-            <p className="text-xl lg:text-2xl text-secondary-300 max-w-2xl leading-relaxed">
+            <p className="text-xl lg:text-2xl xl:text-3xl text-secondary-300 max-w-2xl xl:max-w-3xl leading-relaxed">
               From mold repair to custom fixtures, we provide the precision machining and tooling
               services manufacturers need to stay productive.
             </p>
@@ -151,7 +151,7 @@ export default function ServicesPage() {
                 id={service.id}
                 className="scroll-mt-24"
               >
-                <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${
+                <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 xl:gap-28 2xl:gap-32 items-center ${
                   index % 2 === 1 ? 'lg:grid-flow-dense' : ''
                 }`}>
                   {/* Image */}

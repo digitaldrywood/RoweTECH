@@ -112,7 +112,7 @@ export default function AboutPage() {
           </FadeInUp>
 
           <FadeInUp delay={0.2}>
-            <p className="text-xl lg:text-2xl text-secondary-300 max-w-2xl leading-relaxed">
+            <p className="text-xl lg:text-2xl xl:text-3xl text-secondary-300 max-w-2xl xl:max-w-3xl leading-relaxed">
               A Wisconsin-based machine shop dedicated to quality, precision, and customer success.
               We bring decades of combined experience to every project.
             </p>
@@ -125,7 +125,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 industrial-grid opacity-10" />
 
         <div className="container-custom relative">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 xl:gap-32 items-center">
             <SlideInLeft>
               <span className="inline-flex items-center text-primary-400 font-medium tracking-wider uppercase text-sm mb-4">
                 <span className="w-8 h-px bg-primary-500 mr-3" />
@@ -204,7 +204,7 @@ export default function AboutPage() {
             </p>
           </FadeInUp>
 
-          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8 2xl:gap-10">
             {values.map((value, index) => (
               <StaggerItem key={index}>
                 <div className="card-industrial p-8 h-full group">
@@ -240,7 +240,7 @@ export default function AboutPage() {
             </p>
           </FadeInUp>
 
-          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8 2xl:gap-10">
             {industries.map((industry, index) => (
               <StaggerItem key={index}>
                 <div className="service-card group h-full">
@@ -289,12 +289,12 @@ export default function AboutPage() {
 
         <div className="container-custom relative text-center">
           <FadeInUp>
-            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-white uppercase mb-6">
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white uppercase mb-6">
               Let&apos;s Work Together
             </h2>
           </FadeInUp>
           <FadeInUp delay={0.1}>
-            <p className="text-secondary-300 text-lg mb-10 max-w-2xl mx-auto">
+            <p className="text-secondary-300 text-lg xl:text-xl mb-10 max-w-2xl xl:max-w-3xl mx-auto">
               Ready to discuss your project? Contact us for a quote or to learn more about our
               capabilities.
             </p>

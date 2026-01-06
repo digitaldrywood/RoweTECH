@@ -153,7 +153,7 @@ export default function GalleryPage() {
           </FadeInUp>
 
           <FadeInUp delay={0.2}>
-            <p className="text-xl lg:text-2xl text-secondary-300 max-w-2xl leading-relaxed">
+            <p className="text-xl lg:text-2xl xl:text-3xl text-secondary-300 max-w-2xl xl:max-w-3xl leading-relaxed">
               Explore our state-of-the-art machinery and examples of precision work we deliver to our customers.
             </p>
           </FadeInUp>
@@ -176,7 +176,7 @@ export default function GalleryPage() {
             </h2>
           </FadeInUp>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 xl:gap-10 2xl:gap-12">
             {featuredImages.map((item, index) => (
               <FadeInUp key={index} delay={index * 0.1}>
                 <div className="group relative overflow-hidden aspect-video"
@@ -229,7 +229,7 @@ export default function GalleryPage() {
         <div className="absolute inset-0 industrial-grid opacity-10" />
 
         <div className="container-custom relative">
-          <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xl:gap-8 2xl:gap-10">
             {filteredItems.map((item) => (
               <StaggerItem key={item.id}>
                 <div className="group h-full">

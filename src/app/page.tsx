@@ -77,7 +77,7 @@ export default function Home() {
 
         {/* Content */}
         <div className="container-custom relative z-10 pt-32 pb-40">
-          <div className="max-w-4xl">
+          <div className="max-w-4xl xl:max-w-5xl 2xl:max-w-6xl">
             {/* Badge */}
             <FadeInUp>
               <div className="inline-flex items-center px-4 py-2 mb-8 border-l-4 border-primary-500 bg-secondary-900/50 backdrop-blur-sm">
@@ -91,13 +91,13 @@ export default function Home() {
             {/* Display heading */}
             <FadeInUp delay={0.1}>
               <h1 className="mb-8">
-                <span className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white uppercase tracking-wide block">
+                <span className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl text-white uppercase tracking-wide block">
                   Industrial
                 </span>
-                <span className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-primary-500 uppercase tracking-wide block">
+                <span className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl text-primary-500 uppercase tracking-wide block">
                   Precision
                 </span>
-                <span className="font-display text-3xl md:text-4xl lg:text-5xl text-secondary-400 uppercase tracking-wide block mt-2">
+                <span className="font-display text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-secondary-400 uppercase tracking-wide block mt-2">
                   Engineered Excellence
                 </span>
               </h1>
@@ -105,7 +105,7 @@ export default function Home() {
 
             {/* Subheading */}
             <FadeInUp delay={0.2}>
-              <p className="text-xl md:text-2xl text-secondary-300 max-w-2xl mb-10 border-l-2 border-secondary-700 pl-6">
+              <p className="text-xl md:text-2xl xl:text-3xl text-secondary-300 max-w-2xl xl:max-w-3xl mb-10 border-l-2 border-secondary-700 pl-6">
                 Mold repair, custom fixtures, EOAT tooling, and CNC machining
                 for manufacturers who demand precision and reliability.
               </p>
@@ -168,7 +168,7 @@ export default function Home() {
             </div>
           </FadeInUp>
 
-          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8 2xl:gap-10">
             {services.map((service, index) => (
               <StaggerItem key={index}>
                 <Link href={service.href} className="group block h-full">
@@ -227,7 +227,7 @@ export default function Home() {
         <div className="absolute inset-0 industrial-grid opacity-20" />
 
         <div className="container-custom relative">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 xl:gap-20 2xl:gap-24 items-center">
             <SlideInLeft>
               <div>
                 <span className="text-primary-400 font-semibold tracking-[0.2em] uppercase text-sm">Why Choose Us</span>
@@ -294,7 +294,7 @@ export default function Home() {
       {/* Capabilities Section */}
       <section className="section-darker py-24 md:py-32">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 xl:gap-20 2xl:gap-24 items-center">
             <FadeInUp className="order-2 lg:order-1">
               <div className="relative">
                 <div className="absolute -inset-4 bg-primary-500/10 blur-3xl" />
@@ -347,7 +347,7 @@ export default function Home() {
             </div>
           </FadeInUp>
 
-          <StaggerContainer className="grid md:grid-cols-3 gap-6">
+          <StaggerContainer className="grid md:grid-cols-3 gap-6 xl:gap-8 2xl:gap-10">
             {galleryImages.map((img, index) => (
               <StaggerItem key={index}>
                 <div className="group relative aspect-[4/3] overflow-hidden border border-secondary-800 hover:border-primary-500/50 transition-all duration-500"
@@ -391,10 +391,10 @@ export default function Home() {
 
         <div className="container-custom relative text-center">
           <FadeInUp>
-            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-wide mb-6">
+            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white uppercase tracking-wide mb-6">
               Ready to Start?
             </h2>
-            <p className="text-secondary-300 text-xl max-w-2xl mx-auto mb-10">
+            <p className="text-secondary-300 text-xl xl:text-2xl max-w-2xl xl:max-w-3xl mx-auto mb-10">
               Contact us today for a quote on mold repair, custom fixtures, EOAT, or CNC machining services.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -39,7 +39,7 @@ export default function ContactPage() {
           </FadeInUp>
 
           <FadeInUp delay={0.2}>
-            <p className="text-xl lg:text-2xl text-secondary-300 max-w-2xl leading-relaxed">
+            <p className="text-xl lg:text-2xl xl:text-3xl text-secondary-300 max-w-2xl xl:max-w-3xl leading-relaxed">
               Ready to start your project? Get in touch for a quote or to discuss your machining
               and tooling needs.
             </p>
@@ -52,7 +52,7 @@ export default function ContactPage() {
         <div className="absolute inset-0 industrial-grid opacity-10" />
 
         <div className="container-custom relative">
-          <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
+          <div className="grid lg:grid-cols-3 gap-12 lg:gap-16 xl:gap-20">
             {/* Contact Form */}
             <SlideInLeft className="lg:col-span-2">
               <div className="bg-secondary-900 border border-secondary-800 p-8 lg:p-10"
