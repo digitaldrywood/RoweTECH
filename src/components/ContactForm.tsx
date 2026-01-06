@@ -28,22 +28,6 @@ export default function ContactForm() {
     setIsSubmitting(true)
     setSubmitStatus('idle')
 
-    // TODO: Integrate with Brevo or email service
-    // Example Brevo integration:
-    // const response = await fetch('https://api.brevo.com/v3/smtp/email', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'api-key': process.env.NEXT_PUBLIC_BREVO_API_KEY,
-    //   },
-    //   body: JSON.stringify({
-    //     sender: { email: formData.email, name: formData.name },
-    //     to: [{ email: 'your-email@gmail.com' }],
-    //     subject: `Quote Request from ${formData.company || formData.name}`,
-    //     htmlContent: `...`,
-    //   }),
-    // })
-
     // Simulate form submission for now
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -76,13 +60,14 @@ export default function ContactForm() {
   if (submitStatus === 'success') {
     return (
       <div className="text-center py-12">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+        <div className="w-20 h-20 bg-primary-500/20 border border-primary-500/30 flex items-center justify-center mx-auto mb-6"
+             style={{ clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))' }}>
+          <svg className="w-10 h-10 text-primary-400" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
         </div>
-        <h3 className="text-xl font-semibold text-secondary-900 mb-2">Thank You!</h3>
-        <p className="text-secondary-600 mb-6">
+        <h3 className="text-2xl font-display text-white uppercase mb-3">Thank You!</h3>
+        <p className="text-secondary-400 mb-8">
           Your message has been received. We&apos;ll get back to you within 1-2 business days.
         </p>
         <button
@@ -98,7 +83,8 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {submitStatus === 'error' && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+        <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3"
+             style={{ clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))' }}>
           Something went wrong. Please try again or call us directly at (715) 202-3631.
         </div>
       )}
@@ -106,8 +92,8 @@ export default function ContactForm() {
       <div className="grid sm:grid-cols-2 gap-6">
         {/* Name */}
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-secondary-700 mb-2">
-            Name <span className="text-red-500">*</span>
+          <label htmlFor="name" className="block text-sm font-medium text-secondary-300 mb-2 uppercase tracking-wider">
+            Name <span className="text-primary-500">*</span>
           </label>
           <input
             type="text"
@@ -116,14 +102,14 @@ export default function ContactForm() {
             required
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+            className="input-industrial"
             placeholder="Your name"
           />
         </div>
 
         {/* Company */}
         <div>
-          <label htmlFor="company" className="block text-sm font-medium text-secondary-700 mb-2">
+          <label htmlFor="company" className="block text-sm font-medium text-secondary-300 mb-2 uppercase tracking-wider">
             Company
           </label>
           <input
@@ -132,7 +118,7 @@ export default function ContactForm() {
             name="company"
             value={formData.company}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+            className="input-industrial"
             placeholder="Your company name"
           />
         </div>
@@ -141,8 +127,8 @@ export default function ContactForm() {
       <div className="grid sm:grid-cols-2 gap-6">
         {/* Email */}
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-secondary-700 mb-2">
-            Email <span className="text-red-500">*</span>
+          <label htmlFor="email" className="block text-sm font-medium text-secondary-300 mb-2 uppercase tracking-wider">
+            Email <span className="text-primary-500">*</span>
           </label>
           <input
             type="email"
@@ -151,14 +137,14 @@ export default function ContactForm() {
             required
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+            className="input-industrial"
             placeholder="your.email@company.com"
           />
         </div>
 
         {/* Phone */}
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-secondary-700 mb-2">
+          <label htmlFor="phone" className="block text-sm font-medium text-secondary-300 mb-2 uppercase tracking-wider">
             Phone
           </label>
           <input
@@ -167,7 +153,7 @@ export default function ContactForm() {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+            className="input-industrial"
             placeholder="(555) 555-5555"
           />
         </div>
@@ -175,7 +161,7 @@ export default function ContactForm() {
 
       {/* Project Type */}
       <div>
-        <label htmlFor="projectType" className="block text-sm font-medium text-secondary-700 mb-2">
+        <label htmlFor="projectType" className="block text-sm font-medium text-secondary-300 mb-2 uppercase tracking-wider">
           Project Type
         </label>
         <select
@@ -183,7 +169,7 @@ export default function ContactForm() {
           name="projectType"
           value={formData.projectType}
           onChange={handleChange}
-          className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 bg-white"
+          className="input-industrial appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg%20xmlns%3d%22http%3a%2f%2fwww.w3.org%2f2000%2fsvg%22%20width%3d%2224%22%20height%3d%2224%22%20viewBox%3d%220%200%2024%2024%22%20fill%3d%22none%22%20stroke%3d%22%23C65D59%22%20stroke-width%3d%222%22%20stroke-linecap%3d%22round%22%20stroke-linejoin%3d%22round%22%3e%3cpolyline%20points%3d%226%209%2012%2015%2018%209%22%3e%3c%2fpolyline%3e%3c%2fsvg%3e')] bg-no-repeat bg-[right_1rem_center] bg-[length:1.5rem]"
         >
           <option value="">Select a service...</option>
           <option value="mold-repair">Plastic Injection Mold Repair</option>
@@ -196,8 +182,8 @@ export default function ContactForm() {
 
       {/* Message */}
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-secondary-700 mb-2">
-          Project Description <span className="text-red-500">*</span>
+        <label htmlFor="message" className="block text-sm font-medium text-secondary-300 mb-2 uppercase tracking-wider">
+          Project Description <span className="text-primary-500">*</span>
         </label>
         <textarea
           id="message"
@@ -206,15 +192,16 @@ export default function ContactForm() {
           rows={5}
           value={formData.message}
           onChange={handleChange}
-          className="w-full px-4 py-3 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 resize-none"
+          className="input-industrial resize-none"
           placeholder="Please describe your project, including any relevant specifications, quantities, materials, or timing requirements..."
         ></textarea>
       </div>
 
       {/* File Upload Note */}
-      <div className="bg-secondary-50 rounded-lg p-4">
-        <p className="text-sm text-secondary-600">
-          <strong>Have drawings or CAD files?</strong> Please mention them in your message and we&apos;ll
+      <div className="bg-secondary-800/50 border border-secondary-700 p-4"
+           style={{ clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))' }}>
+        <p className="text-sm text-secondary-400">
+          <strong className="text-secondary-300">Have drawings or CAD files?</strong> Please mention them in your message and we&apos;ll
           follow up with instructions for sending them securely.
         </p>
       </div>

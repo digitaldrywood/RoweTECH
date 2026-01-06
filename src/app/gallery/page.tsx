@@ -1,12 +1,9 @@
-import type { Metadata } from 'next'
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-
-export const metadata: Metadata = {
-  title: 'Gallery',
-  description:
-    'View examples of our work including custom fixtures, mold repairs, EOAT assemblies, and precision machined parts.',
-}
+import { FadeInUp, StaggerContainer, StaggerItem } from '@/components/AnimatedSection'
 
 const galleryItems = [
   {
@@ -111,76 +108,114 @@ const featuredImages = [
 const categories = ['All', 'CNC Machining', 'Laser', 'Welding', 'Plasma', '3D Printing', 'EOAT', 'Mold Repair']
 
 export default function GalleryPage() {
+  const [activeCategory, setActiveCategory] = useState('All')
+
+  const filteredItems = activeCategory === 'All'
+    ? galleryItems
+    : galleryItems.filter(item => item.category === activeCategory)
+
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-32 pb-24 2xl:pt-40 2xl:pb-32 3xl:pt-48 3xl:pb-40 overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden">
+        {/* Background */}
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&q=80"
             alt="Machine shop"
             fill
             className="object-cover"
+            priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-secondary-600/90 via-secondary-600/85 to-secondary-600/70"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-secondary-950 via-secondary-950/95 to-secondary-950/80" />
         </div>
-        <div className="absolute inset-0 tech-lines opacity-20"></div>
 
-        <div className="container-custom relative">
-          <div className="max-w-3xl 2xl:max-w-4xl 3xl:max-w-5xl">
-            <span className="text-primary-400 font-medium tracking-wider uppercase text-sm 2xl:text-base 3xl:text-lg">Gallery</span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl 2xl:text-7xl 3xl:text-8xl font-bold text-white mt-2 mb-6 2xl:mb-8 3xl:mb-10">
+        {/* Industrial grid overlay */}
+        <div className="absolute inset-0 industrial-grid opacity-20" />
+
+        {/* Diagonal accent */}
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary-500/10 to-transparent" />
+
+        <div className="container-custom relative py-32 lg:py-40">
+          <FadeInUp>
+            <span className="inline-flex items-center text-primary-400 font-medium tracking-wider uppercase text-sm mb-6">
+              <span className="w-12 h-px bg-primary-500 mr-4" />
+              Portfolio
+            </span>
+          </FadeInUp>
+
+          <FadeInUp delay={0.1}>
+            <h1 className="font-display text-display-md md:text-display-lg lg:text-display-xl text-white uppercase mb-6">
               Our Work &
               <br />
-              <span className="gradient-text">Equipment</span>
+              <span className="text-primary-500">Equipment</span>
             </h1>
-            <p className="text-xl 2xl:text-2xl 3xl:text-3xl text-secondary-100 leading-relaxed">
+          </FadeInUp>
+
+          <FadeInUp delay={0.2}>
+            <p className="text-xl lg:text-2xl text-secondary-300 max-w-2xl leading-relaxed">
               Explore our state-of-the-art machinery and examples of precision work we deliver to our customers.
             </p>
-          </div>
+          </FadeInUp>
         </div>
       </section>
 
       {/* Featured Section */}
-      <section className="py-16 2xl:py-24 3xl:py-32 bg-secondary-100">
-        <div className="container-custom">
-          <div className="text-center mb-12 2xl:mb-16 3xl:mb-20">
-            <span className="text-primary-500 font-medium tracking-wider uppercase text-sm 2xl:text-base 3xl:text-lg">Featured</span>
-            <h2 className="section-heading mt-2">Machines in Action</h2>
-          </div>
+      <section className="py-24 lg:py-32 bg-secondary-950 relative overflow-hidden">
+        <div className="absolute inset-0 industrial-grid opacity-10" />
 
-          <div className="grid md:grid-cols-2 gap-8 2xl:gap-12 3xl:gap-16">
+        <div className="container-custom relative">
+          <FadeInUp className="text-center mb-16">
+            <span className="inline-flex items-center justify-center text-primary-400 font-medium tracking-wider uppercase text-sm mb-4">
+              <span className="w-8 h-px bg-primary-500 mr-3" />
+              Featured
+              <span className="w-8 h-px bg-primary-500 ml-3" />
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-white uppercase">
+              Machines in Action
+            </h2>
+          </FadeInUp>
+
+          <div className="grid md:grid-cols-2 gap-8">
             {featuredImages.map((item, index) => (
-              <div key={index} className="group relative rounded-2xl 2xl:rounded-3xl 3xl:rounded-[2rem] overflow-hidden border border-secondary-200 shadow-lg aspect-video">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-secondary-600/80 via-transparent to-transparent"></div>
-                <div className="absolute bottom-6 left-6 2xl:bottom-8 2xl:left-8 3xl:bottom-10 3xl:left-10">
-                  <p className="text-white font-semibold text-lg 2xl:text-xl 3xl:text-2xl">{item.title}</p>
-                  <p className="text-secondary-200 text-sm 2xl:text-base 3xl:text-lg">{item.description}</p>
+              <FadeInUp key={index} delay={index * 0.1}>
+                <div className="group relative overflow-hidden aspect-video"
+                     style={{ clipPath: 'polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px))' }}>
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-secondary-950/90 via-secondary-950/30 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-8">
+                    <p className="text-white font-display text-xl uppercase mb-1">{item.title}</p>
+                    <p className="text-secondary-400">{item.description}</p>
+                  </div>
+                  {/* Corner accent */}
+                  <div className="absolute top-0 right-0 w-16 h-16 bg-primary-500/20"
+                       style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }} />
                 </div>
-              </div>
+              </FadeInUp>
             ))}
           </div>
         </div>
       </section>
 
       {/* Category Filter */}
-      <section className="py-8 2xl:py-10 3xl:py-12 bg-secondary-50 border-b border-secondary-200">
+      <section className="py-8 bg-secondary-900 border-y border-secondary-800 sticky top-20 z-30">
         <div className="container-custom">
-          <div className="flex flex-wrap gap-2 2xl:gap-3 3xl:gap-4">
+          <div className="flex flex-wrap gap-2 justify-center">
             {categories.map((category) => (
               <button
                 key={category}
-                className={`px-4 py-2 2xl:px-5 2xl:py-2.5 3xl:px-6 3xl:py-3 rounded-full text-sm 2xl:text-base 3xl:text-lg font-medium transition-colors duration-200 ${
-                  category === 'All'
+                onClick={() => setActiveCategory(category)}
+                className={`px-5 py-2 text-sm font-medium uppercase tracking-wider transition-all duration-300 ${
+                  category === activeCategory
                     ? 'bg-primary-500 text-white'
-                    : 'bg-white text-secondary-500 hover:bg-secondary-100 border border-secondary-200'
+                    : 'bg-secondary-800 text-secondary-400 hover:text-white hover:bg-secondary-700 border border-secondary-700'
                 }`}
+                style={{ clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))' }}
               >
                 {category}
               </button>
@@ -190,40 +225,52 @@ export default function GalleryPage() {
       </section>
 
       {/* Gallery Grid */}
-      <section className="py-16 lg:py-24 2xl:py-32 3xl:py-40 bg-white">
-        <div className="container-custom">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 gap-6 2xl:gap-8 3xl:gap-10">
-            {galleryItems.map((item) => (
-              <div
-                key={item.id}
-                className="group rounded-xl 2xl:rounded-2xl 3xl:rounded-3xl overflow-hidden border border-secondary-200 hover:border-primary-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary-500/10"
-              >
-                <div className="aspect-square relative overflow-hidden">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-secondary-600/80 via-secondary-600/20 to-transparent"></div>
-                  <div className="absolute top-3 left-3 2xl:top-4 2xl:left-4 3xl:top-5 3xl:left-5">
-                    <span className="bg-primary-500 text-white text-xs 2xl:text-sm 3xl:text-base font-medium px-2 py-1 2xl:px-3 2xl:py-1.5 3xl:px-4 3xl:py-2 rounded 3xl:rounded-lg">
-                      {item.category}
-                    </span>
+      <section className="py-24 lg:py-32 bg-secondary-950 relative overflow-hidden">
+        <div className="absolute inset-0 industrial-grid opacity-10" />
+
+        <div className="container-custom relative">
+          <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredItems.map((item) => (
+              <StaggerItem key={item.id}>
+                <div className="group h-full">
+                  <div className="service-card h-full">
+                    <div className="aspect-square relative overflow-hidden">
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-secondary-950 via-secondary-950/30 to-transparent" />
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-primary-500 text-white text-xs font-medium uppercase tracking-wider px-3 py-1"
+                              style={{ clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))' }}>
+                          {item.category}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="font-semibold text-white mb-1 group-hover:text-primary-400 transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-secondary-400 text-sm">{item.description}</p>
+                    </div>
                   </div>
                 </div>
-                <div className="p-4 2xl:p-6 3xl:p-8 bg-white">
-                  <h3 className="font-semibold text-secondary-600 mb-1 2xl:text-lg 3xl:text-xl group-hover:text-primary-500 transition-colors">{item.title}</h3>
-                  <p className="text-secondary-400 text-sm 2xl:text-base 3xl:text-lg">{item.description}</p>
-                </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
+
+          {filteredItems.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-secondary-400 text-lg">No items found in this category.</p>
+            </div>
+          )}
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 2xl:py-24 3xl:py-32 relative overflow-hidden">
+      <section className="py-24 lg:py-32 relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&q=80"
@@ -231,26 +278,32 @@ export default function GalleryPage() {
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-secondary-600/90"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-secondary-600/50"></div>
+          <div className="absolute inset-0 bg-secondary-950/90" />
         </div>
+        <div className="absolute inset-0 industrial-grid opacity-20" />
 
         <div className="container-custom relative text-center">
-          <h2 className="text-3xl md:text-4xl 2xl:text-5xl 3xl:text-6xl font-bold text-white mb-4 2xl:mb-6 3xl:mb-8">
-            Ready to Start Your Project?
-          </h2>
-          <p className="text-secondary-200 text-lg 2xl:text-xl 3xl:text-2xl mb-8 3xl:mb-10 max-w-2xl 2xl:max-w-3xl 3xl:max-w-4xl mx-auto">
-            Let us put our capabilities to work for you. Contact us today to discuss your tooling or
-            machining needs.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 2xl:gap-6 3xl:gap-8 justify-center">
-            <Link href="/contact" className="btn-primary">
-              Request a Quote
-            </Link>
-            <a href="tel:+17152023631" className="btn-outline">
-              Call (715) 202-3631
-            </a>
-          </div>
+          <FadeInUp>
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-white uppercase mb-6">
+              Ready to Start Your Project?
+            </h2>
+          </FadeInUp>
+          <FadeInUp delay={0.1}>
+            <p className="text-secondary-300 text-lg mb-10 max-w-2xl mx-auto">
+              Let us put our capabilities to work for you. Contact us today to discuss your tooling or
+              machining needs.
+            </p>
+          </FadeInUp>
+          <FadeInUp delay={0.2}>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/contact" className="btn-primary">
+                Request a Quote
+              </Link>
+              <a href="tel:+17152023631" className="btn-outline">
+                Call (715) 202-3631
+              </a>
+            </div>
+          </FadeInUp>
         </div>
       </section>
     </>
