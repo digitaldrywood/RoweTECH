@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"rowetech/internal/database/models"
 	"rowetech/templates/pages"
 
 	"github.com/labstack/echo/v4"
@@ -13,11 +14,12 @@ func (h *Handler) AdminDashboard(c echo.Context) error {
 func (h *Handler) AdminGallery(c echo.Context) error {
 	ctx := c.Request().Context()
 
-	items, err := h.db.Queries.ListGalleryItems(ctx)
+	sqlcItems, err := h.db.Queries.ListGalleryItems(ctx)
 	if err != nil {
-		items = nil
+		sqlcItems = nil
 	}
 
+	items := models.FromSqlcGalleryItems(sqlcItems)
 	return pages.AdminGallery(items).Render(ctx, c.Response().Writer)
 }
 

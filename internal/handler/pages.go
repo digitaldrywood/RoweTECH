@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	"rowetech/internal/database/models"
 	"rowetech/templates/pages"
 
 	"github.com/labstack/echo/v4"
@@ -32,10 +33,13 @@ func (h *Handler) Gallery(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	// Get gallery items from database
-	items, err := h.db.Queries.ListGalleryItems(ctx)
+	sqlcItems, err := h.db.Queries.ListGalleryItems(ctx)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to load gallery")
 	}
+
+	// Convert to models
+	items := models.FromSqlcGalleryItems(sqlcItems)
 
 	// Get categories
 	categories, err := h.db.Queries.GetGalleryCategories(ctx)
