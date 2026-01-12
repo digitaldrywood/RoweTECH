@@ -46,7 +46,7 @@
 
   body {
     @apply text-secondary-100 antialiased;
-    background: linear-gradient(135deg, #0D0F0E 0%, #1A1D1C 50%, #0D0F0E 100%);
+    background: linear-gradient(135deg, var(--color-secondary-950) 0%, var(--color-secondary-900) 50%, var(--color-secondary-950) 100%);
     overflow-x: hidden;
   }
 
@@ -94,6 +94,46 @@
 }
 
 @layer components {
+  /* Industrial clip-path variants */
+  .clip-sm {
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  .clip-md {
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .clip-lg {
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+
+  .clip-xl {
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+  }
+
+  /* Base card styles */
+  .card-base {
+    @apply bg-secondary-900 border border-secondary-800;
+  }
+
+  .card-base-dark {
+    @apply bg-secondary-950/50 border border-secondary-800;
+  }
+
+  /* Link styles */
+  .link-subtle {
+    @apply text-secondary-400 hover:text-primary-400 transition-colors;
+  }
+
+  /* Icon container */
+  .icon-box {
+    @apply w-12 h-12 bg-secondary-800 border border-secondary-700 flex items-center justify-center text-primary-500 flex-shrink-0;
+  }
+
+  .icon-box-sm {
+    @apply w-10 h-10 bg-secondary-900 border border-secondary-800 flex items-center justify-center text-secondary-400 hover:text-primary-400 hover:border-primary-500/50 transition-colors;
+  }
+
   /* Buttons - Mobile optimized */
   .btn-primary {
     @apply relative inline-flex items-center justify-center px-6 py-3.5 md:px-8 md:py-4

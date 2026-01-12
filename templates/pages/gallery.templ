@@ -72,9 +72,8 @@ templ Gallery(items []models.GalleryItem, categories []string) {
 }
 
 templ galleryItem(item models.GalleryItem) {
-	<div class="gallery-item group relative aspect-square overflow-hidden border border-secondary-800 hover:border-primary-500/50 transition-all duration-500 cursor-pointer"
-		 data-category={ item.Category }
-		 style="clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));">
+	<div class="gallery-item group relative aspect-square overflow-hidden border border-secondary-800 hover:border-primary-500/50 transition-all duration-500 cursor-pointer clip-lg"
+		 data-category={ item.Category }>
 		<img src={ item.ImageUrl } alt={ item.Title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
 		<div class="absolute inset-0 bg-gradient-to-t from-secondary-950 via-secondary-950/30 to-transparent opacity-80"></div>
 		<div class="absolute bottom-0 left-0 right-0 p-4">

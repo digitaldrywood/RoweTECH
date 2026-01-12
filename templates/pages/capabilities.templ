@@ -91,7 +91,7 @@ templ Capabilities() {
 }
 
 templ capabilityCard(title string, items []string) {
-	<div class="p-8 bg-secondary-900/50 border border-secondary-800 hover:border-primary-500/30 transition-colors" style="clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));">
+	<div class="p-8 bg-secondary-900/50 border border-secondary-800 hover:border-primary-500/30 transition-colors clip-lg">
 		<h3 class="font-display text-xl uppercase tracking-wide text-white mb-6">{ title }</h3>
 		<ul class="space-y-3">
 			for _, item := range items {
@@ -105,7 +105,7 @@ templ capabilityCard(title string, items []string) {
 }
 
 templ materialCard(title string, items []string) {
-	<div class="p-6 bg-secondary-950/50 border border-secondary-800" style="clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));">
+	<div class="p-6 card-base-dark clip-md">
 		<h3 class="font-display text-lg uppercase tracking-wide text-primary-400 mb-4">{ title }</h3>
 		<div class="flex flex-wrap gap-2">
 			for _, item := range items {
@@ -116,7 +116,7 @@ templ materialCard(title string, items []string) {
 }
 
 templ toleranceCard(label, value, description string) {
-	<div class="text-center p-8 bg-secondary-900/50 border border-secondary-800" style="clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));">
+	<div class="text-center p-8 bg-secondary-900/50 border border-secondary-800 clip-lg">
 		<div class="font-display text-4xl text-primary-500 mb-2">{ value }</div>
 		<div class="font-display text-lg text-white uppercase tracking-wide mb-2">{ label }</div>
 		<p class="text-secondary-400 text-sm">{ description }</p>

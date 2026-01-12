@@ -5,9 +5,9 @@ templ Header() {
 		<nav class="container-custom" aria-label="Main navigation">
 			<div class="flex items-center justify-between h-16 md:h-20">
 				<!-- Logo -->
-				<a href="/" class="flex items-center space-x-2 md:space-x-3 group z-50">
+				<a href="/" class="flex items-center gap-2 md:gap-3 group z-50">
 					<div class="relative">
-						<div class="w-10 h-10 md:w-12 md:h-12 bg-primary-500 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300" style="clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));">
+						<div class="w-10 h-10 md:w-12 md:h-12 bg-primary-500 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300 clip-sm">
 							<span class="text-white font-bold text-lg md:text-xl font-display">RT</span>
 						</div>
 						<div class="absolute inset-0 bg-primary-500 blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
@@ -21,7 +21,7 @@ templ Header() {
 				</a>
 
 				<!-- Desktop Navigation -->
-				<div class="hidden lg:flex items-center space-x-1 xl:space-x-2">
+				<div class="hidden lg:flex items-center gap-1 xl:gap-2">
 					<a href="/" class="nav-link px-4 xl:px-5 py-3">Home</a>
 					<a href="/about" class="nav-link px-4 xl:px-5 py-3">About</a>
 					<a href="/services" class="nav-link px-4 xl:px-5 py-3">Services</a>

@@ -126,10 +126,10 @@ templ Home() {
 						</p>
 
 						<div class="grid grid-cols-2 gap-3 md:gap-6">
-							@featureCard("📍", "Local Shop", "Quick turnaround from Wisconsin")
-							@featureCard("👥", "Expert Team", "Decades of combined experience")
-							@featureCard("⚙️", "Modern CNC", "State-of-the-art equipment")
-							@featureCard("🔄", "Flexible", "Prototypes to production")
+							@featureCardSVG("location", "Local Shop", "Quick turnaround from Wisconsin")
+							@featureCardSVG("team", "Expert Team", "Decades of combined experience")
+							@featureCardSVG("cog", "Modern CNC", "State-of-the-art equipment")
+							@featureCardSVG("refresh", "Flexible", "Prototypes to production")
 						</div>
 
 						<a href="/about" class="btn-primary mt-8 md:mt-10 inline-flex">Learn More About Us</a>
@@ -139,20 +139,20 @@ templ Home() {
 						<div class="absolute -inset-8 bg-primary-500/10 blur-3xl rounded-full hidden md:block"></div>
 						<div class="relative grid grid-cols-2 gap-3 md:gap-4">
 							<div class="space-y-3 md:space-y-4">
-								<div class="aspect-[4/5] relative overflow-hidden border border-secondary-800" style="clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));">
+								<div class="aspect-[4/5] relative overflow-hidden border border-secondary-800 clip-lg">
 									<img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&q=80" alt="CNC Machining" class="absolute inset-0 w-full h-full object-cover"/>
 								</div>
-								<div class="p-4 md:p-6 bg-primary-500 text-center" style="clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));">
+								<div class="p-4 md:p-6 bg-primary-500 text-center clip-md">
 									<div class="font-display text-3xl md:text-4xl text-white">15+</div>
 									<div class="text-white/80 text-xs md:text-sm uppercase tracking-wider">Years</div>
 								</div>
 							</div>
 							<div class="space-y-3 md:space-y-4 pt-6 md:pt-8">
-								<div class="p-4 md:p-6 bg-secondary-950 border border-secondary-800 text-center" style="clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));">
+								<div class="p-4 md:p-6 bg-secondary-950 border border-secondary-800 text-center clip-md">
 									<div class="font-display text-3xl md:text-4xl text-primary-500">500+</div>
 									<div class="text-secondary-400 text-xs md:text-sm uppercase tracking-wider">Projects</div>
 								</div>
-								<div class="aspect-[4/5] relative overflow-hidden border border-secondary-800" style="clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));">
+								<div class="aspect-[4/5] relative overflow-hidden border border-secondary-800 clip-lg">
 									<img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&q=80" alt="Manufacturing" class="absolute inset-0 w-full h-full object-cover"/>
 								</div>
 							</div>
@@ -199,7 +199,7 @@ templ statItem(value, label string) {
 
 templ featuredServiceCard(title, description, image, href string) {
 	<a href={ templ.SafeURL(href) } class="group block h-full lg:col-span-2 lg:row-span-2">
-		<div class="relative h-full min-h-[300px] md:min-h-[400px] lg:min-h-[500px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 card-hover" style="clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));">
+		<div class="relative h-full min-h-[300px] md:min-h-[400px] lg:min-h-[500px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 card-hover clip-xl">
 			<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"/>
 			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950 via-secondary-950/60 to-transparent"></div>
 			<div class="absolute top-4 left-4 md:top-6 md:left-6">
@@ -221,7 +221,7 @@ templ featuredServiceCard(title, description, image, href string) {
 
 templ serviceCard(title, description, image, href, number string) {
 	<a href={ templ.SafeURL(href) } class="group block h-full">
-		<div class="relative h-full min-h-[180px] md:min-h-[200px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 bg-secondary-900 card-hover" style="clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));">
+		<div class="relative h-full min-h-[180px] md:min-h-[200px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 bg-secondary-900 card-hover clip-lg">
 			<div class="absolute inset-0 opacity-30">
 				<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
 			</div>
@@ -237,7 +237,7 @@ templ serviceCard(title, description, image, href, number string) {
 
 templ serviceCardWide(title, description, image, href, number string) {
 	<a href={ templ.SafeURL(href) } class="group block h-full">
-		<div class="relative h-full min-h-[140px] md:min-h-[160px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 bg-secondary-900 card-hover" style="clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));">
+		<div class="relative h-full min-h-[140px] md:min-h-[160px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 bg-secondary-900 card-hover clip-lg">
 			<div class="absolute inset-0 opacity-30">
 				<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
 			</div>
@@ -259,9 +259,30 @@ templ serviceCardWide(title, description, image, href, number string) {
 	</a>
 }
 
-templ featureCard(icon, title, desc string) {
-	<div class="p-4 md:p-5 bg-secondary-950/50 border border-secondary-800 hover:border-primary-500/30 active:border-primary-500/30 transition-colors" style="clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));">
-		<span class="text-xl md:text-2xl mb-2 md:mb-3 block">{ icon }</span>
+templ featureCardSVG(iconType, title, desc string) {
+	<div class="p-4 md:p-5 card-base-dark hover:border-primary-500/30 active:border-primary-500/30 transition-colors clip-md">
+		<div class="w-10 h-10 md:w-12 md:h-12 bg-primary-500/10 rounded-lg flex items-center justify-center mb-2 md:mb-3">
+			switch iconType {
+				case "location":
+					<svg class="w-5 h-5 md:w-6 md:h-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+					</svg>
+				case "team":
+					<svg class="w-5 h-5 md:w-6 md:h-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+					</svg>
+				case "cog":
+					<svg class="w-5 h-5 md:w-6 md:h-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+					</svg>
+				case "refresh":
+					<svg class="w-5 h-5 md:w-6 md:h-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+					</svg>
+			}
+		</div>
 		<h3 class="font-display text-base md:text-lg uppercase tracking-wide text-white mb-1">{ title }</h3>
 		<p class="text-secondary-400 text-xs md:text-sm">{ desc }</p>
 	</div>
