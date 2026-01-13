@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"time"
 
+	"rowetech/internal/clerk"
 	"rowetech/internal/config"
 	"rowetech/internal/ctxkeys"
 
@@ -16,6 +17,7 @@ func Setup(e *echo.Echo, cfg *config.Config) {
 	e.Use(middleware.RequestID())
 	e.Use(middleware.Recover())
 	e.Use(SiteConfigMiddleware(cfg.Site))
+	e.Use(ClerkConfigMiddleware(clerk.FromConfig(cfg)))
 	e.Use(RequestLogger(cfg.IsDevelopment()))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
@@ -36,6 +38,16 @@ func SiteConfigMiddleware(site config.SiteConfig) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			ctx := context.WithValue(c.Request().Context(), ctxkeys.SiteConfig, site)
+			c.SetRequest(c.Request().WithContext(ctx))
+			return next(c)
+		}
+	}
+}
+
+func ClerkConfigMiddleware(cfg clerk.Config) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			ctx := context.WithValue(c.Request().Context(), ctxkeys.ClerkConfig, cfg)
 			c.SetRequest(c.Request().WithContext(ctx))
 			return next(c)
 		}

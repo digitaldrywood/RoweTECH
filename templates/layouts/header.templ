@@ -1,5 +1,7 @@
 package layouts
 
+import "rowetech/internal/clerk"
+
 templ Header() {
 	<header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-secondary-950/80 backdrop-blur-md">
 		<nav class="container-custom" aria-label="Main navigation">
@@ -28,7 +30,9 @@ templ Header() {
 					<a href="/capabilities" class="nav-link px-4 xl:px-5 py-3">Capabilities</a>
 					<a href="/gallery" class="nav-link px-4 xl:px-5 py-3">Gallery</a>
 					<a href="/contact" class="nav-link px-4 xl:px-5 py-3">Contact</a>
-					<a href="/sign-in" class="ml-2 xl:ml-4 btn-outline px-4 xl:px-6 py-2 text-sm">Sign In</a>
+					if clerk.EnabledFromCtx(ctx) {
+						<a href="/sign-in" class="ml-2 xl:ml-4 btn-outline px-4 xl:px-6 py-2 text-sm">Sign In</a>
+					}
 				</div>
 
 				<!-- Mobile menu button -->
@@ -65,6 +69,9 @@ templ Header() {
 					<a href="/capabilities" class="mobile-nav-link">Capabilities</a>
 					<a href="/gallery" class="mobile-nav-link">Gallery</a>
 					<a href="/contact" class="mobile-nav-link">Contact</a>
+					if clerk.EnabledFromCtx(ctx) {
+						<a href="/sign-in" class="mobile-nav-link">Sign In</a>
+					}
 				</nav>
 
 				<div class="space-y-3 mt-6 max-w-md mx-auto w-full">

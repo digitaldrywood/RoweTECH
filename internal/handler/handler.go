@@ -3,6 +3,7 @@ package handler
 import (
 	"rowetech/internal/config"
 	"rowetech/internal/database"
+	"rowetech/internal/middleware"
 
 	"github.com/labstack/echo/v4"
 )
@@ -42,6 +43,9 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 
 	// Admin routes
 	admin := e.Group("/admin")
+	if h.cfg.HasClerk() {
+		admin.Use(middleware.RequireClerkSession())
+	}
 	admin.GET("", h.AdminDashboard)
 	admin.GET("/gallery", h.AdminGallery)
 	admin.GET("/content", h.AdminContent)

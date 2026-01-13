@@ -332,6 +332,93 @@
   }
 
   // ===========================================
+  // Clerk Authentication
+  // ===========================================
+  function getClerkConfig() {
+    const configEl = document.getElementById('clerk-config');
+    if (!configEl) {
+      return { enabled: false, publishableKey: '' };
+    }
+
+    return {
+      enabled: configEl.dataset.clerkEnabled === 'true',
+      publishableKey: configEl.dataset.clerkPublishableKey || ''
+    };
+  }
+
+  function initClerk() {
+    const config = getClerkConfig();
+    if (!config.enabled) return;
+
+    let attempts = 0;
+
+    function mountClerk() {
+      if (!window.Clerk || typeof window.Clerk.load !== 'function') {
+        attempts += 1;
+        if (attempts < 50) {
+          setTimeout(mountClerk, 100);
+        }
+        return;
+      }
+
+      window.Clerk.load().then(() => {
+        const signInEl = document.getElementById('clerk-sign-in');
+        const signUpEl = document.getElementById('clerk-sign-up');
+        const adminShell = document.getElementById('admin-shell');
+        const adminLoading = document.getElementById('admin-auth-loading');
+        const userButtonEl = document.getElementById('clerk-user-button');
+        const userEmailEl = document.getElementById('clerk-user-email');
+
+        if (signInEl && window.Clerk.user) {
+          window.location.href = '/admin';
+          return;
+        }
+
+        if (signInEl) {
+          window.Clerk.mountSignIn(signInEl, {
+            redirectUrl: '/admin',
+            afterSignInUrl: '/admin'
+          });
+        }
+
+        if (signUpEl) {
+          window.Clerk.mountSignUp(signUpEl, {
+            redirectUrl: '/admin',
+            afterSignUpUrl: '/admin'
+          });
+        }
+
+        if (userButtonEl && window.Clerk.user) {
+          window.Clerk.mountUserButton(userButtonEl, {
+            afterSignOutUrl: '/'
+          });
+        }
+
+        if (userEmailEl && window.Clerk.user) {
+          userEmailEl.textContent = window.Clerk.user.primaryEmailAddress?.emailAddress || 'Authenticated';
+        }
+
+        if (adminShell) {
+          if (!window.Clerk.user) {
+            window.location.href = '/sign-in';
+            return;
+          }
+          adminShell.classList.remove('opacity-0');
+          adminShell.classList.add('opacity-100');
+          if (adminLoading) adminLoading.classList.add('hidden');
+        }
+      }).catch(() => {
+        const adminLoading = document.getElementById('admin-auth-loading');
+        if (adminLoading) {
+          adminLoading.textContent = 'Unable to load authentication. Please refresh the page.';
+        }
+      });
+    }
+
+    mountClerk();
+  }
+
+  // ===========================================
   // Initialize Everything
   // ===========================================
   function init() {
@@ -343,6 +430,7 @@
     initSmoothScroll();
     initTouchFeedback();
     initHTMX();
+    initClerk();
     // Disabled page transition for now - can cause issues
     // initPageTransition();
   }

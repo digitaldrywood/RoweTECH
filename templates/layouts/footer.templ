@@ -1,7 +1,9 @@
 package layouts
 
-import "time"
 import "strconv"
+import "time"
+
+import "rowetech/internal/clerk"
 
 func currentYear() string {
 	return strconv.Itoa(time.Now().Year())
@@ -107,7 +109,9 @@ templ Footer() {
 					© { currentYear() } RoweTech Machine & Engineering. All rights reserved.
 				</p>
 				<div class="flex items-center gap-6 mt-4 md:mt-0">
-					<a href="/admin" class="text-secondary-600 hover:text-secondary-400 text-sm transition-colors">Admin</a>
+					if clerk.EnabledFromCtx(ctx) {
+						<a href="/admin" class="text-secondary-600 hover:text-secondary-400 text-sm transition-colors">Admin</a>
+					}
 				</div>
 			</div>
 		</div>

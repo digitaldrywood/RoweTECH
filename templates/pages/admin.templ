@@ -3,6 +3,7 @@ package pages
 import (
 	"rowetech/internal/meta"
 	"rowetech/internal/database/models"
+	"rowetech/internal/clerk"
 	"rowetech/templates/layouts"
 )
 
@@ -10,16 +11,54 @@ templ AdminDashboard() {
 	@layouts.Base(meta.New("Admin Dashboard", "RoweTech admin portal.").WithNoIndex()) {
 		<div class="min-h-screen bg-secondary-950 pt-24">
 			<div class="container-custom py-8">
-				<div class="mb-8">
-					<h1 class="font-display text-3xl text-white uppercase">Admin Dashboard</h1>
-					<p class="text-secondary-400">Manage your website content and settings.</p>
-				</div>
+				if clerk.EnabledFromCtx(ctx) {
+					<div id="admin-auth-loading" class="card-base border border-secondary-800 p-6 clip-lg mb-8">
+						<p class="text-secondary-400 text-center">Checking authentication...</p>
+					</div>
+				}
+				if clerk.EnabledFromCtx(ctx) {
+					<div id="admin-shell" class="opacity-0 transition-opacity duration-300">
+						<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
+							<div>
+								<h1 class="font-display text-3xl text-white uppercase">Admin Dashboard</h1>
+								<p class="text-secondary-400">Manage your website content and settings.</p>
+							</div>
+							<div class="card-base border border-secondary-800 p-4 flex flex-col sm:flex-row sm:items-center gap-4">
+								<div class="flex items-center gap-4">
+									<div id="clerk-user-button" class="min-w-[40px] min-h-[40px]"></div>
+									<div>
+										<p class="text-xs text-secondary-500 uppercase tracking-wider">Signed in</p>
+										<p id="clerk-user-email" class="text-secondary-200 text-sm">Loading profile...</p>
+									</div>
+								</div>
+								<div class="sm:ml-auto flex items-center gap-3">
+									<a href="/sign-in" class="btn-outline px-4 py-2 text-xs">Switch account</a>
+								</div>
+							</div>
+						</div>
 
-				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-					@adminCardSVG("Gallery", "Manage project gallery images", "/admin/gallery", "gallery")
-					@adminCardSVG("Content", "Edit website content", "/admin/content", "document")
-					@adminCardSVG("Settings", "Site settings", "/admin/settings", "cog")
-				</div>
+						<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+							@adminCardSVG("Gallery", "Manage project gallery images", "/admin/gallery", "gallery")
+							@adminCardSVG("Content", "Edit website content", "/admin/content", "document")
+							@adminCardSVG("Settings", "Site settings", "/admin/settings", "cog")
+						</div>
+					</div>
+				} else {
+					<div id="admin-shell">
+						<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
+							<div>
+								<h1 class="font-display text-3xl text-white uppercase">Admin Dashboard</h1>
+								<p class="text-secondary-400">Manage your website content and settings.</p>
+							</div>
+						</div>
+
+						<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+							@adminCardSVG("Gallery", "Manage project gallery images", "/admin/gallery", "gallery")
+							@adminCardSVG("Content", "Edit website content", "/admin/content", "document")
+							@adminCardSVG("Settings", "Site settings", "/admin/settings", "cog")
+						</div>
+					</div>
+				}
 			</div>
 		</div>
 	}
@@ -53,19 +92,50 @@ templ AdminGallery(items []models.GalleryItem) {
 	@layouts.Base(meta.New("Gallery Management", "Manage gallery items.").WithNoIndex()) {
 		<div class="min-h-screen bg-secondary-950 pt-24">
 			<div class="container-custom py-8">
-				<div class="flex justify-between items-center mb-8">
-					<div>
-						<h1 class="font-display text-3xl text-white uppercase">Gallery</h1>
-						<p class="text-secondary-400">Manage your project gallery.</p>
+				if clerk.EnabledFromCtx(ctx) {
+					<div id="admin-auth-loading" class="card-base border border-secondary-800 p-6 clip-lg mb-8">
+						<p class="text-secondary-400 text-center">Checking authentication...</p>
 					</div>
-					<a href="/admin" class="btn-outline">← Back</a>
-				</div>
+				}
+				if clerk.EnabledFromCtx(ctx) {
+					<div id="admin-shell" class="opacity-0 transition-opacity duration-300">
+						<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+							<div>
+								<h1 class="font-display text-3xl text-white uppercase">Gallery</h1>
+								<p class="text-secondary-400">Manage your project gallery.</p>
+							</div>
+							<div class="flex items-center gap-4">
+								<div class="card-base border border-secondary-800 px-4 py-3 flex items-center gap-4">
+									<div id="clerk-user-button" class="min-w-[36px] min-h-[36px]"></div>
+									<p id="clerk-user-email" class="text-secondary-200 text-sm">Loading profile...</p>
+								</div>
+								<a href="/admin" class="btn-outline">← Back</a>
+							</div>
+						</div>
 
-				<div class="bg-secondary-900 border border-secondary-800 p-6">
-					<p class="text-secondary-400 text-center py-8">
-						Gallery management coming soon. Use database migrations to add items.
-					</p>
-				</div>
+						<div class="bg-secondary-900 border border-secondary-800 p-6">
+							<p class="text-secondary-400 text-center py-8">
+								Gallery management coming soon. Use database migrations to add items.
+							</p>
+						</div>
+					</div>
+				} else {
+					<div id="admin-shell">
+						<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+							<div>
+								<h1 class="font-display text-3xl text-white uppercase">Gallery</h1>
+								<p class="text-secondary-400">Manage your project gallery.</p>
+							</div>
+							<a href="/admin" class="btn-outline">← Back</a>
+						</div>
+
+						<div class="bg-secondary-900 border border-secondary-800 p-6">
+							<p class="text-secondary-400 text-center py-8">
+								Gallery management coming soon. Use database migrations to add items.
+							</p>
+						</div>
+					</div>
+				}
 			</div>
 		</div>
 	}
@@ -75,19 +145,50 @@ templ AdminContent() {
 	@layouts.Base(meta.New("Content Management", "Manage website content.").WithNoIndex()) {
 		<div class="min-h-screen bg-secondary-950 pt-24">
 			<div class="container-custom py-8">
-				<div class="flex justify-between items-center mb-8">
-					<div>
-						<h1 class="font-display text-3xl text-white uppercase">Content</h1>
-						<p class="text-secondary-400">Edit website content.</p>
+				if clerk.EnabledFromCtx(ctx) {
+					<div id="admin-auth-loading" class="card-base border border-secondary-800 p-6 clip-lg mb-8">
+						<p class="text-secondary-400 text-center">Checking authentication...</p>
 					</div>
-					<a href="/admin" class="btn-outline">← Back</a>
-				</div>
+				}
+				if clerk.EnabledFromCtx(ctx) {
+					<div id="admin-shell" class="opacity-0 transition-opacity duration-300">
+						<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+							<div>
+								<h1 class="font-display text-3xl text-white uppercase">Content</h1>
+								<p class="text-secondary-400">Edit website content.</p>
+							</div>
+							<div class="flex items-center gap-4">
+								<div class="card-base border border-secondary-800 px-4 py-3 flex items-center gap-4">
+									<div id="clerk-user-button" class="min-w-[36px] min-h-[36px]"></div>
+									<p id="clerk-user-email" class="text-secondary-200 text-sm">Loading profile...</p>
+								</div>
+								<a href="/admin" class="btn-outline">← Back</a>
+							</div>
+						</div>
 
-				<div class="bg-secondary-900 border border-secondary-800 p-6">
-					<p class="text-secondary-400 text-center py-8">
-						Content management coming soon.
-					</p>
-				</div>
+						<div class="bg-secondary-900 border border-secondary-800 p-6">
+							<p class="text-secondary-400 text-center py-8">
+								Content management coming soon.
+							</p>
+						</div>
+					</div>
+				} else {
+					<div id="admin-shell">
+						<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+							<div>
+								<h1 class="font-display text-3xl text-white uppercase">Content</h1>
+								<p class="text-secondary-400">Edit website content.</p>
+							</div>
+							<a href="/admin" class="btn-outline">← Back</a>
+						</div>
+
+						<div class="bg-secondary-900 border border-secondary-800 p-6">
+							<p class="text-secondary-400 text-center py-8">
+								Content management coming soon.
+							</p>
+						</div>
+					</div>
+				}
 			</div>
 		</div>
 	}
@@ -97,19 +198,50 @@ templ AdminSettings() {
 	@layouts.Base(meta.New("Settings", "Site settings.").WithNoIndex()) {
 		<div class="min-h-screen bg-secondary-950 pt-24">
 			<div class="container-custom py-8">
-				<div class="flex justify-between items-center mb-8">
-					<div>
-						<h1 class="font-display text-3xl text-white uppercase">Settings</h1>
-						<p class="text-secondary-400">Configure site settings.</p>
+				if clerk.EnabledFromCtx(ctx) {
+					<div id="admin-auth-loading" class="card-base border border-secondary-800 p-6 clip-lg mb-8">
+						<p class="text-secondary-400 text-center">Checking authentication...</p>
 					</div>
-					<a href="/admin" class="btn-outline">← Back</a>
-				</div>
+				}
+				if clerk.EnabledFromCtx(ctx) {
+					<div id="admin-shell" class="opacity-0 transition-opacity duration-300">
+						<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+							<div>
+								<h1 class="font-display text-3xl text-white uppercase">Settings</h1>
+								<p class="text-secondary-400">Configure site settings.</p>
+							</div>
+							<div class="flex items-center gap-4">
+								<div class="card-base border border-secondary-800 px-4 py-3 flex items-center gap-4">
+									<div id="clerk-user-button" class="min-w-[36px] min-h-[36px]"></div>
+									<p id="clerk-user-email" class="text-secondary-200 text-sm">Loading profile...</p>
+								</div>
+								<a href="/admin" class="btn-outline">← Back</a>
+							</div>
+						</div>
 
-				<div class="bg-secondary-900 border border-secondary-800 p-6">
-					<p class="text-secondary-400 text-center py-8">
-						Settings management coming soon.
-					</p>
-				</div>
+						<div class="bg-secondary-900 border border-secondary-800 p-6">
+							<p class="text-secondary-400 text-center py-8">
+								Settings management coming soon.
+							</p>
+						</div>
+					</div>
+				} else {
+					<div id="admin-shell">
+						<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+							<div>
+								<h1 class="font-display text-3xl text-white uppercase">Settings</h1>
+								<p class="text-secondary-400">Configure site settings.</p>
+							</div>
+							<a href="/admin" class="btn-outline">← Back</a>
+						</div>
+
+						<div class="bg-secondary-900 border border-secondary-800 p-6">
+							<p class="text-secondary-400 text-center py-8">
+								Settings management coming soon.
+							</p>
+						</div>
+					</div>
+				}
 			</div>
 		</div>
 	}

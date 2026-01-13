@@ -1,6 +1,9 @@
 package layouts
 
-import "rowetech/internal/meta"
+import (
+	"rowetech/internal/clerk"
+	"rowetech/internal/meta"
+)
 
 templ Base(m meta.PageMeta) {
 	<!DOCTYPE html>
@@ -18,8 +21,16 @@ templ Base(m meta.PageMeta) {
 			<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 			<link rel="stylesheet" href="/static/css/output.css"/>
 			<script src="https://unpkg.com/htmx.org@2.0.4"></script>
+			if clerk.EnabledFromCtx(ctx) {
+				<script defer src="https://js.clerk.com/v4/clerk.js" data-clerk-publishable-key={ clerk.PublishableKeyFromCtx(ctx) }></script>
+			}
 		</head>
 		<body class="bg-secondary-950 text-secondary-100 font-sans antialiased">
+			if clerk.EnabledFromCtx(ctx) {
+				<div id="clerk-config" data-clerk-enabled="true" data-clerk-publishable-key={ clerk.PublishableKeyFromCtx(ctx) } hidden></div>
+			} else {
+				<div id="clerk-config" data-clerk-enabled="false" hidden></div>
+			}
 			@Header()
 			<main class="min-h-screen">
 				{ children... }

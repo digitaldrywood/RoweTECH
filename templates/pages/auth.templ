@@ -1,6 +1,7 @@
 package pages
 
 import (
+	"rowetech/internal/clerk"
 	"rowetech/internal/meta"
 	"rowetech/templates/layouts"
 )
@@ -18,7 +19,13 @@ templ SignIn() {
 
 						<!-- Clerk SignIn component will be mounted here -->
 						<div id="clerk-sign-in" class="min-h-[400px] flex items-center justify-center">
-							<p class="text-secondary-400">Loading authentication...</p>
+							if clerk.EnabledFromCtx(ctx) {
+								<p class="text-secondary-400">Loading authentication...</p>
+							} else {
+								<p class="text-secondary-400 text-center">
+									Authentication is not configured. Please set up Clerk to enable sign in.
+								</p>
+							}
 						</div>
 
 						<div class="mt-6 text-center">
@@ -26,6 +33,7 @@ templ SignIn() {
 								Don't have an account?
 								<a href="/sign-up" class="text-primary-400 hover:text-primary-300 ml-1">Sign up</a>
 							</p>
+							<p class="text-secondary-500 text-xs mt-3">After signing in, you will be redirected to the admin dashboard.</p>
 						</div>
 					</div>
 				</div>
@@ -47,7 +55,13 @@ templ SignUp() {
 
 						<!-- Clerk SignUp component will be mounted here -->
 						<div id="clerk-sign-up" class="min-h-[400px] flex items-center justify-center">
-							<p class="text-secondary-400">Loading authentication...</p>
+							if clerk.EnabledFromCtx(ctx) {
+								<p class="text-secondary-400">Loading authentication...</p>
+							} else {
+								<p class="text-secondary-400 text-center">
+									Authentication is not configured. Please set up Clerk to enable sign up.
+								</p>
+							}
 						</div>
 
 						<div class="mt-6 text-center">
@@ -55,6 +69,7 @@ templ SignUp() {
 								Already have an account?
 								<a href="/sign-in" class="text-primary-400 hover:text-primary-300 ml-1">Sign in</a>
 							</p>
+							<p class="text-secondary-500 text-xs mt-3">After creating your account, you will be redirected to the admin dashboard.</p>
 						</div>
 					</div>
 				</div>
