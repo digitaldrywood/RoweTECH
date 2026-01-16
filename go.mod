@@ -1,13 +1,13 @@
 module rowetech
 
-go 1.23.0
+go 1.24.0
 
 require (
 	github.com/a-h/templ v0.3.977
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/labstack/echo/v4 v4.13.3
 	github.com/lmittmann/tint v1.0.6
-	modernc.org/sqlite v1.34.5
+	modernc.org/sqlite v1.44.1
 )
 
 require (
@@ -16,17 +16,17 @@ require (
 	github.com/labstack/gommon v0.4.2 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/ncruces/go-strftime v0.1.9 // indirect
+	github.com/ncruces/go-strftime v1.0.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	golang.org/x/crypto v0.40.0 // indirect
-	golang.org/x/exp v0.0.0-20241217172543-b2144cdd0a67 // indirect
+	golang.org/x/exp v0.0.0-20251023183803-a4bb9ffd2546 // indirect
 	golang.org/x/net v0.42.0 // indirect
-	golang.org/x/sys v0.34.0 // indirect
+	golang.org/x/sys v0.37.0 // indirect
 	golang.org/x/text v0.27.0 // indirect
 	golang.org/x/time v0.8.0 // indirect
-	modernc.org/libc v1.61.6 // indirect
+	modernc.org/libc v1.67.6 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
-	modernc.org/memory v1.8.0 // indirect
+	modernc.org/memory v1.11.0 // indirect
 )
