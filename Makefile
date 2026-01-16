@@ -66,6 +66,7 @@ setup:
 # CI/CD setup (minimal - for Vercel)
 setup-ci:
 	go install github.com/a-h/templ/cmd/templ@latest
+	npm install
 
 clean:
 	rm -f $(BINARY_NAME)
