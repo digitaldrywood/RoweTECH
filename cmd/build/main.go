@@ -11,6 +11,7 @@ import (
 
 	"github.com/a-h/templ"
 
+	"rowetech/internal/clerk"
 	"rowetech/internal/config"
 	"rowetech/internal/ctxkeys"
 	"rowetech/internal/database/models"
@@ -29,13 +30,15 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Set up context with site metadata
+	// Load configuration from environment
+	cfg := config.Load()
+
+	// Set up context with site metadata and Clerk config
 	ctx := context.Background()
-	siteConfig := config.SiteConfig{
-		Name: "RoweTech Machine & Engineering",
-		URL:  os.Getenv("SITE_URL"),
-	}
-	ctx = context.WithValue(ctx, ctxkeys.SiteConfig, siteConfig)
+	ctx = context.WithValue(ctx, ctxkeys.SiteConfig, cfg.Site)
+	ctx = context.WithValue(ctx, ctxkeys.ClerkConfig, clerk.FromConfig(cfg))
+
+	fmt.Printf("Clerk enabled: %v\n", cfg.HasClerk())
 
 	// Define pages to generate
 	staticPages := []struct {
