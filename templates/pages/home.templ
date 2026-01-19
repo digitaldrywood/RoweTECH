@@ -222,10 +222,8 @@ templ featuredServiceCard(title, description, image, href string) {
 templ serviceCard(title, description, image, href, number string) {
 	<a href={ templ.SafeURL(href) } class="group block h-full">
 		<div class="relative h-full min-h-[150px] md:min-h-[170px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 bg-secondary-900 card-hover clip-lg">
-			<div class="absolute inset-0 opacity-30">
-				<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
-			</div>
-			<div class="absolute inset-0 bg-gradient-to-br from-secondary-900/90 to-secondary-950/90"></div>
+			<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+			<div class="absolute inset-0 bg-gradient-to-br from-secondary-900/45 to-secondary-950/45"></div>
 			<div class="relative p-4 md:p-5 h-full flex flex-col justify-end">
 				<span class="text-primary-400 text-[10px] font-bold uppercase tracking-wider mb-1">{ number }</span>
 				<h3 class="font-display text-base md:text-lg uppercase tracking-wide text-white mb-1 group-hover:text-primary-400 transition-colors">{ title }</h3>
@@ -238,10 +236,8 @@ templ serviceCard(title, description, image, href, number string) {
 templ serviceCardWide(title, description, image, href, number string) {
 	<a href={ templ.SafeURL(href) } class="group block h-full">
 		<div class="relative h-full min-h-[120px] md:min-h-[140px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 bg-secondary-900 card-hover clip-lg">
-			<div class="absolute inset-0 opacity-30">
-				<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
-			</div>
-			<div class="absolute inset-0 bg-gradient-to-r from-secondary-900/95 via-secondary-950/80 to-secondary-900/95"></div>
+			<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+			<div class="absolute inset-0 bg-gradient-to-r from-secondary-900/50 via-secondary-950/40 to-secondary-900/50"></div>
 			<div class="relative p-4 md:p-6 h-full flex flex-col md:flex-row md:items-center md:justify-between gap-3">
 				<div>
 					<span class="text-primary-400 text-[10px] font-bold uppercase tracking-wider mb-0.5 block">{ number }</span>

@@ -46,3 +46,4 @@ data/*.db-wal
 
 # Air
 .air.toml.bak
+.vercel
