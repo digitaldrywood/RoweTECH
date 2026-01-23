@@ -116,3 +116,11 @@ func (h *Handler) SignUp(c echo.Context) error {
 func (h *Handler) Unauthorized(c echo.Context) error {
 	return pages.Unauthorized().Render(c.Request().Context(), c.Response().Writer)
 }
+
+func (h *Handler) Terms(c echo.Context) error {
+	return pages.Terms().Render(c.Request().Context(), c.Response().Writer)
+}
+
+func (h *Handler) Privacy(c echo.Context) error {
+	return pages.Privacy().Render(c.Request().Context(), c.Response().Writer)
+}

@@ -35,6 +35,8 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 	e.GET("/gallery", h.Gallery)
 	e.GET("/contact", h.Contact)
 	e.POST("/contact", h.ContactSubmit)
+	e.GET("/terms", h.Terms)
+	e.GET("/privacy", h.Privacy)
 
 	// Auth pages (if Clerk is configured)
 	e.GET("/sign-in", h.SignIn)

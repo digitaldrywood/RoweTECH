@@ -66,6 +66,8 @@ func main() {
 		{"/services/index.html", pages.Services()},
 		{"/capabilities/index.html", pages.Capabilities()},
 		{"/contact/index.html", pages.Contact(false, "")},
+		{"/terms/index.html", pages.Terms()},
+		{"/privacy/index.html", pages.Privacy()},
 		{"/gallery/index.html", pages.Gallery(galleryItems, galleryCategories)},
 		{"/sign-in/index.html", pages.SignIn()},
 		{"/sign-up/index.html", pages.SignUp()},
