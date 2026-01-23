@@ -471,7 +471,7 @@
   // Admin Status Check
   // ===========================================
   function checkAdminStatus() {
-    fetch('/api/is-admin')
+    fetch('/api/is-admin', { credentials: 'same-origin' })
       .then(response => response.json())
       .then(data => {
         const headerAdminLink = document.getElementById('header-admin-link');
