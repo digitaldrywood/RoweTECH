@@ -471,23 +471,37 @@
   // Admin Status Check
   // ===========================================
   function checkAdminStatus() {
-    fetch('/api/is-admin', { credentials: 'same-origin' })
-      .then(response => response.json())
-      .then(data => {
-        const headerAdminLink = document.getElementById('header-admin-link');
-        const mobileAdminLink = document.getElementById('mobile-admin-link');
-        const footerAdminLink = document.getElementById('footer-admin-link');
+    const headerAdminLink = document.getElementById('header-admin-link');
+    const mobileAdminLink = document.getElementById('mobile-admin-link');
+    const footerAdminLink = document.getElementById('footer-admin-link');
 
-        if (data.isAdmin) {
-          // Show admin links for admin users
-          if (headerAdminLink) headerAdminLink.classList.remove('hidden');
-          if (mobileAdminLink) mobileAdminLink.classList.remove('hidden');
-          if (footerAdminLink) footerAdminLink.classList.remove('hidden');
+    function showAdminLinks() {
+      if (headerAdminLink) headerAdminLink.classList.remove('hidden');
+      if (mobileAdminLink) mobileAdminLink.classList.remove('hidden');
+      if (footerAdminLink) footerAdminLink.classList.remove('hidden');
+    }
+
+    fetch('/api/is-admin', { credentials: 'same-origin' })
+      .then(response => {
+        if (!response.ok) {
+          // API not available (static site) - show admin links for all logged-in users
+          showAdminLinks();
+          return null;
         }
-        // Non-admin users: links remain hidden (default state)
+        return response.json();
+      })
+      .then(data => {
+        if (data && data.isAdmin) {
+          showAdminLinks();
+        } else if (data === null) {
+          // Already handled above for static site
+        }
+        // Non-admin users on server: links remain hidden
       })
       .catch(err => {
-        console.error('Error checking admin status:', err);
+        // API error (likely static site) - show admin links for logged-in users
+        console.log('Admin API not available, showing admin links for authenticated users');
+        showAdminLinks();
       });
   }
 
