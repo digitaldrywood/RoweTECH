@@ -45,12 +45,16 @@ func main() {
 	staticStats := layouts.AdminStats{
 		GalleryCount:   30,
 		UnreadContacts: 0,
-		PageImages:     0,
+		PageImages:     18,
 	}
 
 	// Gallery items for static build (stock photos)
 	galleryItems := getStaticGalleryItems()
 	galleryCategories := getStaticGalleryCategories()
+
+	// Page images for static build
+	pageImages := getStaticPageImages()
+	pageNames := getStaticPageNames()
 
 	// Define pages to generate
 	staticPages := []struct {
@@ -69,7 +73,7 @@ func main() {
 		{"/admin/gallery/index.html", pages.AdminGallery(galleryItems, galleryCategories, staticStats)},
 		{"/admin/contacts/index.html", pages.AdminContacts([]models.ContactSubmission{}, staticStats, "")},
 		{"/admin/users/index.html", pages.AdminUsers([]clerk.User{}, 0, staticStats, cfg.HasClerk())},
-		{"/admin/images/index.html", pages.AdminImages(map[string][]models.PageImage{}, []string{}, staticStats)},
+		{"/admin/images/index.html", pages.AdminImages(pageImages, pageNames, staticStats)},
 		{"/admin/settings/index.html", pages.AdminSettings(staticStats)},
 	}
 
@@ -206,4 +210,44 @@ func getStaticGalleryCategories() []string {
 		"EDM",
 	}
 }
-// Force redeploy Fri Jan 23 11:01:32 AM CST 2026
+
+// getStaticPageImages returns hardcoded page images grouped by page name
+func getStaticPageImages() map[string][]models.PageImage {
+	return map[string][]models.PageImage{
+		"home": {
+			{ID: 1, PageName: "home", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80", Label: "Hero Background", AltText: "Industrial manufacturing", SortOrder: 1},
+			{ID: 2, PageName: "home", ImageKey: "service-mold-repair", ImageUrl: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80", Label: "Mold Repair Service", AltText: "Mold repair and maintenance", SortOrder: 2},
+			{ID: 3, PageName: "home", ImageKey: "service-fixtures", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80", Label: "Custom Fixtures Service", AltText: "Custom fixtures and tooling", SortOrder: 3},
+			{ID: 4, PageName: "home", ImageKey: "service-eoat", ImageUrl: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80", Label: "EOAT Service", AltText: "End-of-arm tooling", SortOrder: 4},
+			{ID: 5, PageName: "home", ImageKey: "service-cnc", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80", Label: "CNC Machining Service", AltText: "CNC machining equipment", SortOrder: 5},
+			{ID: 6, PageName: "home", ImageKey: "why-us-1", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&q=80", Label: "Why Choose Us Image 1", AltText: "CNC Machining", SortOrder: 6},
+			{ID: 7, PageName: "home", ImageKey: "why-us-2", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&q=80", Label: "Why Choose Us Image 2", AltText: "Manufacturing", SortOrder: 7},
+			{ID: 8, PageName: "home", ImageKey: "cta", ImageUrl: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80", Label: "CTA Background", AltText: "Industrial background", SortOrder: 8},
+		},
+		"about": {
+			{ID: 9, PageName: "about", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1920&q=80", Label: "Hero Background", AltText: "Manufacturing", SortOrder: 1},
+			{ID: 10, PageName: "about", ImageKey: "story", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80", Label: "Our Story Image", AltText: "CNC Workshop", SortOrder: 2},
+		},
+		"services": {
+			{ID: 11, PageName: "services", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&q=80", Label: "Hero Background", AltText: "CNC Machining", SortOrder: 1},
+			{ID: 12, PageName: "services", ImageKey: "mold-repair", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80", Label: "Mold Repair Section", AltText: "Plastic Injection Mold Repair", SortOrder: 2},
+			{ID: 13, PageName: "services", ImageKey: "fixtures", ImageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80", Label: "Fixtures Section", AltText: "Custom Fixtures and Tooling", SortOrder: 3},
+			{ID: 14, PageName: "services", ImageKey: "eoat", ImageUrl: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80", Label: "EOAT Section", AltText: "EOAT Manufacturing", SortOrder: 4},
+			{ID: 15, PageName: "services", ImageKey: "cnc", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80", Label: "CNC Section", AltText: "CNC Machining Services", SortOrder: 5},
+		},
+		"capabilities": {
+			{ID: 16, PageName: "capabilities", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1920&q=80", Label: "Hero Background", AltText: "CNC Equipment", SortOrder: 1},
+		},
+		"gallery": {
+			{ID: 17, PageName: "gallery", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80", Label: "Hero Background", AltText: "Workshop", SortOrder: 1},
+		},
+		"contact": {
+			{ID: 18, PageName: "contact", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1920&q=80", Label: "Hero Background", AltText: "Manufacturing", SortOrder: 1},
+		},
+	}
+}
+
+// getStaticPageNames returns all page names that have images
+func getStaticPageNames() []string {
+	return []string{"home", "about", "services", "capabilities", "gallery", "contact"}
+}
