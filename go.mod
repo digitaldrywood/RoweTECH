@@ -6,7 +6,7 @@ require (
 	github.com/a-h/templ v0.3.977
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/labstack/echo/v4 v4.13.3
-	github.com/lmittmann/tint v1.0.6
+	github.com/lmittmann/tint v1.1.3
 	modernc.org/sqlite v1.34.5
 )
 
