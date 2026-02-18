@@ -10,8 +10,8 @@ templ Home() {
 		<!-- Hero Section -->
 		<section class="relative min-h-[100svh] flex items-center overflow-hidden">
 			<div class="absolute inset-0 bg-secondary-950"></div>
-			<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="Industrial manufacturing" class="absolute inset-0 w-full h-full object-cover opacity-80"/>
-			<div class="absolute inset-0 bg-gradient-to-r from-secondary-950/60 via-secondary-950/40 to-secondary-950/30"></div>
+			<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="Industrial manufacturing" class="absolute inset-0 w-full h-full object-cover opacity-90"/>
+			<div class="absolute inset-0 bg-gradient-to-r from-secondary-950/40 via-secondary-950/25 to-secondary-950/15"></div>
 			<div class="absolute inset-0 opacity-60 mix-blend-screen animate-ambient-pan" style="background-image: radial-gradient(circle at 20% 20%, rgba(198,93,89,0.14), transparent 32%), radial-gradient(circle at 80% 12%, rgba(117,122,120,0.14), transparent 28%), radial-gradient(circle at 30% 78%, rgba(198,93,89,0.08), transparent 30%);"></div>
 			<div class="absolute inset-0 industrial-grid opacity-30"></div>
 			<div class="sparkle-overlay"></div>
@@ -166,7 +166,7 @@ templ Home() {
 		<section class="py-16 md:py-24 lg:py-32 relative overflow-hidden">
 			<div class="absolute inset-0">
 				<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="" class="absolute inset-0 w-full h-full object-cover"/>
-				<div class="absolute inset-0 bg-secondary-950/60"></div>
+				<div class="absolute inset-0 bg-secondary-950/40"></div>
 			</div>
 			<div class="absolute inset-0 industrial-grid opacity-30"></div>
 			<div class="hidden md:block absolute top-0 left-0 w-1/3 h-full bg-gradient-to-r from-primary-500/10 to-transparent"></div>
@@ -201,7 +201,7 @@ templ featuredServiceCard(title, description, image, href string) {
 	<a href={ templ.SafeURL(href) } class="group block h-full lg:col-span-2 lg:row-span-2">
 		<div class="relative h-full min-h-[250px] md:min-h-[320px] lg:min-h-[400px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 card-hover clip-xl">
 			<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"/>
-			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950/70 via-secondary-950/35 to-transparent"></div>
+			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950/50 via-secondary-950/20 to-transparent"></div>
 			<div class="absolute top-3 left-3 md:top-4 md:left-4">
 				<span class="px-2 py-1 md:px-3 md:py-1.5 bg-primary-500 text-white text-[10px] md:text-xs font-bold uppercase tracking-wider">Featured</span>
 			</div>
@@ -223,7 +223,7 @@ templ serviceCard(title, description, image, href, number string) {
 	<a href={ templ.SafeURL(href) } class="group block h-full">
 		<div class="relative h-full min-h-[150px] md:min-h-[170px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 bg-secondary-900 card-hover clip-lg">
 			<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
-			<div class="absolute inset-0 bg-gradient-to-br from-secondary-900/30 to-secondary-950/30"></div>
+			<div class="absolute inset-0 bg-gradient-to-br from-secondary-900/20 to-secondary-950/20"></div>
 			<div class="relative p-4 md:p-5 h-full flex flex-col justify-end">
 				<span class="text-primary-400 text-[10px] font-bold uppercase tracking-wider mb-1">{ number }</span>
 				<h3 class="font-display text-base md:text-lg uppercase tracking-wide text-white mb-1 group-hover:text-primary-400 transition-colors">{ title }</h3>
@@ -237,7 +237,7 @@ templ serviceCardWide(title, description, image, href, number string) {
 	<a href={ templ.SafeURL(href) } class="group block h-full">
 		<div class="relative h-full min-h-[120px] md:min-h-[140px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 bg-secondary-900 card-hover clip-lg">
 			<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
-			<div class="absolute inset-0 bg-gradient-to-r from-secondary-900/30 via-secondary-950/25 to-secondary-900/30"></div>
+			<div class="absolute inset-0 bg-gradient-to-r from-secondary-900/20 via-secondary-950/15 to-secondary-900/20"></div>
 			<div class="relative p-4 md:p-6 h-full flex flex-col md:flex-row md:items-center md:justify-between gap-3">
 				<div>
 					<span class="text-primary-400 text-[10px] font-bold uppercase tracking-wider mb-0.5 block">{ number }</span>
