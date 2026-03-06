@@ -3,7 +3,7 @@ module rowetech
 go 1.23.0
 
 require (
-	github.com/a-h/templ v0.3.977
+	github.com/a-h/templ v0.3.1001
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/labstack/echo/v4 v4.13.3
 	github.com/lmittmann/tint v1.0.6
