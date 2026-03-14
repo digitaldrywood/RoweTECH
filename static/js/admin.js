@@ -68,7 +68,7 @@ function updateAdminUserInfo() {
 // Initialize Sortable.js for drag-and-drop reordering
 function initializeSortable() {
   // Gallery items sortable
-  const galleryGrid = document.getElementById('gallery-sortable');
+  const galleryGrid = document.getElementById('gallery-grid');
   if (galleryGrid && typeof Sortable !== 'undefined') {
     new Sortable(galleryGrid, {
       animation: 150,

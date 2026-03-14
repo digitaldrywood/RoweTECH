@@ -233,13 +233,12 @@ templ addGalleryModal(categories []string) {
 						<span class="text-secondary-500 text-xs">or enter URL:</span>
 					</div>
 					<input
-						type="url"
+						type="text"
 						name="image_url"
 						id="add-image-url"
 						class="w-full px-4 py-2 bg-secondary-800 border border-secondary-700 text-white text-sm rounded focus:outline-none focus:border-primary-500"
 						placeholder="https://example.com/image.jpg"
 					/>
-					<input type="hidden" name="image_url_final" id="add-image-url-final"/>
 				</div>
 				<div>
 					<label class="block text-xs text-secondary-400 uppercase mb-2">Description</label>
@@ -339,7 +338,7 @@ templ GalleryEditForm(item models.GalleryItem, categories []string) {
 				<span class="text-secondary-500 text-xs">or enter URL:</span>
 			</div>
 			<input
-				type="url"
+				type="text"
 				name="image_url"
 				id="edit-image-url"
 				value={ item.ImageUrl }
