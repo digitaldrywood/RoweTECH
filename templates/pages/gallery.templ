@@ -9,29 +9,22 @@ import (
 templ Gallery(items []models.GalleryItem, categories []string) {
 	@layouts.Base(meta.New("Gallery", "Explore RoweTech's machining work, equipment, and project gallery.")) {
 		<!-- Hero -->
-		<section class="relative min-h-[50vh] flex items-center overflow-hidden">
+		<section class="relative min-h-[100svh] flex items-center overflow-hidden">
 			<div class="absolute inset-0">
 				<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="Workshop" class="w-full h-full object-cover"/>
-				<div class="absolute inset-0 bg-gradient-to-r from-secondary-950 via-secondary-950/95 to-secondary-950/80"></div>
+				<div class="absolute inset-0 bg-secondary-950/40"></div>
 			</div>
-			<div class="absolute inset-0 industrial-grid opacity-20"></div>
-			<div class="container-custom relative py-32 lg:py-40 text-center">
-				<span class="inline-flex items-center justify-center text-primary-400 font-medium tracking-wider uppercase text-sm mb-6">
-					<span class="w-12 h-px bg-primary-500 mr-4"></span>
-					Our Work
-					<span class="w-12 h-px bg-primary-500 ml-4"></span>
-				</span>
-				<h1 class="font-display text-5xl md:text-6xl lg:text-7xl text-white uppercase mb-6">Gallery</h1>
-				<p class="text-xl lg:text-2xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+			<div class="container-custom relative z-10 text-center">
+				<h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-white uppercase mb-6">Gallery</h1>
+				<p class="text-lg lg:text-xl text-white/80 max-w-xl mx-auto">
 					Examples of our precision machining, mold repair, and custom tooling projects.
 				</p>
 			</div>
 		</section>
 
 		<!-- Gallery Grid -->
-		<section class="py-24 lg:py-32 bg-secondary-950 relative overflow-hidden">
-			<div class="absolute inset-0 industrial-grid opacity-10"></div>
-			<div class="container-custom relative">
+		<section class="py-24 lg:py-32 bg-secondary-950">
+			<div class="container-custom">
 				<!-- Category Filters -->
 				<div class="flex flex-wrap gap-3 mb-12 justify-center" id="gallery-filters">
 					<button class="gallery-filter active px-6 py-2 bg-primary-500 text-white font-semibold uppercase tracking-wider text-sm transition-colors" data-category="all">
@@ -60,11 +53,13 @@ templ Gallery(items []models.GalleryItem, categories []string) {
 		</section>
 
 		<!-- CTA -->
-		<section class="py-24 bg-secondary-900 relative">
-			<div class="container-custom text-center">
-				<h2 class="font-display text-4xl md:text-5xl text-white uppercase mb-6">Like What You See?</h2>
-				<p class="text-secondary-200 text-xl mb-8 max-w-2xl mx-auto">
-					Contact us to discuss your project. We'd love to add your work to our gallery.
+		<section class="relative min-h-[60vh] flex items-center overflow-hidden">
+			<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="" class="absolute inset-0 w-full h-full object-cover"/>
+			<div class="absolute inset-0 bg-secondary-950/50"></div>
+			<div class="container-custom relative z-10 text-center">
+				<h2 class="font-display text-4xl md:text-6xl text-white uppercase mb-6">Like What You See?</h2>
+				<p class="text-white/70 text-lg mb-8 max-w-xl mx-auto">
+					Contact us to discuss your project.
 				</p>
 				<a href="/contact" class="btn-primary">Start Your Project</a>
 			</div>
@@ -73,7 +68,7 @@ templ Gallery(items []models.GalleryItem, categories []string) {
 }
 
 templ galleryItem(item models.GalleryItem) {
-	<div class="gallery-item group relative aspect-square overflow-hidden border border-secondary-800 hover:border-primary-500/50 transition-all duration-500 cursor-pointer clip-lg"
+	<div class="gallery-item group relative aspect-square overflow-hidden hover:border-primary-500/50 transition-all duration-500 cursor-pointer"
 		 data-category={ item.Category }>
 		<img src={ item.ImageUrl } alt={ item.Title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
 		<div class="absolute inset-0 bg-gradient-to-t from-secondary-950 via-secondary-950/30 to-transparent opacity-80"></div>

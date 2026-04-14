@@ -7,280 +7,112 @@ import (
 
 templ Home() {
 	@layouts.Base(meta.New("Home", "Precision machining, mold repair, and custom tooling solutions for manufacturers across Wisconsin.")) {
-		<!-- Hero Section -->
+		<!-- Hero -->
 		<section class="relative min-h-[100svh] flex items-center overflow-hidden">
 			<div class="absolute inset-0 bg-secondary-950"></div>
 			<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="Industrial manufacturing" class="absolute inset-0 w-full h-full object-cover"/>
-			<div class="absolute inset-0 bg-secondary-950/20"></div>
-			<div class="absolute inset-0 opacity-60 mix-blend-screen animate-ambient-pan" style="background-image: radial-gradient(circle at 20% 20%, rgba(198,93,89,0.14), transparent 32%), radial-gradient(circle at 80% 12%, rgba(117,122,120,0.14), transparent 28%), radial-gradient(circle at 30% 78%, rgba(198,93,89,0.08), transparent 30%);"></div>
-			<div class="absolute inset-0 industrial-grid opacity-30"></div>
-			<div class="sparkle-overlay"></div>
+			<div class="absolute inset-0 bg-secondary-950/40"></div>
 
-			<div class="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-primary-500/50 via-primary-500/20 to-transparent"></div>
-			<div class="absolute top-0 left-1/2 w-px h-full bg-gradient-to-b from-transparent via-primary-500/10 to-primary-500/30"></div>
-			<div class="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-primary-500/30 via-transparent to-primary-500/20"></div>
-
-			<div class="container-custom relative z-10 pt-20 pb-28">
-				<div class="max-w-5xl xl:max-w-6xl mx-auto text-center">
-					<div class="animate-fade-in-up inline-flex items-center px-3 py-1.5 mb-6 border-l-4 border-primary-500 bg-secondary-900/50 backdrop-blur-sm">
-						<span class="w-1.5 h-1.5 bg-primary-500 rounded-full mr-2 animate-pulse"></span>
-						<span class="text-primary-400 text-xs font-semibold tracking-[0.25em] uppercase">Wisconsin Precision Manufacturing</span>
-					</div>
-
-					<h1 class="mb-6" style="animation: fadeInUp 0.6s ease-out 0.1s both;">
-						<span class="hero-title block">Industrial</span>
-						<span class="hero-title-accent block">Precision</span>
-						<span class="hero-subtitle block mt-3">Engineered Excellence</span>
-					</h1>
-
-					<p class="text-sm md:text-base xl:text-lg text-white/90 max-w-3xl 2xl:max-w-4xl mx-auto mb-8 leading-relaxed" style="animation: fadeInUp 0.6s ease-out 0.2s both;">
-						Mold repair, custom fixtures, EOAT tooling, and CNC machining for manufacturers who demand precision and reliability.
-					</p>
-
-					<div class="flex flex-wrap gap-4 justify-center" style="animation: fadeInUp 0.6s ease-out 0.3s both;">
-						<a href="/contact" class="btn-primary text-sm md:text-base px-8 py-4">
-							<span class="flex items-center">
-								Request Quote
-								<svg class="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-								</svg>
-							</span>
-						</a>
-						<a href="tel:+17152023631" class="btn-primary text-sm md:text-base px-8 py-4">
-							<svg class="mr-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-							</svg>
-							(715) 202-3631
-						</a>
-					</div>
-				</div>
-			</div>
-
-			<div class="absolute bottom-0 left-0 right-0 bg-secondary-950/90 backdrop-blur-md border-t border-secondary-800 z-20">
-				<div class="container-custom py-5">
-					<div class="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-12 xl:gap-16">
-						@statItem("15+", "Years Experience")
-						@statItem("500+", "Projects Completed")
-						@statItem("48hr", "Quote Response")
-						@statItem("100%", "Quality Focused")
-					</div>
-				</div>
-			</div>
-
-			<div class="absolute bottom-32 left-1/2 -translate-x-1/2 animate-bounce z-20">
-				<svg class="w-6 h-6 text-secondary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-				</svg>
-			</div>
-		</section>
-
-		<!-- Services Section -->
-		<section class="py-12 md:py-20 lg:py-24 bg-secondary-950 relative overflow-hidden">
-			<div class="absolute inset-0 industrial-grid opacity-10"></div>
-			<div class="container-custom relative">
-				<div class="mb-8 md:mb-12 animate-on-scroll">
-					<div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-3 md:gap-4">
-						<div>
-							<span class="text-primary-400 font-semibold tracking-[0.2em] uppercase text-[10px] md:text-xs">What We Do</span>
-							<h2 class="section-heading mt-1 md:mt-2">Our Services</h2>
-						</div>
-						<p class="text-secondary-300 text-sm lg:text-base max-w-lg">
-							Comprehensive machining and tooling solutions for plastic injection molding and manufacturing.
-						</p>
-					</div>
-				</div>
-
-				<div class="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-5 xl:gap-6">
-					<div class="animate-on-scroll stagger-1">
-						@featuredServiceCard("Mold Repair", "Expert plastic injection mold repair and maintenance to minimize downtime.", "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80", "/services#mold-repair")
-					</div>
-					<div class="animate-on-scroll stagger-2">
-						@serviceCard("Custom Fixtures", "Precision-engineered workholding fixtures for your production needs.", "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80", "/services#fixtures", "02")
-					</div>
-					<div class="animate-on-scroll stagger-3">
-						@serviceCard("EOAT Tooling", "End-of-arm tooling designed for automation and robotics systems.", "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80", "/services#eoat", "03")
-					</div>
-					<div class="animate-on-scroll stagger-4 lg:col-span-3">
-						@serviceCardWide("CNC Machining", "High-precision CNC milling and turning for complex parts.", "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80", "/services#cnc", "04")
-					</div>
-				</div>
-
-				<div class="text-center mt-6 md:mt-8 animate-on-scroll">
-					<a href="/services" class="btn-outline">View All Services</a>
+			<div class="container-custom relative z-10 text-center">
+				<h1 class="mb-6">
+					<span class="hero-title block">Industrial</span>
+					<span class="hero-title-accent block">Precision</span>
+				</h1>
+				<p class="text-base md:text-lg text-white/80 max-w-xl mx-auto mb-10">
+					Mold repair, custom fixtures, EOAT tooling, and CNC machining for manufacturers who demand precision.
+				</p>
+				<div class="flex flex-wrap gap-4 justify-center">
+					<a href="/contact" class="btn-primary text-sm md:text-base px-8 py-4">
+						Request Quote
+					</a>
+					<a href="tel:+17152023631" class="btn-primary text-sm md:text-base px-8 py-4">
+						<svg class="mr-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+						</svg>
+						(715) 202-3631
+					</a>
 				</div>
 			</div>
 		</section>
 
-		<div class="h-px bg-gradient-to-r from-transparent via-primary-500/50 to-transparent"></div>
-
-		<!-- Why Choose Us -->
-		<section class="py-12 md:py-20 lg:py-24 bg-secondary-900 relative overflow-hidden">
-			<div class="absolute inset-0 industrial-grid opacity-10"></div>
-			<div class="container-custom relative">
-				<div class="grid lg:grid-cols-2 gap-8 md:gap-12 xl:gap-16 items-center">
-					<div class="animate-on-scroll-left">
-						<span class="text-primary-400 font-semibold tracking-[0.2em] uppercase text-[10px] md:text-xs">Why Choose Us</span>
-						<h2 class="section-heading mt-1 md:mt-2 mb-3 md:mb-4">Precision You Can Trust</h2>
-						<p class="text-secondary-200 text-sm md:text-base mb-6 md:mb-8 leading-relaxed">
-							We combine decades of machining expertise with responsive service to deliver quality tooling solutions—on time, every time.
-						</p>
-
-						<div class="grid grid-cols-2 gap-2 md:gap-4">
-							@featureCardSVG("location", "Local Shop", "Quick turnaround from Wisconsin")
-							@featureCardSVG("team", "Expert Team", "Decades of combined experience")
-							@featureCardSVG("cog", "Modern CNC", "State-of-the-art equipment")
-							@featureCardSVG("refresh", "Flexible", "Prototypes to production")
-						</div>
-
-						<a href="/about" class="btn-primary mt-6 md:mt-8 inline-flex">Learn More About Us</a>
-					</div>
-
-					<div class="relative animate-on-scroll-right">
-						<div class="absolute -inset-6 bg-primary-500/10 blur-3xl rounded-full hidden md:block"></div>
-						<div class="relative grid grid-cols-2 gap-2 md:gap-3">
-							<div class="space-y-2 md:space-y-3">
-								<div class="aspect-[4/5] relative overflow-hidden border border-secondary-800 clip-lg">
-									<img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&q=80" alt="CNC Machining" class="absolute inset-0 w-full h-full object-cover"/>
-								</div>
-								<div class="p-3 md:p-4 bg-primary-500 text-center clip-md">
-									<div class="font-display text-2xl md:text-3xl text-white">15+</div>
-									<div class="text-white/80 text-[10px] md:text-xs uppercase tracking-wider">Years</div>
-								</div>
-							</div>
-							<div class="space-y-2 md:space-y-3 pt-4 md:pt-6">
-								<div class="p-3 md:p-4 bg-secondary-950 border border-secondary-800 text-center clip-md">
-									<div class="font-display text-2xl md:text-3xl text-primary-500">500+</div>
-									<div class="text-secondary-300 text-[10px] md:text-xs uppercase tracking-wider font-medium">Projects</div>
-								</div>
-								<div class="aspect-[4/5] relative overflow-hidden border border-secondary-800 clip-lg">
-									<img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&q=80" alt="Manufacturing" class="absolute inset-0 w-full h-full object-cover"/>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+		<!-- Mold Repair -->
+		<section class="relative min-h-[80vh] md:min-h-[90vh] flex items-end overflow-hidden">
+			<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="Mold Repair" class="absolute inset-0 w-full h-full object-cover"/>
+			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950/80 via-secondary-950/20 to-transparent"></div>
+			<div class="relative z-10 container-custom pb-16 md:pb-24">
+				<h2 class="font-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-wide mb-3">Mold Repair</h2>
+				<p class="text-white/70 text-sm md:text-base max-w-lg mb-6">Expert plastic injection mold repair and maintenance to minimize your downtime.</p>
+				<a href="/services#mold-repair" class="text-primary-400 font-semibold uppercase tracking-wider text-sm inline-flex items-center hover:text-primary-300 transition-colors">
+					Learn More
+					<svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+					</svg>
+				</a>
 			</div>
 		</section>
 
-		<!-- CTA Section -->
-		<section class="py-16 md:py-24 lg:py-32 relative overflow-hidden">
-			<div class="absolute inset-0">
-				<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="" class="absolute inset-0 w-full h-full object-cover"/>
-				<div class="absolute inset-0 bg-secondary-950/20"></div>
+		<!-- Custom Fixtures -->
+		<section class="relative min-h-[80vh] md:min-h-[90vh] flex items-end overflow-hidden">
+			<img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1920&q=80" alt="Custom Fixtures" class="absolute inset-0 w-full h-full object-cover"/>
+			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950/80 via-secondary-950/20 to-transparent"></div>
+			<div class="relative z-10 container-custom pb-16 md:pb-24">
+				<h2 class="font-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-wide mb-3">Custom Fixtures</h2>
+				<p class="text-white/70 text-sm md:text-base max-w-lg mb-6">Precision-engineered workholding and assembly fixtures for your production needs.</p>
+				<a href="/services#fixtures" class="text-primary-400 font-semibold uppercase tracking-wider text-sm inline-flex items-center hover:text-primary-300 transition-colors">
+					Learn More
+					<svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+					</svg>
+				</a>
 			</div>
-			<div class="absolute inset-0 industrial-grid opacity-30"></div>
-			<div class="hidden md:block absolute top-0 left-0 w-1/3 h-full bg-gradient-to-r from-primary-500/10 to-transparent"></div>
-			<div class="hidden md:block absolute bottom-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary-500/10 to-transparent"></div>
+		</section>
 
-			<div class="container-custom relative">
-				<div class="max-w-4xl mx-auto text-center animate-on-scroll-scale">
-					<img src="/static/images/logo.png" alt="RoweTech" class="h-16 md:h-20 w-auto mx-auto mb-4 opacity-90"/>
-					<span class="text-primary-400 font-semibold tracking-[0.2em] uppercase text-[10px] md:text-xs mb-3 block">Get Started</span>
-					<h2 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight mb-4 md:mb-6">Ready to Build?</h2>
-					<p class="text-white/80 text-sm md:text-base xl:text-lg mb-6 md:mb-8 leading-relaxed px-4">
-						Contact us today for a quote on mold repair, custom fixtures, EOAT, or CNC machining services.
-						We respond to most inquiries within 48 hours.
-					</p>
-					<div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
-						<a href="/contact" class="btn-primary text-sm md:text-base px-6 py-3 md:px-10 md:py-5">Request a Quote</a>
-						<a href="tel:+17152023631" class="btn-primary text-sm md:text-base px-6 py-3 md:px-10 md:py-5">Call (715) 202-3631</a>
-					</div>
+		<!-- EOAT Tooling -->
+		<section class="relative min-h-[80vh] md:min-h-[90vh] flex items-end overflow-hidden">
+			<img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1920&q=80" alt="EOAT Tooling" class="absolute inset-0 w-full h-full object-cover"/>
+			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950/80 via-secondary-950/20 to-transparent"></div>
+			<div class="relative z-10 container-custom pb-16 md:pb-24">
+				<h2 class="font-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-wide mb-3">EOAT Tooling</h2>
+				<p class="text-white/70 text-sm md:text-base max-w-lg mb-6">End-of-arm tooling designed for automation and robotics systems.</p>
+				<a href="/services#eoat" class="text-primary-400 font-semibold uppercase tracking-wider text-sm inline-flex items-center hover:text-primary-300 transition-colors">
+					Learn More
+					<svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+					</svg>
+				</a>
+			</div>
+		</section>
+
+		<!-- CNC Machining -->
+		<section class="relative min-h-[80vh] md:min-h-[90vh] flex items-end overflow-hidden">
+			<img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&q=80" alt="CNC Machining" class="absolute inset-0 w-full h-full object-cover"/>
+			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950/80 via-secondary-950/20 to-transparent"></div>
+			<div class="relative z-10 container-custom pb-16 md:pb-24">
+				<h2 class="font-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-wide mb-3">CNC Machining</h2>
+				<p class="text-white/70 text-sm md:text-base max-w-lg mb-6">High-precision CNC milling and turning for complex parts and production runs.</p>
+				<a href="/services#cnc" class="text-primary-400 font-semibold uppercase tracking-wider text-sm inline-flex items-center hover:text-primary-300 transition-colors">
+					Learn More
+					<svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+					</svg>
+				</a>
+			</div>
+		</section>
+
+		<!-- CTA -->
+		<section class="relative min-h-[60vh] flex items-center overflow-hidden">
+			<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="" class="absolute inset-0 w-full h-full object-cover"/>
+			<div class="absolute inset-0 bg-secondary-950/50"></div>
+			<div class="container-custom relative z-10 text-center">
+				<h2 class="font-display text-4xl md:text-6xl text-white uppercase mb-6">Ready to Build?</h2>
+				<p class="text-white/70 text-base md:text-lg mb-8 max-w-xl mx-auto">
+					Contact us for a quote. We respond within 48 hours.
+				</p>
+				<div class="flex flex-col sm:flex-row gap-4 justify-center">
+					<a href="/contact" class="btn-primary text-sm md:text-base px-10 py-5">Request a Quote</a>
+					<a href="tel:+17152023631" class="btn-primary text-sm md:text-base px-10 py-5">Call (715) 202-3631</a>
 				</div>
 			</div>
 		</section>
 	}
-}
-
-templ statItem(value, label string) {
-	<div class="text-center">
-		<div class="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl text-primary-500 uppercase">{ value }</div>
-		<div class="text-[10px] md:text-xs text-white/70 font-medium uppercase tracking-wider mt-0.5">{ label }</div>
-	</div>
-}
-
-templ featuredServiceCard(title, description, image, href string) {
-	<a href={ templ.SafeURL(href) } class="group block h-full lg:col-span-2 lg:row-span-2">
-		<div class="relative h-full min-h-[250px] md:min-h-[320px] lg:min-h-[400px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 card-hover clip-xl">
-			<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"/>
-			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950/30 via-secondary-950/20 to-transparent"></div>
-			<div class="absolute top-3 left-3 md:top-4 md:left-4">
-				<span class="px-2 py-1 md:px-3 md:py-1.5 bg-primary-500 text-white text-[10px] md:text-xs font-bold uppercase tracking-wider">Featured</span>
-			</div>
-			<div class="absolute bottom-0 left-0 right-0 p-4 md:p-6 lg:p-8">
-				<h3 class="font-display text-xl md:text-2xl lg:text-3xl uppercase tracking-wide text-white mb-1.5 md:mb-2 group-hover:text-primary-400 transition-colors">{ title }</h3>
-				<p class="text-white/80 text-xs md:text-sm mb-2 md:mb-3 max-w-lg">{ description }</p>
-				<span class="inline-flex items-center text-primary-400 font-semibold uppercase tracking-wider text-xs md:text-sm">
-					Learn More
-					<svg class="w-3 h-3 md:w-4 md:h-4 ml-1.5 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-					</svg>
-				</span>
-			</div>
-		</div>
-	</a>
-}
-
-templ serviceCard(title, description, image, href, number string) {
-	<a href={ templ.SafeURL(href) } class="group block h-full">
-		<div class="relative h-full min-h-[150px] md:min-h-[170px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 bg-secondary-900 card-hover clip-lg">
-			<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
-			<div class="absolute inset-0 bg-secondary-950/20"></div>
-			<div class="relative p-4 md:p-5 h-full flex flex-col justify-end">
-				<span class="text-primary-400 text-[10px] font-bold uppercase tracking-wider mb-1">{ number }</span>
-				<h3 class="font-display text-base md:text-lg uppercase tracking-wide text-white mb-1 group-hover:text-primary-400 transition-colors">{ title }</h3>
-				<p class="text-white/80 text-[11px] md:text-xs">{ description }</p>
-			</div>
-		</div>
-	</a>
-}
-
-templ serviceCardWide(title, description, image, href, number string) {
-	<a href={ templ.SafeURL(href) } class="group block h-full">
-		<div class="relative h-full min-h-[120px] md:min-h-[140px] overflow-hidden border border-secondary-800 hover:border-primary-500/50 active:border-primary-500/50 transition-all duration-500 bg-secondary-900 card-hover clip-lg">
-			<img src={ image } alt={ title } class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
-			<div class="absolute inset-0 bg-secondary-950/20"></div>
-			<div class="relative p-4 md:p-6 h-full flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-				<div>
-					<span class="text-primary-400 text-[10px] font-bold uppercase tracking-wider mb-0.5 block">{ number }</span>
-					<h3 class="font-display text-lg md:text-xl uppercase tracking-wide text-white group-hover:text-primary-400 transition-colors">{ title }</h3>
-					<p class="text-white/80 text-xs mt-0.5">{ description }</p>
-				</div>
-				<span class="inline-flex items-center text-primary-400 font-semibold uppercase tracking-wider text-xs whitespace-nowrap">
-					Learn More
-					<svg class="w-3 h-3 ml-1.5 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-					</svg>
-				</span>
-			</div>
-		</div>
-	</a>
-}
-
-templ featureCardSVG(iconType, title, desc string) {
-	<div class="p-3 md:p-4 card-base-dark hover:border-primary-500/30 active:border-primary-500/30 transition-colors clip-md">
-		<div class="w-8 h-8 md:w-10 md:h-10 bg-primary-500/10 rounded-lg flex items-center justify-center mb-1.5 md:mb-2">
-			switch iconType {
-				case "location":
-					<svg class="w-4 h-4 md:w-5 md:h-5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-					</svg>
-				case "team":
-					<svg class="w-4 h-4 md:w-5 md:h-5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-					</svg>
-				case "cog":
-					<svg class="w-4 h-4 md:w-5 md:h-5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-					</svg>
-				case "refresh":
-					<svg class="w-4 h-4 md:w-5 md:h-5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-					</svg>
-			}
-		</div>
-		<h3 class="font-display text-sm md:text-base uppercase tracking-wide text-white mb-0.5">{ title }</h3>
-		<p class="text-secondary-300 text-[10px] md:text-xs">{ desc }</p>
-	</div>
 }

@@ -8,29 +8,22 @@ import (
 templ Capabilities() {
 	@layouts.Base(meta.New("Capabilities", "Equipment, materials, and tolerances for RoweTech machining services.")) {
 		<!-- Hero -->
-		<section class="relative min-h-[50vh] flex items-center overflow-hidden">
+		<section class="relative min-h-[100svh] flex items-center overflow-hidden">
 			<div class="absolute inset-0">
 				<img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1920&q=80" alt="CNC Equipment" class="w-full h-full object-cover"/>
-				<div class="absolute inset-0 bg-gradient-to-r from-secondary-950 via-secondary-950/95 to-secondary-950/80"></div>
+				<div class="absolute inset-0 bg-secondary-950/40"></div>
 			</div>
-			<div class="absolute inset-0 industrial-grid opacity-20"></div>
-			<div class="container-custom relative py-32 lg:py-40 text-center">
-				<span class="inline-flex items-center justify-center text-primary-400 font-medium tracking-wider uppercase text-sm mb-6">
-					<span class="w-12 h-px bg-primary-500 mr-4"></span>
-					What We Can Do
-					<span class="w-12 h-px bg-primary-500 ml-4"></span>
-				</span>
-				<h1 class="font-display text-5xl md:text-6xl lg:text-7xl text-white uppercase mb-6">Capabilities</h1>
-				<p class="text-xl lg:text-2xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+			<div class="container-custom relative z-10 text-center">
+				<h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-white uppercase mb-6">Capabilities</h1>
+				<p class="text-lg lg:text-xl text-white/80 max-w-xl mx-auto">
 					Modern CNC equipment and experienced machinists ready to tackle your most demanding projects.
 				</p>
 			</div>
 		</section>
 
 		<!-- Equipment -->
-		<section class="py-24 lg:py-32 bg-secondary-950 relative overflow-hidden">
-			<div class="absolute inset-0 industrial-grid opacity-10"></div>
-			<div class="container-custom relative">
+		<section class="py-24 lg:py-32 bg-secondary-950">
+			<div class="container-custom">
 				<div class="text-center mb-16">
 					<span class="text-primary-400 font-semibold tracking-[0.2em] uppercase text-sm">Our Equipment</span>
 					<h2 class="section-heading mt-4">Machine Capabilities</h2>
@@ -45,9 +38,8 @@ templ Capabilities() {
 		</section>
 
 		<!-- Materials -->
-		<section class="py-24 lg:py-32 bg-secondary-900 relative overflow-hidden">
-			<div class="absolute inset-0 industrial-grid opacity-10"></div>
-			<div class="container-custom relative">
+		<section class="py-24 lg:py-32 bg-secondary-900">
+			<div class="container-custom">
 				<div class="text-center mb-16">
 					<span class="text-primary-400 font-semibold tracking-[0.2em] uppercase text-sm">Materials We Work With</span>
 					<h2 class="section-heading mt-4">Material Expertise</h2>
@@ -79,12 +71,13 @@ templ Capabilities() {
 		</section>
 
 		<!-- CTA -->
-		<section class="py-24 bg-secondary-900 relative">
-			<div class="container-custom text-center">
-				<img src="/static/images/logo.png" alt="RoweTech" class="h-16 md:h-20 w-auto mx-auto mb-4 opacity-90"/>
-				<h2 class="font-display text-4xl md:text-5xl text-white uppercase mb-6">Have a Challenging Project?</h2>
-				<p class="text-secondary-200 text-xl mb-8 max-w-2xl mx-auto">
-					Send us your prints and specifications. We'll review your requirements and provide a quote.
+		<section class="relative min-h-[60vh] flex items-center overflow-hidden">
+			<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="" class="absolute inset-0 w-full h-full object-cover"/>
+			<div class="absolute inset-0 bg-secondary-950/50"></div>
+			<div class="container-custom relative z-10 text-center">
+				<h2 class="font-display text-4xl md:text-6xl text-white uppercase mb-6">Have a Challenging Project?</h2>
+				<p class="text-white/70 text-lg mb-8 max-w-xl mx-auto">
+					Send us your prints and specifications. We'll provide a quote.
 				</p>
 				<a href="/contact" class="btn-primary">Request a Quote</a>
 			</div>
@@ -93,7 +86,7 @@ templ Capabilities() {
 }
 
 templ capabilityCard(title string, items []string) {
-	<div class="p-8 bg-secondary-900/50 border border-secondary-800 hover:border-primary-500/30 transition-colors clip-lg">
+	<div class="p-8 bg-secondary-900/50 hover:border-primary-500/30 transition-colors">
 		<h3 class="font-display text-xl uppercase tracking-wide text-white mb-6">{ title }</h3>
 		<ul class="space-y-3">
 			for _, item := range items {
@@ -107,7 +100,7 @@ templ capabilityCard(title string, items []string) {
 }
 
 templ materialCard(title string, items []string) {
-	<div class="p-6 card-base-dark clip-md">
+	<div class="p-6 bg-secondary-950/50">
 		<h3 class="font-display text-lg uppercase tracking-wide text-primary-400 mb-4">{ title }</h3>
 		<div class="flex flex-wrap gap-2">
 			for _, item := range items {
@@ -118,7 +111,7 @@ templ materialCard(title string, items []string) {
 }
 
 templ toleranceCard(label, value, description string) {
-	<div class="text-center p-8 bg-secondary-900/50 border border-secondary-800 clip-lg">
+	<div class="text-center p-8 bg-secondary-900/50">
 		<div class="font-display text-4xl text-primary-500 mb-2">{ value }</div>
 		<div class="font-display text-lg text-white uppercase tracking-wide mb-2">{ label }</div>
 		<p class="text-secondary-300 text-sm">{ description }</p>
