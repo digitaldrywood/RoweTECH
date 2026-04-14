@@ -35,73 +35,32 @@ templ Home() {
 			</div>
 		</section>
 
-		<!-- Mold Repair -->
-		<section class="relative min-h-[80vh] md:min-h-[90vh] flex items-end overflow-hidden">
-			<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="Mold Repair" class="absolute inset-0 w-full h-full object-cover"/>
-			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950/80 via-secondary-950/20 to-transparent"></div>
-			<div class="relative z-10 container-custom pb-16 md:pb-24">
-				<h2 class="font-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-wide mb-3">Mold Repair</h2>
-				<p class="text-white/70 text-sm md:text-base max-w-lg mb-6">Expert plastic injection mold repair and maintenance to minimize your downtime.</p>
-				<a href="/services#mold-repair" class="text-primary-400 font-semibold uppercase tracking-wider text-sm inline-flex items-center hover:text-primary-300 transition-colors">
-					Learn More
-					<svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-					</svg>
-				</a>
-			</div>
-		</section>
-
-		<!-- Custom Fixtures -->
-		<section class="relative min-h-[80vh] md:min-h-[90vh] flex items-end overflow-hidden">
-			<img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1920&q=80" alt="Custom Fixtures" class="absolute inset-0 w-full h-full object-cover"/>
-			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950/80 via-secondary-950/20 to-transparent"></div>
-			<div class="relative z-10 container-custom pb-16 md:pb-24">
-				<h2 class="font-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-wide mb-3">Custom Fixtures</h2>
-				<p class="text-white/70 text-sm md:text-base max-w-lg mb-6">Precision-engineered workholding and assembly fixtures for your production needs.</p>
-				<a href="/services#fixtures" class="text-primary-400 font-semibold uppercase tracking-wider text-sm inline-flex items-center hover:text-primary-300 transition-colors">
-					Learn More
-					<svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-					</svg>
-				</a>
-			</div>
-		</section>
-
-		<!-- EOAT Tooling -->
-		<section class="relative min-h-[80vh] md:min-h-[90vh] flex items-end overflow-hidden">
-			<img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1920&q=80" alt="EOAT Tooling" class="absolute inset-0 w-full h-full object-cover"/>
-			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950/80 via-secondary-950/20 to-transparent"></div>
-			<div class="relative z-10 container-custom pb-16 md:pb-24">
-				<h2 class="font-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-wide mb-3">EOAT Tooling</h2>
-				<p class="text-white/70 text-sm md:text-base max-w-lg mb-6">End-of-arm tooling designed for automation and robotics systems.</p>
-				<a href="/services#eoat" class="text-primary-400 font-semibold uppercase tracking-wider text-sm inline-flex items-center hover:text-primary-300 transition-colors">
-					Learn More
-					<svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-					</svg>
-				</a>
-			</div>
-		</section>
-
-		<!-- CNC Machining -->
-		<section class="relative min-h-[80vh] md:min-h-[90vh] flex items-end overflow-hidden">
-			<img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&q=80" alt="CNC Machining" class="absolute inset-0 w-full h-full object-cover"/>
-			<div class="absolute inset-0 bg-gradient-to-t from-secondary-950/80 via-secondary-950/20 to-transparent"></div>
-			<div class="relative z-10 container-custom pb-16 md:pb-24">
-				<h2 class="font-display text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-wide mb-3">CNC Machining</h2>
-				<p class="text-white/70 text-sm md:text-base max-w-lg mb-6">High-precision CNC milling and turning for complex parts and production runs.</p>
-				<a href="/services#cnc" class="text-primary-400 font-semibold uppercase tracking-wider text-sm inline-flex items-center hover:text-primary-300 transition-colors">
-					Learn More
-					<svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-					</svg>
-				</a>
+		<!-- Services -->
+		<section class="py-24 lg:py-32 bg-secondary-950">
+			<div class="container-custom">
+				<div class="max-w-4xl mx-auto">
+					<div class="text-center mb-16">
+						<h2 class="font-display text-3xl md:text-5xl text-white uppercase mb-4">What We Do</h2>
+						<p class="text-secondary-300 text-base md:text-lg max-w-xl mx-auto">
+							Comprehensive machining and tooling solutions for plastic injection molding and manufacturing.
+						</p>
+					</div>
+					<div class="grid md:grid-cols-2 gap-x-16 gap-y-12">
+						@serviceLink("Mold Repair", "Expert mold repair and maintenance to minimize your downtime.", "/services#mold-repair")
+						@serviceLink("Custom Fixtures", "Precision workholding and assembly fixtures for production.", "/services#fixtures")
+						@serviceLink("EOAT Tooling", "End-of-arm tooling for automation and robotics systems.", "/services#eoat")
+						@serviceLink("CNC Machining", "High-precision milling and turning for complex parts.", "/services#cnc")
+					</div>
+					<div class="text-center mt-16">
+						<a href="/services" class="btn-outline">View All Services</a>
+					</div>
+				</div>
 			</div>
 		</section>
 
 		<!-- CTA -->
 		<section class="relative min-h-[60vh] flex items-center overflow-hidden">
-			<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="" class="absolute inset-0 w-full h-full object-cover"/>
+			<img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&q=80" alt="" class="absolute inset-0 w-full h-full object-cover"/>
 			<div class="absolute inset-0 bg-secondary-950/50"></div>
 			<div class="container-custom relative z-10 text-center">
 				<h2 class="font-display text-4xl md:text-6xl text-white uppercase mb-6">Ready to Build?</h2>
@@ -115,4 +74,19 @@ templ Home() {
 			</div>
 		</section>
 	}
+}
+
+templ serviceLink(title, description, href string) {
+	<a href={ templ.SafeURL(href) } class="group block">
+		<h3 class="font-display text-xl md:text-2xl uppercase tracking-wide text-white mb-2 group-hover:text-primary-400 transition-colors">
+			{ title }
+		</h3>
+		<p class="text-secondary-300 text-sm md:text-base mb-3">{ description }</p>
+		<span class="text-primary-400 font-semibold uppercase tracking-wider text-xs inline-flex items-center group-hover:text-primary-300 transition-colors">
+			Learn More
+			<svg class="w-3 h-3 ml-1.5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+			</svg>
+		</span>
+	</a>
 }
