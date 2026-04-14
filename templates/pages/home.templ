@@ -33,7 +33,7 @@ templ Home() {
 						<span class="hero-subtitle block mt-3">Engineered Excellence</span>
 					</h1>
 
-					<p class="text-sm md:text-base xl:text-lg text-secondary-300 max-w-3xl 2xl:max-w-4xl mx-auto mb-8 leading-relaxed" style="animation: fadeInUp 0.6s ease-out 0.2s both;">
+					<p class="text-sm md:text-base xl:text-lg text-secondary-200 max-w-3xl 2xl:max-w-4xl mx-auto mb-8 leading-relaxed" style="animation: fadeInUp 0.6s ease-out 0.2s both;">
 						Mold repair, custom fixtures, EOAT tooling, and CNC machining for manufacturers who demand precision and reliability.
 					</p>
 
@@ -84,7 +84,7 @@ templ Home() {
 							<span class="text-primary-400 font-semibold tracking-[0.2em] uppercase text-[10px] md:text-xs">What We Do</span>
 							<h2 class="section-heading mt-1 md:mt-2">Our Services</h2>
 						</div>
-						<p class="text-secondary-400 text-sm lg:text-base max-w-lg">
+						<p class="text-secondary-300 text-sm lg:text-base max-w-lg">
 							Comprehensive machining and tooling solutions for plastic injection molding and manufacturing.
 						</p>
 					</div>
@@ -121,7 +121,7 @@ templ Home() {
 					<div class="animate-on-scroll-left">
 						<span class="text-primary-400 font-semibold tracking-[0.2em] uppercase text-[10px] md:text-xs">Why Choose Us</span>
 						<h2 class="section-heading mt-1 md:mt-2 mb-3 md:mb-4">Precision You Can Trust</h2>
-						<p class="text-secondary-300 text-sm md:text-base mb-6 md:mb-8 leading-relaxed">
+						<p class="text-secondary-200 text-sm md:text-base mb-6 md:mb-8 leading-relaxed">
 							We combine decades of machining expertise with responsive service to deliver quality tooling solutions—on time, every time.
 						</p>
 
@@ -150,7 +150,7 @@ templ Home() {
 							<div class="space-y-2 md:space-y-3 pt-4 md:pt-6">
 								<div class="p-3 md:p-4 bg-secondary-950 border border-secondary-800 text-center clip-md">
 									<div class="font-display text-2xl md:text-3xl text-primary-500">500+</div>
-									<div class="text-secondary-400 text-[10px] md:text-xs uppercase tracking-wider">Projects</div>
+									<div class="text-secondary-300 text-[10px] md:text-xs uppercase tracking-wider font-medium">Projects</div>
 								</div>
 								<div class="aspect-[4/5] relative overflow-hidden border border-secondary-800 clip-lg">
 									<img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&q=80" alt="Manufacturing" class="absolute inset-0 w-full h-full object-cover"/>
@@ -177,7 +177,7 @@ templ Home() {
 					<img src="/static/images/logo.png" alt="RoweTech" class="h-16 md:h-20 w-auto mx-auto mb-4 opacity-90"/>
 					<span class="text-primary-400 font-semibold tracking-[0.2em] uppercase text-[10px] md:text-xs mb-3 block">Get Started</span>
 					<h2 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight mb-4 md:mb-6">Ready to Build?</h2>
-					<p class="text-secondary-200 text-sm md:text-base xl:text-lg mb-6 md:mb-8 leading-relaxed px-4">
+					<p class="text-white/80 text-sm md:text-base xl:text-lg mb-6 md:mb-8 leading-relaxed px-4">
 						Contact us today for a quote on mold repair, custom fixtures, EOAT, or CNC machining services.
 						We respond to most inquiries within 48 hours.
 					</p>
@@ -194,7 +194,7 @@ templ Home() {
 templ statItem(value, label string) {
 	<div class="text-center">
 		<div class="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl text-primary-500 uppercase">{ value }</div>
-		<div class="text-[10px] md:text-xs text-secondary-400 uppercase tracking-wider mt-0.5">{ label }</div>
+		<div class="text-[10px] md:text-xs text-secondary-300 font-medium uppercase tracking-wider mt-0.5">{ label }</div>
 	</div>
 }
 
@@ -208,7 +208,7 @@ templ featuredServiceCard(title, description, image, href string) {
 			</div>
 			<div class="absolute bottom-0 left-0 right-0 p-4 md:p-6 lg:p-8">
 				<h3 class="font-display text-xl md:text-2xl lg:text-3xl uppercase tracking-wide text-white mb-1.5 md:mb-2 group-hover:text-primary-400 transition-colors">{ title }</h3>
-				<p class="text-secondary-300 text-xs md:text-sm mb-2 md:mb-3 max-w-lg">{ description }</p>
+				<p class="text-secondary-200 text-xs md:text-sm mb-2 md:mb-3 max-w-lg">{ description }</p>
 				<span class="inline-flex items-center text-primary-400 font-semibold uppercase tracking-wider text-xs md:text-sm">
 					Learn More
 					<svg class="w-3 h-3 md:w-4 md:h-4 ml-1.5 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -228,7 +228,7 @@ templ serviceCard(title, description, image, href, number string) {
 			<div class="relative p-4 md:p-5 h-full flex flex-col justify-end">
 				<span class="text-primary-400 text-[10px] font-bold uppercase tracking-wider mb-1">{ number }</span>
 				<h3 class="font-display text-base md:text-lg uppercase tracking-wide text-white mb-1 group-hover:text-primary-400 transition-colors">{ title }</h3>
-				<p class="text-secondary-400 text-[11px] md:text-xs">{ description }</p>
+				<p class="text-secondary-300 text-[11px] md:text-xs">{ description }</p>
 			</div>
 		</div>
 	</a>
@@ -281,6 +281,6 @@ templ featureCardSVG(iconType, title, desc string) {
 			}
 		</div>
 		<h3 class="font-display text-sm md:text-base uppercase tracking-wide text-white mb-0.5">{ title }</h3>
-		<p class="text-secondary-400 text-[10px] md:text-xs">{ desc }</p>
+		<p class="text-secondary-300 text-[10px] md:text-xs">{ desc }</p>
 	</div>
 }

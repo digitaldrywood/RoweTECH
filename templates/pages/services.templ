@@ -21,7 +21,7 @@ templ Services() {
 					<span class="w-12 h-px bg-primary-500 ml-4"></span>
 				</span>
 				<h1 class="font-display text-5xl md:text-6xl lg:text-7xl text-white uppercase mb-6">Our Services</h1>
-				<p class="text-xl lg:text-2xl text-secondary-300 max-w-2xl mx-auto leading-relaxed">
+				<p class="text-xl lg:text-2xl text-secondary-200 max-w-2xl mx-auto leading-relaxed">
 					Comprehensive machining and tooling solutions for plastic injection molding and manufacturing.
 				</p>
 			</div>
@@ -42,7 +42,7 @@ templ Services() {
 			<div class="container-custom text-center">
 				<img src="/static/images/logo.png" alt="RoweTech" class="h-16 md:h-20 w-auto mx-auto mb-4 opacity-90"/>
 				<h2 class="font-display text-4xl md:text-5xl text-white uppercase mb-6">Need a Custom Solution?</h2>
-				<p class="text-secondary-300 text-xl mb-8 max-w-2xl mx-auto">
+				<p class="text-secondary-200 text-xl mb-8 max-w-2xl mx-auto">
 					Contact us to discuss your specific requirements. We'll work with you to develop the right approach.
 				</p>
 				<a href="/contact" class="btn-primary">Request a Quote</a>
@@ -57,14 +57,14 @@ templ serviceSection(id, title, description, image string, details []string, rev
 			<div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 				<div class="order-2 lg:order-1">
 					<h2 class="font-display text-3xl lg:text-4xl text-white uppercase mb-4">{ title }</h2>
-					<p class="text-secondary-300 text-lg mb-8 leading-relaxed">{ description }</p>
+					<p class="text-secondary-200 text-lg mb-8 leading-relaxed">{ description }</p>
 					<ul class="space-y-3">
 						for _, detail := range details {
 							<li class="flex items-start">
 								<svg class="w-5 h-5 text-primary-500 mr-3 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
 								</svg>
-								<span class="text-secondary-300">{ detail }</span>
+								<span class="text-secondary-200">{ detail }</span>
 							</li>
 						}
 					</ul>
@@ -84,14 +84,14 @@ templ serviceSection(id, title, description, image string, details []string, rev
 				</div>
 				<div>
 					<h2 class="font-display text-3xl lg:text-4xl text-white uppercase mb-4">{ title }</h2>
-					<p class="text-secondary-300 text-lg mb-8 leading-relaxed">{ description }</p>
+					<p class="text-secondary-200 text-lg mb-8 leading-relaxed">{ description }</p>
 					<ul class="space-y-3">
 						for _, detail := range details {
 							<li class="flex items-start">
 								<svg class="w-5 h-5 text-primary-500 mr-3 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
 								</svg>
-								<span class="text-secondary-300">{ detail }</span>
+								<span class="text-secondary-200">{ detail }</span>
 							</li>
 						}
 					</ul>

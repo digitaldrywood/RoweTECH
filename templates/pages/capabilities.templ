@@ -21,7 +21,7 @@ templ Capabilities() {
 					<span class="w-12 h-px bg-primary-500 ml-4"></span>
 				</span>
 				<h1 class="font-display text-5xl md:text-6xl lg:text-7xl text-white uppercase mb-6">Capabilities</h1>
-				<p class="text-xl lg:text-2xl text-secondary-300 max-w-2xl mx-auto leading-relaxed">
+				<p class="text-xl lg:text-2xl text-secondary-200 max-w-2xl mx-auto leading-relaxed">
 					Modern CNC equipment and experienced machinists ready to tackle your most demanding projects.
 				</p>
 			</div>
@@ -83,7 +83,7 @@ templ Capabilities() {
 			<div class="container-custom text-center">
 				<img src="/static/images/logo.png" alt="RoweTech" class="h-16 md:h-20 w-auto mx-auto mb-4 opacity-90"/>
 				<h2 class="font-display text-4xl md:text-5xl text-white uppercase mb-6">Have a Challenging Project?</h2>
-				<p class="text-secondary-300 text-xl mb-8 max-w-2xl mx-auto">
+				<p class="text-secondary-200 text-xl mb-8 max-w-2xl mx-auto">
 					Send us your prints and specifications. We'll review your requirements and provide a quote.
 				</p>
 				<a href="/contact" class="btn-primary">Request a Quote</a>
@@ -97,7 +97,7 @@ templ capabilityCard(title string, items []string) {
 		<h3 class="font-display text-xl uppercase tracking-wide text-white mb-6">{ title }</h3>
 		<ul class="space-y-3">
 			for _, item := range items {
-				<li class="flex items-center text-secondary-300">
+				<li class="flex items-center text-secondary-200">
 					<span class="w-2 h-2 bg-primary-500 rounded-full mr-3"></span>
 					{ item }
 				</li>
@@ -111,7 +111,7 @@ templ materialCard(title string, items []string) {
 		<h3 class="font-display text-lg uppercase tracking-wide text-primary-400 mb-4">{ title }</h3>
 		<div class="flex flex-wrap gap-2">
 			for _, item := range items {
-				<span class="px-3 py-1 bg-secondary-800 text-secondary-300 text-sm">{ item }</span>
+				<span class="px-3 py-1 bg-secondary-800 text-secondary-200 text-sm">{ item }</span>
 			}
 		</div>
 	</div>
@@ -121,6 +121,6 @@ templ toleranceCard(label, value, description string) {
 	<div class="text-center p-8 bg-secondary-900/50 border border-secondary-800 clip-lg">
 		<div class="font-display text-4xl text-primary-500 mb-2">{ value }</div>
 		<div class="font-display text-lg text-white uppercase tracking-wide mb-2">{ label }</div>
-		<p class="text-secondary-400 text-sm">{ description }</p>
+		<p class="text-secondary-300 text-sm">{ description }</p>
 	</div>
 }

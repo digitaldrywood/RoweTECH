@@ -22,7 +22,7 @@ templ Gallery(items []models.GalleryItem, categories []string) {
 					<span class="w-12 h-px bg-primary-500 ml-4"></span>
 				</span>
 				<h1 class="font-display text-5xl md:text-6xl lg:text-7xl text-white uppercase mb-6">Gallery</h1>
-				<p class="text-xl lg:text-2xl text-secondary-300 max-w-2xl mx-auto leading-relaxed">
+				<p class="text-xl lg:text-2xl text-secondary-200 max-w-2xl mx-auto leading-relaxed">
 					Examples of our precision machining, mold repair, and custom tooling projects.
 				</p>
 			</div>
@@ -38,7 +38,7 @@ templ Gallery(items []models.GalleryItem, categories []string) {
 						All
 					</button>
 					for _, cat := range categories {
-						<button class="gallery-filter px-6 py-2 bg-secondary-800 text-secondary-300 font-semibold uppercase tracking-wider text-sm hover:bg-secondary-700 transition-colors" data-category={ cat }>
+						<button class="gallery-filter px-6 py-2 bg-secondary-800 text-secondary-200 font-semibold uppercase tracking-wider text-sm hover:bg-secondary-700 transition-colors" data-category={ cat }>
 							{ cat }
 						</button>
 					}
@@ -53,7 +53,7 @@ templ Gallery(items []models.GalleryItem, categories []string) {
 
 				if len(items) == 0 {
 					<div class="text-center py-16">
-						<p class="text-secondary-400 text-lg">No gallery items yet. Check back soon!</p>
+						<p class="text-secondary-300 text-lg">No gallery items yet. Check back soon!</p>
 					</div>
 				}
 			</div>
@@ -63,7 +63,7 @@ templ Gallery(items []models.GalleryItem, categories []string) {
 		<section class="py-24 bg-secondary-900 relative">
 			<div class="container-custom text-center">
 				<h2 class="font-display text-4xl md:text-5xl text-white uppercase mb-6">Like What You See?</h2>
-				<p class="text-secondary-300 text-xl mb-8 max-w-2xl mx-auto">
+				<p class="text-secondary-200 text-xl mb-8 max-w-2xl mx-auto">
 					Contact us to discuss your project. We'd love to add your work to our gallery.
 				</p>
 				<a href="/contact" class="btn-primary">Start Your Project</a>
