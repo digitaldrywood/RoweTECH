@@ -68,6 +68,8 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 	admin.PUT("/api/images/:id/alt", h.APIUpdateImageAlt)
 	admin.PUT("/api/images/:id/sort", h.APIUpdateImageSortOrder)
 	admin.POST("/api/upload/image", h.APIUploadImage)
+	admin.POST("/api/upload/page-image/:id", h.APIUploadPageImage)
+	admin.POST("/api/settings", h.APIUpdateSetting)
 
 	// Public API routes
 	api := e.Group("/api")

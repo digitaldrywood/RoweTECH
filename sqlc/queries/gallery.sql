@@ -23,5 +23,8 @@ WHERE id = ?;
 -- name: DeleteGalleryItem :exec
 DELETE FROM gallery_items WHERE id = ?;
 
+-- name: UpdateGallerySortOrder :exec
+UPDATE gallery_items SET sort_order = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?;
+
 -- name: GetGalleryCategories :many
 SELECT DISTINCT category FROM gallery_items ORDER BY category;

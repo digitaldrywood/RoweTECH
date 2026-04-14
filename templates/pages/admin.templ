@@ -117,20 +117,90 @@ templ statsIcon(iconType string) {
 	}
 }
 
-templ AdminSettings(stats layouts.AdminStats) {
+templ AdminSettings(settings map[string]string, stats layouts.AdminStats) {
 	@layouts.Admin(meta.New("Settings", "Site settings.").WithNoIndex(), "settings", stats) {
 		<div class="space-y-8">
 			<!-- Page Header -->
 			<div>
 				<h1 class="font-display text-2xl md:text-3xl text-white uppercase">Settings</h1>
-				<p class="text-secondary-400 mt-1">Configure site settings.</p>
+				<p class="text-secondary-400 mt-1">Configure site settings and company information.</p>
 			</div>
-			<!-- Settings Content -->
-			<div class="card-base border border-secondary-800 p-6 clip-lg">
-				<p class="text-secondary-400 text-center py-8">
-					Settings management coming soon.
-				</p>
+			<!-- Company Information -->
+			<div class="card-base border border-secondary-800 clip-lg overflow-hidden">
+				<div class="bg-secondary-800/50 px-6 py-4 border-b border-secondary-700">
+					<h2 class="font-display text-lg text-white uppercase">Company Information</h2>
+				</div>
+				<div class="p-6 space-y-4">
+					@settingRow("company_name", "Company Name", settings["company_name"], "text")
+					@settingRow("tagline", "Tagline", settings["tagline"], "text")
+					@settingRow("company_phone", "Phone Number", settings["company_phone"], "tel")
+					@settingRow("company_email", "Email Address", settings["company_email"], "email")
+					@settingRow("company_address", "Address", settings["company_address"], "text")
+					@settingRow("business_hours", "Business Hours", settings["business_hours"], "text")
+				</div>
 			</div>
 		</div>
 	}
+}
+
+templ settingRow(key, label, value, inputType string) {
+	<div id={ "setting-" + key } class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 py-3 border-b border-secondary-800 last:border-0">
+		<label class="text-sm text-secondary-400 w-full sm:w-48 flex-shrink-0">{ label }</label>
+		<form
+			class="flex-1 flex gap-2"
+			hx-post="/admin/api/settings"
+			hx-target={ "#setting-" + key }
+			hx-swap="outerHTML"
+		>
+			<input type="hidden" name="key" value={ key }/>
+			<input
+				type={ inputType }
+				name="value"
+				value={ value }
+				placeholder={ "Enter " + label }
+				class="flex-1 px-4 py-2 bg-secondary-800 border border-secondary-700 text-white text-sm rounded focus:outline-none focus:border-primary-500"
+			/>
+			<button type="submit" class="btn-primary px-4 py-2 text-sm whitespace-nowrap">
+				Save
+			</button>
+		</form>
+	</div>
+}
+
+templ SettingRowPartial(key, value string) {
+	<div id={ "setting-" + key } class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 py-3 border-b border-secondary-800 last:border-0">
+		<label class="text-sm text-secondary-400 w-full sm:w-48 flex-shrink-0">{ settingLabel(key) }</label>
+		<form
+			class="flex-1 flex gap-2"
+			hx-post="/admin/api/settings"
+			hx-target={ "#setting-" + key }
+			hx-swap="outerHTML"
+		>
+			<input type="hidden" name="key" value={ key }/>
+			<input
+				type="text"
+				name="value"
+				value={ value }
+				class="flex-1 px-4 py-2 bg-secondary-800 border border-secondary-700 text-white text-sm rounded focus:outline-none focus:border-primary-500"
+			/>
+			<button type="submit" class="btn-primary px-4 py-2 text-sm whitespace-nowrap">
+				Save
+			</button>
+		</form>
+	</div>
+}
+
+func settingLabel(key string) string {
+	labels := map[string]string{
+		"company_name":    "Company Name",
+		"tagline":         "Tagline",
+		"company_phone":   "Phone Number",
+		"company_email":   "Email Address",
+		"company_address": "Address",
+		"business_hours":  "Business Hours",
+	}
+	if l, ok := labels[key]; ok {
+		return l
+	}
+	return key
 }

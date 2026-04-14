@@ -168,8 +168,7 @@ func (h *Handler) APIMarkContactUnread(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "Invalid ID")
 	}
 
-	// Use raw SQL since we don't have a specific query for this
-	_, err = h.db.Conn.ExecContext(ctx, "UPDATE contact_submissions SET is_read = 0 WHERE id = ?", contactID)
+	err = h.db.Queries.MarkContactAsUnread(ctx, contactID)
 	if err != nil {
 		slog.Error("failed to mark contact as unread", "error", err)
 		return c.String(http.StatusInternalServerError, "Failed to update contact")
@@ -279,8 +278,10 @@ func (h *Handler) APIUpdateImageSortOrder(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "Invalid request body")
 	}
 
-	// Use raw SQL since we don't have a specific query for this
-	_, err = h.db.Conn.ExecContext(ctx, "UPDATE page_images SET sort_order = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?", body.SortOrder, imageID)
+	err = h.db.Queries.UpdatePageImageSortOrder(ctx, sqlc.UpdatePageImageSortOrderParams{
+		SortOrder: sql.NullInt64{Int64: int64(body.SortOrder), Valid: true},
+		ID:        imageID,
+	})
 	if err != nil {
 		slog.Error("failed to update image sort order", "error", err)
 		return c.String(http.StatusInternalServerError, "Failed to update image")
@@ -306,8 +307,10 @@ func (h *Handler) APIUpdateGallerySortOrder(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "Invalid request body")
 	}
 
-	// Use raw SQL since we need to just update sort_order
-	_, err = h.db.Conn.ExecContext(ctx, "UPDATE gallery_items SET sort_order = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?", body.SortOrder, itemID)
+	err = h.db.Queries.UpdateGallerySortOrder(ctx, sqlc.UpdateGallerySortOrderParams{
+		SortOrder: sql.NullInt64{Int64: int64(body.SortOrder), Valid: true},
+		ID:        itemID,
+	})
 	if err != nil {
 		slog.Error("failed to update gallery sort order", "error", err)
 		return c.String(http.StatusInternalServerError, "Failed to update sort order")
@@ -384,6 +387,100 @@ func (h *Handler) APIUploadImage(c echo.Context) error {
 
 	// Return the URL path to the uploaded file
 	imageURL := fmt.Sprintf("/static/uploads/gallery/%s", filename)
+	return c.JSON(http.StatusOK, map[string]string{"url": imageURL})
+}
+
+// APIUpdateSetting updates a site setting
+func (h *Handler) APIUpdateSetting(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	key := c.FormValue("key")
+	value := c.FormValue("value")
+
+	if key == "" {
+		return c.String(http.StatusBadRequest, "Key is required")
+	}
+
+	err := h.db.Queries.UpsertSetting(ctx, sqlc.UpsertSettingParams{
+		Key:   key,
+		Value: value,
+	})
+	if err != nil {
+		slog.Error("failed to update setting", "error", err, "key", key)
+		return c.String(http.StatusInternalServerError, "Failed to update setting")
+	}
+
+	// Return the updated row partial
+	return pages.SettingRowPartial(key, value).Render(ctx, c.Response().Writer)
+}
+
+// APIUploadPageImage handles image upload for page images
+func (h *Handler) APIUploadPageImage(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	idStr := c.Param("id")
+	imageID, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid ID"})
+	}
+
+	file, err := c.FormFile("image")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "No image file provided"})
+	}
+
+	// Validate file type
+	ext := strings.ToLower(filepath.Ext(file.Filename))
+	allowedExts := map[string]bool{".jpg": true, ".jpeg": true, ".png": true, ".gif": true, ".webp": true}
+	if !allowedExts[ext] {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid file type"})
+	}
+
+	if file.Size > 10*1024*1024 {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "File too large (max 10MB)"})
+	}
+
+	// Generate unique filename
+	randomBytes := make([]byte, 16)
+	if _, err := rand.Read(randomBytes); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to process upload"})
+	}
+	filename := hex.EncodeToString(randomBytes) + ext
+
+	uploadDir := "static/uploads/pages"
+	if err := os.MkdirAll(uploadDir, 0755); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to process upload"})
+	}
+
+	src, err := file.Open()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to process upload"})
+	}
+	defer src.Close()
+
+	dstPath := filepath.Join(uploadDir, filename)
+	dst, err := os.Create(dstPath)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to save file"})
+	}
+	defer dst.Close()
+
+	if _, err := io.Copy(dst, src); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to save file"})
+	}
+
+	imageURL := fmt.Sprintf("/static/uploads/pages/%s", filename)
+
+	// Update the page image record
+	err = h.db.Queries.UpdatePageImageUpload(ctx, sqlc.UpdatePageImageUploadParams{
+		ImageUrl: imageURL,
+		ID:       imageID,
+	})
+	if err != nil {
+		slog.Error("failed to update page image", "error", err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to update image record"})
+	}
+
 	return c.JSON(http.StatusOK, map[string]string{"url": imageURL})
 }
 

@@ -34,6 +34,33 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize inline editing
   initializeInlineEdit();
 
+  // HTMX event listeners for toast notifications
+  document.body.addEventListener('htmx:afterRequest', function(evt) {
+    const target = evt.detail.target;
+    const verb = evt.detail.verb;
+    const status = evt.detail.xhr?.status;
+
+    if (status >= 200 && status < 300) {
+      if (verb === 'delete') {
+        showToast('Item deleted successfully', 'success');
+      } else if (evt.detail.pathInfo?.requestPath?.includes('/read')) {
+        showToast('Marked as read', 'success');
+      } else if (evt.detail.pathInfo?.requestPath?.includes('/unread')) {
+        showToast('Marked as unread', 'success');
+      } else if (evt.detail.pathInfo?.requestPath?.includes('/settings')) {
+        showToast('Setting saved', 'success');
+      }
+    } else if (status >= 400) {
+      showToast('Operation failed. Please try again.', 'error');
+    }
+  });
+
+  // Re-init sortable and inline edit after HTMX swaps
+  document.body.addEventListener('htmx:afterSwap', function() {
+    initializeSortable();
+    initializeInlineEdit();
+  });
+
   // Update sidebar user info when Clerk is ready
   if (window.Clerk) {
     window.Clerk.load().then(() => {
@@ -67,10 +94,12 @@ function updateAdminUserInfo() {
 
 // Initialize Sortable.js for drag-and-drop reordering
 function initializeSortable() {
+  if (typeof Sortable === 'undefined') return;
+
   // Gallery items sortable
   const galleryGrid = document.getElementById('gallery-grid');
-  if (galleryGrid && typeof Sortable !== 'undefined') {
-    new Sortable(galleryGrid, {
+  if (galleryGrid && !galleryGrid._sortableInstance) {
+    galleryGrid._sortableInstance = new Sortable(galleryGrid, {
       animation: 150,
       ghostClass: 'sortable-ghost',
       dragClass: 'sortable-drag',
@@ -84,10 +113,9 @@ function initializeSortable() {
   }
 
   // Page images sortable (per page group)
-  const imageSortables = document.querySelectorAll('.images-sortable');
-  imageSortables.forEach(function(container) {
-    if (typeof Sortable !== 'undefined') {
-      new Sortable(container, {
+  document.querySelectorAll('.images-sortable').forEach(function(container) {
+    if (!container._sortableInstance) {
+      container._sortableInstance = new Sortable(container, {
         animation: 150,
         ghostClass: 'sortable-ghost',
         dragClass: 'sortable-drag',
@@ -116,10 +144,10 @@ function updateSortOrder(type, itemId, newIndex) {
     body: JSON.stringify({ sort_order: newIndex })
   }).then(response => {
     if (!response.ok) {
-      console.error('Failed to update sort order');
+      showToast('Failed to update order', 'error');
     }
   }).catch(err => {
-    console.error('Error updating sort order:', err);
+    showToast('Error updating order', 'error');
   });
 }
 
@@ -127,40 +155,57 @@ function updateSortOrder(type, itemId, newIndex) {
 function initializeInlineEdit() {
   // Image URL editing
   document.querySelectorAll('.editable-url').forEach(function(el) {
+    if (el._inlineEditBound) return;
+    el._inlineEditBound = true;
     el.addEventListener('click', function(e) {
       e.preventDefault();
-      const currentUrl = this.href || this.textContent;
+      e.stopPropagation();
+      if (this.querySelector('input')) return; // Already editing
+
+      const currentUrl = this.dataset.value || this.textContent.trim();
       const itemId = this.dataset.id;
 
       const input = document.createElement('input');
       input.type = 'text';
       input.value = currentUrl;
-      input.className = 'w-full px-2 py-1 bg-secondary-800 border border-primary-500 text-white text-xs rounded focus:outline-none';
+      input.className = 'w-full px-2 py-1 bg-secondary-900 border border-primary-500 text-white text-xs rounded focus:outline-none';
 
       const originalEl = this;
-      originalEl.style.display = 'none';
-      originalEl.parentNode.insertBefore(input, originalEl.nextSibling);
+      const originalText = originalEl.textContent;
+      originalEl.textContent = '';
+      originalEl.appendChild(input);
       input.focus();
       input.select();
 
+      let saved = false;
       function saveUrl() {
-        const newUrl = input.value;
+        if (saved) return;
+        saved = true;
+        const newUrl = input.value.trim();
+        input.remove();
+        const displayUrl = newUrl.length > 40 ? newUrl.substring(0, 37) + '...' : newUrl;
+        originalEl.textContent = displayUrl;
+        originalEl.dataset.value = newUrl;
         if (newUrl !== currentUrl) {
           updateImageUrl(itemId, newUrl);
+          // Also update the preview image
+          const card = originalEl.closest('div[data-id]');
+          if (card) {
+            const img = card.querySelector('img');
+            if (img) img.src = newUrl;
+          }
         }
-        input.remove();
-        originalEl.style.display = '';
-        originalEl.href = newUrl;
-        originalEl.textContent = newUrl;
       }
 
       input.addEventListener('blur', saveUrl);
       input.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
+          e.preventDefault();
           saveUrl();
         } else if (e.key === 'Escape') {
+          saved = true;
           input.remove();
-          originalEl.style.display = '';
+          originalEl.textContent = originalText;
         }
       });
     });
@@ -168,38 +213,46 @@ function initializeInlineEdit() {
 
   // Alt text editing
   document.querySelectorAll('.editable-alt').forEach(function(el) {
+    if (el._inlineEditBound) return;
+    el._inlineEditBound = true;
     el.addEventListener('click', function(e) {
-      const currentAlt = this.textContent;
+      if (this.querySelector('input')) return; // Already editing
+
+      const currentAlt = this.textContent.trim();
       const itemId = this.dataset.id;
 
       const input = document.createElement('input');
       input.type = 'text';
       input.value = currentAlt;
-      input.className = 'w-full px-2 py-1 bg-secondary-800 border border-primary-500 text-white text-xs rounded focus:outline-none';
+      input.className = 'w-full px-2 py-1 bg-secondary-900 border border-primary-500 text-white text-xs rounded focus:outline-none';
 
       const originalEl = this;
-      originalEl.style.display = 'none';
-      originalEl.parentNode.insertBefore(input, originalEl.nextSibling);
+      originalEl.textContent = '';
+      originalEl.appendChild(input);
       input.focus();
       input.select();
 
+      let saved = false;
       function saveAlt() {
-        const newAlt = input.value;
+        if (saved) return;
+        saved = true;
+        const newAlt = input.value.trim();
+        input.remove();
+        originalEl.textContent = newAlt;
         if (newAlt !== currentAlt) {
           updateImageAlt(itemId, newAlt);
         }
-        input.remove();
-        originalEl.style.display = '';
-        originalEl.textContent = newAlt;
       }
 
       input.addEventListener('blur', saveAlt);
       input.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
+          e.preventDefault();
           saveAlt();
         } else if (e.key === 'Escape') {
+          saved = true;
           input.remove();
-          originalEl.style.display = '';
+          originalEl.textContent = currentAlt;
         }
       });
     });
@@ -215,11 +268,13 @@ function updateImageUrl(itemId, newUrl) {
     },
     body: JSON.stringify({ url: newUrl })
   }).then(response => {
-    if (!response.ok) {
-      console.error('Failed to update image URL');
+    if (response.ok) {
+      showToast('Image URL updated', 'success');
+    } else {
+      showToast('Failed to update image URL', 'error');
     }
   }).catch(err => {
-    console.error('Error updating image URL:', err);
+    showToast('Error updating image URL', 'error');
   });
 }
 
@@ -232,11 +287,13 @@ function updateImageAlt(itemId, newAlt) {
     },
     body: JSON.stringify({ alt_text: newAlt })
   }).then(response => {
-    if (!response.ok) {
-      console.error('Failed to update alt text');
+    if (response.ok) {
+      showToast('Alt text updated', 'success');
+    } else {
+      showToast('Failed to update alt text', 'error');
     }
   }).catch(err => {
-    console.error('Error updating alt text:', err);
+    showToast('Error updating alt text', 'error');
   });
 }
 
@@ -376,6 +433,78 @@ function handleGalleryImageUpload(input, formType) {
   });
 }
 
+// Handle page image file upload
+function handlePageImageUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const imageId = input.dataset.imageId;
+  if (!imageId) {
+    showToast('Missing image ID', 'error');
+    return;
+  }
+
+  // Validate file type
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  if (!allowedTypes.includes(file.type)) {
+    showToast('Invalid file type. Please use JPG, PNG, GIF, or WebP.', 'error');
+    input.value = '';
+    return;
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    showToast('File too large. Maximum size is 10MB.', 'error');
+    input.value = '';
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('image', file);
+
+  // Show loading
+  const label = input.closest('label');
+  const origText = label ? label.querySelector('span').textContent : '';
+  if (label) {
+    label.querySelector('span').textContent = 'Uploading...';
+    label.style.pointerEvents = 'none';
+  }
+
+  fetch(`/admin/api/upload/page-image/${imageId}`, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) return response.json().then(data => { throw new Error(data.error || 'Upload failed'); });
+    return response.json();
+  })
+  .then(data => {
+    if (data.url) {
+      // Update the preview image
+      const card = input.closest('div[data-id]');
+      if (card) {
+        const img = card.querySelector('img');
+        if (img) img.src = data.url;
+        const urlEl = card.querySelector('.editable-url');
+        if (urlEl) {
+          urlEl.href = data.url;
+          urlEl.textContent = data.url.length > 40 ? data.url.substring(0, 37) + '...' : data.url;
+        }
+      }
+      showToast('Image uploaded successfully!', 'success');
+    }
+  })
+  .catch(err => {
+    showToast(err.message || 'Failed to upload image', 'error');
+  })
+  .finally(() => {
+    if (label) {
+      label.querySelector('span').textContent = origText;
+      label.style.pointerEvents = '';
+    }
+    input.value = '';
+  });
+}
+
 // Export functions for global use
 window.toggleSidebar = toggleSidebar;
 window.openModal = openModal;
@@ -383,3 +512,4 @@ window.closeModal = closeModal;
 window.confirmDelete = confirmDelete;
 window.showToast = showToast;
 window.handleGalleryImageUpload = handleGalleryImageUpload;
+window.handlePageImageUpload = handlePageImageUpload;

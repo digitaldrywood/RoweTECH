@@ -48,8 +48,28 @@ func (h *Handler) AdminDashboard(c echo.Context) error {
 
 // AdminSettings renders the admin settings page
 func (h *Handler) AdminSettings(c echo.Context) error {
+	ctx := c.Request().Context()
 	stats := h.getAdminStats(c)
-	return pages.AdminSettings(stats).Render(c.Request().Context(), c.Response().Writer)
+
+	settings, err := h.db.Queries.ListSettings(ctx)
+	if err != nil {
+		slog.Error("failed to list settings", "error", err)
+	}
+
+	// Build settings map with defaults
+	settingsMap := map[string]string{
+		"company_name":    "RoweTech Machine & Engineering",
+		"company_phone":   "",
+		"company_email":   "",
+		"company_address": "",
+		"tagline":         "",
+		"business_hours":  "",
+	}
+	for _, s := range settings {
+		settingsMap[s.Key] = s.Value
+	}
+
+	return pages.AdminSettings(settingsMap, stats).Render(ctx, c.Response().Writer)
 }
 
 // AdminGallery renders the gallery management page

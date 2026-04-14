@@ -12,3 +12,9 @@ UPDATE page_images SET image_url = ?, updated_at = CURRENT_TIMESTAMP WHERE id = 
 
 -- name: UpdatePageImageAlt :exec
 UPDATE page_images SET alt_text = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?;
+
+-- name: UpdatePageImageSortOrder :exec
+UPDATE page_images SET sort_order = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?;
+
+-- name: UpdatePageImageUpload :exec
+UPDATE page_images SET image_url = ?, is_uploaded = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?;

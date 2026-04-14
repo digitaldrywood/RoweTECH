@@ -77,7 +77,14 @@ func main() {
 		{"/admin/contacts/index.html", pages.AdminContacts([]models.ContactSubmission{}, staticStats, "")},
 		{"/admin/users/index.html", pages.AdminUsers([]clerk.User{}, 0, staticStats, cfg.HasClerk())},
 		{"/admin/images/index.html", pages.AdminImages(pageImages, pageNames, staticStats)},
-		{"/admin/settings/index.html", pages.AdminSettings(staticStats)},
+		{"/admin/settings/index.html", pages.AdminSettings(map[string]string{
+				"company_name":    "RoweTech Machine & Engineering",
+				"tagline":         "",
+				"company_phone":   "",
+				"company_email":   "",
+				"company_address": "",
+				"business_hours":  "",
+			}, staticStats)},
 	}
 
 	fmt.Printf("Building static site to %s/\n", outDir)

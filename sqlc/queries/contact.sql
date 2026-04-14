@@ -15,5 +15,8 @@ UPDATE contact_submissions SET is_read = 1 WHERE id = ?;
 -- name: DeleteContactSubmission :exec
 DELETE FROM contact_submissions WHERE id = ?;
 
+-- name: MarkContactAsUnread :exec
+UPDATE contact_submissions SET is_read = 0 WHERE id = ?;
+
 -- name: CountUnreadContacts :one
 SELECT COUNT(*) FROM contact_submissions WHERE is_read = 0;
