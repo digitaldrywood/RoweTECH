@@ -122,7 +122,7 @@
 
   /* Link styles */
   .link-subtle {
-    @apply text-secondary-400 hover:text-primary-400 transition-colors;
+    @apply text-secondary-300 hover:text-primary-400 transition-colors;
   }
 
   /* Icon container */
