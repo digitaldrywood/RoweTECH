@@ -8,6 +8,7 @@ on:
 
 jobs:
   ci:
+    # Public repo canary after enabling org runner-group access.
     runs-on: [self-hosted, linux, x64, personal, prometheus]
     steps:
       - uses: actions/checkout@v6
