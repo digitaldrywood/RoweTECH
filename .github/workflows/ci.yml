@@ -31,10 +31,15 @@ jobs:
           sqlc generate -f sqlc/sqlc.yaml
       - name: Build CSS
         run: make css
+      - name: Install golangci-lint
+        run: |
+          GOBIN="$RUNNER_TEMP/bin"
+          mkdir -p "$GOBIN"
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
+            | sh -s -- -b "$GOBIN" v1.64.8
+
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v9
-        with:
-          version: v1.64.8
+        run: $RUNNER_TEMP/bin/golangci-lint run --timeout=5m
       - name: Run tests
         run: go test -v -race ./...
       - name: Build
