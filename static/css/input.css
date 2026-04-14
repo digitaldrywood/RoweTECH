@@ -374,7 +374,7 @@
   }
 
   .hero-subtitle {
-    @apply font-display text-secondary-400 uppercase;
+    @apply font-display text-white/70 uppercase;
     font-size: clamp(0.6rem, 1.2vw, 1rem);
     letter-spacing: 0.2em;
   }
