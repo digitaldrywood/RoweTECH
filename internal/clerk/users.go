@@ -118,7 +118,11 @@ func (c *Client) ListUsers(limit, offset int) ([]User, int, error) {
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to fetch users: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if closeErr := resp.Body.Close(); closeErr != nil {
+			_ = closeErr
+		}
+	}()
 
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
@@ -133,7 +137,9 @@ func (c *Client) ListUsers(limit, offset int) ([]User, int, error) {
 	// Get total count from header
 	totalCount := len(users)
 	if tc := resp.Header.Get("X-Total-Count"); tc != "" {
-		fmt.Sscanf(tc, "%d", &totalCount)
+		if _, err := fmt.Sscanf(tc, "%d", &totalCount); err != nil {
+			totalCount = len(users)
+		}
 	}
 
 	return users, totalCount, nil
@@ -159,7 +165,11 @@ func (c *Client) GetUser(userID string) (*User, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch user: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if closeErr := resp.Body.Close(); closeErr != nil {
+			_ = closeErr
+		}
+	}()
 
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)

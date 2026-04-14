@@ -177,7 +177,11 @@ func fetchClerkJWKS(ctx context.Context, jwksURL string) (map[string]*rsa.Public
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if closeErr := resp.Body.Close(); closeErr != nil {
+			_ = closeErr
+		}
+	}()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		return nil, fmt.Errorf("clerk jwks fetch failed: %s", resp.Status)
@@ -253,7 +257,11 @@ func FetchClerkUserEmail(ctx context.Context, secretKey, userID string) (string,
 	if err != nil {
 		return "", err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if closeErr := resp.Body.Close(); closeErr != nil {
+			_ = closeErr
+		}
+	}()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		return "", fmt.Errorf("clerk user fetch failed: %s", resp.Status)

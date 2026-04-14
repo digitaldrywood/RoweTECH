@@ -25,7 +25,11 @@ func main() {
 		slog.Error("failed to connect to database", "error", err)
 		os.Exit(1)
 	}
-	defer db.Close()
+	defer func() {
+		if closeErr := db.Close(); closeErr != nil {
+			slog.Error("failed to close database", "error", closeErr)
+		}
+	}()
 
 	e := echo.New()
 	e.HideBanner = true

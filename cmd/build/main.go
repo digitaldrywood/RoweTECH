@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"log/slog"
 	"os"
 	"path/filepath"
 
@@ -112,7 +113,11 @@ func renderPage(ctx context.Context, outDir, path string, component templ.Compon
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func() {
+		if closeErr := f.Close(); closeErr != nil {
+			slog.Error("failed to close output file", "path", fullPath, "error", closeErr)
+		}
+	}()
 
 	// Render template
 	return component.Render(ctx, f)
@@ -145,13 +150,21 @@ func copyFile(src, dst string) error {
 	if err != nil {
 		return err
 	}
-	defer srcFile.Close()
+	defer func() {
+		if closeErr := srcFile.Close(); closeErr != nil {
+			slog.Error("failed to close source file", "path", src, "error", closeErr)
+		}
+	}()
 
 	dstFile, err := os.Create(dst)
 	if err != nil {
 		return err
 	}
-	defer dstFile.Close()
+	defer func() {
+		if closeErr := dstFile.Close(); closeErr != nil {
+			slog.Error("failed to close destination file", "path", dst, "error", closeErr)
+		}
+	}()
 
 	_, err = io.Copy(dstFile, srcFile)
 	return err

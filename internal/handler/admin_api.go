@@ -357,7 +357,11 @@ func (h *Handler) APIUploadImage(c echo.Context) error {
 		slog.Error("failed to open uploaded file", "error", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to process upload"})
 	}
-	defer src.Close()
+	defer func() {
+		if closeErr := src.Close(); closeErr != nil {
+			slog.Error("failed to close upload source", "error", closeErr)
+		}
+	}()
 
 	// Create destination file
 	dstPath := filepath.Join(uploadDir, filename)
@@ -366,7 +370,11 @@ func (h *Handler) APIUploadImage(c echo.Context) error {
 		slog.Error("failed to create destination file", "error", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to save file"})
 	}
-	defer dst.Close()
+	defer func() {
+		if closeErr := dst.Close(); closeErr != nil {
+			slog.Error("failed to close upload destination", "error", closeErr)
+		}
+	}()
 
 	// Copy the file
 	if _, err := io.Copy(dst, src); err != nil {

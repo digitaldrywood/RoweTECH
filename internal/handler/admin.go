@@ -101,7 +101,8 @@ func (h *Handler) AdminContacts(c echo.Context) error {
 	contacts := models.FromSqlcContactSubmissions(sqlcContacts)
 
 	// Apply filter
-	if filter == "unread" {
+	switch filter {
+	case "unread":
 		filtered := make([]models.ContactSubmission, 0)
 		for _, contact := range contacts {
 			if !contact.IsRead {
@@ -109,7 +110,7 @@ func (h *Handler) AdminContacts(c echo.Context) error {
 			}
 		}
 		contacts = filtered
-	} else if filter == "read" {
+	case "read":
 		filtered := make([]models.ContactSubmission, 0)
 		for _, contact := range contacts {
 			if contact.IsRead {
