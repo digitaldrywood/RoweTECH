@@ -21,15 +21,7 @@
       document.body.style.overflow = 'hidden';
       menuBtn.setAttribute('aria-expanded', 'true');
       menuBtn.setAttribute('aria-label', 'Close menu');
-
-      // Animate hamburger to X
-      const line1 = menuBtn.querySelector('.hamburger-line-1');
-      const line2 = menuBtn.querySelector('.hamburger-line-2');
-      const line3 = menuBtn.querySelector('.hamburger-line-3');
-
-      if (line1) line1.classList.add('rotate-45', 'translate-y-[9px]');
-      if (line2) line2.classList.add('opacity-0', 'scale-0');
-      if (line3) line3.classList.add('-rotate-45', '-translate-y-[9px]');
+      menuBtn.classList.add('is-open');
 
       // Animate nav links with stagger
       const navLinks = mobileMenu.querySelectorAll('.mobile-nav-link');
@@ -51,15 +43,7 @@
       document.body.style.overflow = '';
       menuBtn.setAttribute('aria-expanded', 'false');
       menuBtn.setAttribute('aria-label', 'Open menu');
-
-      // Animate X back to hamburger
-      const line1 = menuBtn.querySelector('.hamburger-line-1');
-      const line2 = menuBtn.querySelector('.hamburger-line-2');
-      const line3 = menuBtn.querySelector('.hamburger-line-3');
-
-      if (line1) line1.classList.remove('rotate-45', 'translate-y-[9px]');
-      if (line2) line2.classList.remove('opacity-0', 'scale-0');
-      if (line3) line3.classList.remove('-rotate-45', '-translate-y-[9px]');
+      menuBtn.classList.remove('is-open');
     }
 
     menuBtn.addEventListener('click', function() {

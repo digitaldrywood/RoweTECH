@@ -212,6 +212,64 @@
   }
 
   /* Form inputs - Touch friendly */
+
+  .hamburger-icon {
+    position: relative;
+    width: 1.25rem;
+    height: 1rem;
+  }
+
+  .hamburger-line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 9999px;
+    background: var(--color-white);
+    transform-origin: center;
+    transition: transform 0.3s ease, opacity 0.2s ease;
+  }
+
+  .hamburger-line-1 {
+    top: 0;
+  }
+
+  .hamburger-line-2 {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .hamburger-line-3 {
+    bottom: 0;
+  }
+
+  #mobile-menu-btn.is-open .hamburger-line-1 {
+    transform: translateY(0.4375rem) rotate(45deg);
+  }
+
+  #mobile-menu-btn.is-open .hamburger-line-2 {
+    opacity: 0;
+    transform: translateY(-50%) scaleX(0);
+  }
+
+  #mobile-menu-btn.is-open .hamburger-line-3 {
+    transform: translateY(-0.4375rem) rotate(-45deg);
+  }
+
+  @media (min-width: 768px) {
+    .hamburger-icon {
+      width: 1.5rem;
+      height: 1.25rem;
+    }
+
+    #mobile-menu-btn.is-open .hamburger-line-1 {
+      transform: translateY(0.5625rem) rotate(45deg);
+    }
+
+    #mobile-menu-btn.is-open .hamburger-line-3 {
+      transform: translateY(-0.5625rem) rotate(-45deg);
+    }
+  }
   .input-industrial {
     @apply w-full px-4 py-4 bg-secondary-900 border border-secondary-700 text-white text-base
            placeholder:text-secondary-500 transition-all duration-300 ease-out
