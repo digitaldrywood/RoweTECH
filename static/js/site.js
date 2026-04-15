@@ -16,8 +16,8 @@
 
     function openMenu() {
       isOpen = true;
-      mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
-      mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+      mobileMenu.classList.add('is-open');
+      mobileMenu.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
       menuBtn.setAttribute('aria-expanded', 'true');
       menuBtn.setAttribute('aria-label', 'Close menu');
@@ -38,8 +38,8 @@
 
     function closeMenu() {
       isOpen = false;
-      mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
-      mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+      mobileMenu.classList.remove('is-open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       menuBtn.setAttribute('aria-expanded', 'false');
       menuBtn.setAttribute('aria-label', 'Open menu');

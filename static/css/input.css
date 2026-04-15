@@ -211,6 +211,20 @@
     @apply text-white border-primary-500 bg-secondary-900/30;
   }
 
+  .mobile-menu-shell {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-menu-shell.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   /* Form inputs - Touch friendly */
 
   .hamburger-icon {
