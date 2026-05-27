@@ -28,6 +28,7 @@ type Config struct {
 	DatabaseURL         string
 	Port                string
 	Env                 string
+	TailscaleHostname   string
 	Site                SiteConfig
 	ClerkSecretKey      string
 	ClerkPublishableKey string
@@ -54,9 +55,10 @@ func Load() *Config {
 	}
 
 	cfg := &Config{
-		DatabaseURL: getEnvOrDefault("DATABASE_URL", "./data/rowetech.db"),
-		Port:        getEnvOrDefault("PORT", "3000"),
-		Env:         getEnvOrDefault("ENV", "development"),
+		DatabaseURL:       getEnvOrDefault("DATABASE_URL", "./data/rowetech.db"),
+		Port:              getEnvOrDefault("PORT", "3000"),
+		Env:               getEnvOrDefault("ENV", "development"),
+		TailscaleHostname: strings.TrimSpace(os.Getenv("TAILSCALE_HOSTNAME")),
 		Site: SiteConfig{
 			Name:           getEnvOrDefault("SITE_NAME", "RoweTech Machine & Engineering"),
 			URL:            getEnvOrDefault("SITE_URL", "http://localhost:3000"),
