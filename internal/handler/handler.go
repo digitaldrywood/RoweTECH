@@ -37,9 +37,7 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 	e.GET("/about", h.About)
 	e.GET("/services", h.Services)
 	e.GET("/capabilities", h.Capabilities)
-	e.GET("/gallery", h.Gallery)
 	e.GET("/contact", h.Contact)
-	e.POST("/contact", h.ContactSubmit)
 	e.GET("/terms", h.Terms)
 	e.GET("/privacy", h.Privacy)
 
@@ -47,9 +45,6 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 	e.GET("/sign-in", h.SignIn)
 	e.GET("/sign-up", h.SignUp)
 	e.GET("/unauthorized", h.Unauthorized)
-	e.GET("/admin/gallery", func(c echo.Context) error {
-		return c.Redirect(http.StatusFound, "/admin")
-	})
 	e.GET("/admin/images", func(c echo.Context) error {
 		return c.Redirect(http.StatusFound, "/admin")
 	})
@@ -69,24 +64,17 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 	admin.GET("/settings", h.AdminSettings)
 
 	// Admin API routes
-	admin.GET("/api/gallery/:id/edit", h.APIGetGalleryEditForm)
-	admin.POST("/api/gallery", h.APICreateGalleryItem)
-	admin.PUT("/api/gallery/:id", h.APIUpdateGalleryItem)
-	admin.DELETE("/api/gallery/:id", h.APIDeleteGalleryItem)
-	admin.PUT("/api/gallery/:id/sort", h.APIUpdateGallerySortOrder)
 	admin.POST("/api/contacts/:id/read", h.APIMarkContactRead)
 	admin.POST("/api/contacts/:id/unread", h.APIMarkContactUnread)
 	admin.DELETE("/api/contacts/:id", h.APIDeleteContact)
 	admin.PUT("/api/images/:id/url", h.APIUpdateImageURL)
 	admin.PUT("/api/images/:id/alt", h.APIUpdateImageAlt)
 	admin.PUT("/api/images/:id/sort", h.APIUpdateImageSortOrder)
-	admin.POST("/api/upload/image", h.APIUploadImage)
 	admin.POST("/api/upload/page-image/:id", h.APIUploadPageImage)
 	admin.POST("/api/settings", h.APIUpdateSetting)
 
 	// Public API routes
 	api := e.Group("/api")
 	api.POST("/contact", h.APIContactSubmit)
-	api.GET("/gallery", h.APIListGallery)
 	api.GET("/is-admin", h.APIIsAdmin)
 }

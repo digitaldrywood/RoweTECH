@@ -28,7 +28,17 @@ func New(ctx context.Context, databasePath string) (*DB, error) {
 		}
 	}
 
-	conn, err := sql.Open("sqlite", databasePath+"?_foreign_keys=on&_journal_mode=WAL")
+	// modernc.org/sqlite configures pragmas via `_pragma=NAME(VALUE)` query
+	// params. The mattn-style `_journal_mode=WAL` / `_foreign_keys=on` params
+	// are silently ignored, which left the DB in rollback-journal mode with
+	// synchronous=FULL and foreign keys OFF — causing slow, lock-prone writes
+	// (a single settings save could take 5-17s). WAL + a busy timeout +
+	// synchronous=NORMAL gives fast writes with concurrent readers.
+	dsn := databasePath + "?_pragma=busy_timeout(5000)" +
+		"&_pragma=journal_mode(WAL)" +
+		"&_pragma=foreign_keys(on)" +
+		"&_pragma=synchronous(normal)"
+	conn, err := sql.Open("sqlite", dsn)
 	if err != nil {
 		return nil, fmt.Errorf("unable to open database: %w", err)
 	}

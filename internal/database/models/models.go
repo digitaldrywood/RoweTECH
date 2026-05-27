@@ -4,34 +4,6 @@ package models
 
 import "rowetech/internal/database/sqlc"
 
-// GalleryItem represents a gallery item for templates
-type GalleryItem struct {
-	ID          int64  `json:"id"`
-	Title       string `json:"title"`
-	Category    string `json:"category"`
-	Description string `json:"description"`
-	ImageUrl    string `json:"image_url"`
-	SortOrder   int64  `json:"sort_order"`
-	IsFeatured  bool   `json:"is_featured"`
-}
-
-// FromSqlcGalleryItems converts sqlc GalleryItems to models GalleryItems
-func FromSqlcGalleryItems(items []sqlc.GalleryItem) []GalleryItem {
-	result := make([]GalleryItem, len(items))
-	for i, item := range items {
-		result[i] = GalleryItem{
-			ID:          item.ID,
-			Title:       item.Title,
-			Category:    item.Category,
-			Description: item.Description.String,
-			ImageUrl:    item.ImageUrl,
-			SortOrder:   item.SortOrder.Int64,
-			IsFeatured:  item.IsFeatured.Int64 == 1,
-		}
-	}
-	return result
-}
-
 // ContactSubmission represents a contact form submission
 type ContactSubmission struct {
 	ID            int64  `json:"id"`
@@ -90,19 +62,6 @@ func FromSqlcContactSubmission(item sqlc.ContactSubmission) ContactSubmission {
 		NewsletterOpt: item.NewsletterOptIn.Int64 == 1,
 		AgreedToTerms: item.AgreedToTerms.Int64 == 1,
 		CreatedAt:     createdAt,
-	}
-}
-
-// FromSqlcGalleryItem converts a single sqlc GalleryItem to models GalleryItem
-func FromSqlcGalleryItem(item sqlc.GalleryItem) GalleryItem {
-	return GalleryItem{
-		ID:          item.ID,
-		Title:       item.Title,
-		Category:    item.Category,
-		Description: item.Description.String,
-		ImageUrl:    item.ImageUrl,
-		SortOrder:   item.SortOrder.Int64,
-		IsFeatured:  item.IsFeatured.Int64 == 1,
 	}
 }
 

@@ -45,17 +45,12 @@ func main() {
 
 	// Stats for static build
 	staticStats := layouts.AdminStats{
-		GalleryCount:    30,
 		UnreadContacts:  0,
 		PageImages:      18,
 		EditableContent: int64(sitecontent.TotalFieldCount()),
 	}
 
 	staticContent := sitecontent.Defaults()
-
-	// Gallery items for static build
-	galleryItems := getStaticGalleryItems()
-	galleryCategories := getStaticGalleryCategories()
 
 	// Define pages to generate
 	staticPages := []struct {
@@ -69,7 +64,6 @@ func main() {
 		{"/contact/index.html", pages.Contact(staticContent, false, "")},
 		{"/terms/index.html", pages.Terms()},
 		{"/privacy/index.html", pages.Privacy()},
-		{"/gallery/index.html", pages.Gallery(galleryItems, galleryCategories)},
 		{"/sign-in/index.html", pages.SignIn()},
 		{"/sign-up/index.html", pages.SignUp()},
 		{"/admin/index.html", pages.AdminDashboard(staticStats, []models.ContactSubmission{})},
@@ -174,60 +168,4 @@ func copyFile(src, dst string) error {
 
 	_, err = io.Copy(dstFile, srcFile)
 	return err
-}
-
-// getStaticGalleryItems returns hardcoded gallery items for static build
-func getStaticGalleryItems() []models.GalleryItem {
-	return []models.GalleryItem{
-		// Original items
-		{ID: 1, Title: "CNC Milling Operation", Category: "CNC Machining", Description: "Precision 5-axis CNC milling for complex geometries", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 1, IsFeatured: true},
-		{ID: 2, Title: "Laser Cutting", Category: "Laser", Description: "High-precision laser cutting and engraving", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 2, IsFeatured: false},
-		{ID: 3, Title: "Welding & Fabrication", Category: "Welding", Description: "Professional TIG and MIG welding services", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 3, IsFeatured: false},
-		{ID: 4, Title: "3D Printing", Category: "3D Printing", Description: "Rapid prototyping with industrial FDM and SLA", ImageUrl: "/static/images/customer/mold-repair-microscope.jpg", SortOrder: 4, IsFeatured: false},
-		{ID: 5, Title: "CNC Lathe Work", Category: "CNC Machining", Description: "Precision turning for cylindrical components", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 5, IsFeatured: false},
-		{ID: 6, Title: "Plasma Cutting", Category: "Plasma", Description: "Heavy-duty plasma cutting for thick materials", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 6, IsFeatured: false},
-		{ID: 7, Title: "Metal Fabrication", Category: "Welding", Description: "Custom metal fabrication and assembly", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 7, IsFeatured: false},
-		{ID: 8, Title: "Industrial Automation", Category: "EOAT", Description: "End-of-arm tooling for robotics", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 8, IsFeatured: false},
-		{ID: 9, Title: "Precision Grinding", Category: "CNC Machining", Description: "Surface grinding to tight tolerances", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 9, IsFeatured: false},
-		{ID: 10, Title: "Mold Components", Category: "Mold Repair", Description: "Precision mold inserts and components", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 10, IsFeatured: false},
-		{ID: 11, Title: "Laser Engraving", Category: "Laser", Description: "Detailed marking and engraving services", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 11, IsFeatured: false},
-		{ID: 12, Title: "Prototyping", Category: "3D Printing", Description: "Fast turnaround prototype development", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 12, IsFeatured: false},
-		// Additional items
-		{ID: 13, Title: "Injection Mold Repair", Category: "Mold Repair", Description: "Complete restoration of damaged injection molds to original specifications", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 13, IsFeatured: true},
-		{ID: 14, Title: "Mold Polishing", Category: "Mold Repair", Description: "Mirror finish polishing for improved part quality", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 14, IsFeatured: false},
-		{ID: 15, Title: "Mold Welding Repair", Category: "Mold Repair", Description: "Precision TIG welding for mold surface restoration", ImageUrl: "/static/images/customer/mold-repair-bench.jpg", SortOrder: 15, IsFeatured: false},
-		{ID: 16, Title: "Assembly Fixture", Category: "Fixtures", Description: "Custom assembly fixtures for production efficiency", ImageUrl: "/static/images/customer/mold-repair-microscope.jpg", SortOrder: 16, IsFeatured: true},
-		{ID: 17, Title: "Welding Fixture", Category: "Fixtures", Description: "Precision welding fixtures for consistent part alignment", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 17, IsFeatured: false},
-		{ID: 18, Title: "Inspection Fixture", Category: "Fixtures", Description: "Quality control fixtures for dimensional verification", ImageUrl: "/static/images/customer/mold-repair-microscope.jpg", SortOrder: 18, IsFeatured: false},
-		{ID: 19, Title: "Machining Fixture", Category: "Fixtures", Description: "Work-holding fixtures for CNC operations", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 19, IsFeatured: false},
-		{ID: 20, Title: "Robot Gripper", Category: "EOAT", Description: "Custom end-of-arm gripper for automated handling", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 20, IsFeatured: true},
-		{ID: 21, Title: "Vacuum End Effector", Category: "EOAT", Description: "Suction cup tooling for sheet material handling", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 21, IsFeatured: false},
-		{ID: 22, Title: "Multi-Part Gripper", Category: "EOAT", Description: "Complex gripper systems for multiple part pickup", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 22, IsFeatured: false},
-		{ID: 23, Title: "5-Axis Machining", Category: "CNC Machining", Description: "Complex geometry machining with 5-axis capability", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 23, IsFeatured: false},
-		{ID: 24, Title: "Aluminum Machining", Category: "CNC Machining", Description: "High-speed machining of aluminum components", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 24, IsFeatured: false},
-		{ID: 25, Title: "Steel Machining", Category: "CNC Machining", Description: "Heavy-duty machining of steel and tool steel", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 25, IsFeatured: false},
-		{ID: 26, Title: "Precision Boring", Category: "CNC Machining", Description: "Tight tolerance boring operations", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 26, IsFeatured: false},
-		{ID: 27, Title: "Quality Inspection", Category: "Quality", Description: "CMM and dimensional inspection services", ImageUrl: "/static/images/customer/cmm-inspection-room.jpg", SortOrder: 27, IsFeatured: false},
-		{ID: 28, Title: "Surface Finishing", Category: "Finishing", Description: "Bead blasting and surface treatment", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 28, IsFeatured: false},
-		{ID: 29, Title: "Assembly Services", Category: "Assembly", Description: "Complete mechanical assembly and testing", ImageUrl: "/static/images/customer/cmm-inspection-room.jpg", SortOrder: 29, IsFeatured: false},
-		{ID: 30, Title: "EDM Services", Category: "EDM", Description: "Wire and sinker EDM for complex shapes", ImageUrl: "/static/images/customer/sinker-edm-closeup.jpg", SortOrder: 30, IsFeatured: false},
-	}
-}
-
-// getStaticGalleryCategories returns all unique categories
-func getStaticGalleryCategories() []string {
-	return []string{
-		"CNC Machining",
-		"Mold Repair",
-		"Fixtures",
-		"EOAT",
-		"Laser",
-		"Welding",
-		"3D Printing",
-		"Plasma",
-		"Quality",
-		"Finishing",
-		"Assembly",
-		"EDM",
-	}
 }
