@@ -461,14 +461,14 @@ func (h *Handler) APIUploadPageImage(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to process upload"})
 	}
-	defer src.Close()
+	defer func() { _ = src.Close() }()
 
 	dstPath := filepath.Join(uploadDir, filename)
 	dst, err := os.Create(dstPath)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to save file"})
 	}
-	defer dst.Close()
+	defer func() { _ = dst.Close() }()
 
 	if _, err := io.Copy(dst, src); err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to save file"})
