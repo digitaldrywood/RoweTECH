@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"rowetech/internal/config"
+	"rowetech/internal/ctxkeys"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
@@ -34,6 +35,15 @@ func RequireAdminAccess(cfg *config.Config) echo.MiddlewareFunc {
 		return func(c echo.Context) error {
 			if c.Request().URL.Path == "/admin/gallery" || c.Request().URL.Path == "/admin/images" {
 				return c.Redirect(http.StatusFound, "/admin")
+			}
+
+			// Dev-only impersonation: under `-tags dev`, a loopback request with
+			// a valid dev session cookie is treated as the named admin without
+			// Clerk. Compiled out of production builds (see auth_dev_stub.go).
+			if email, ok := devAdminBypass(c, cfg); ok {
+				ctx := context.WithValue(c.Request().Context(), ctxkeys.User, email)
+				c.SetRequest(c.Request().WithContext(ctx))
+				return next(c)
 			}
 
 			if !cfg.HasClerk() {

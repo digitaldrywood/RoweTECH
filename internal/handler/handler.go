@@ -54,9 +54,12 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 		return c.Redirect(http.StatusFound, "/admin")
 	})
 
+	// Dev-only auth bypass (loopback-only; compiled out of production builds).
+	middleware.RegisterDevAuthRoutes(e, h.cfg)
+
 	// Admin routes
 	admin := e.Group("/admin")
-	if h.cfg.HasClerk() {
+	if h.cfg.HasClerk() || middleware.DevAuthEnabled() {
 		admin.Use(middleware.RequireAdminAccess(h.cfg))
 	}
 	admin.GET("", h.AdminDashboard)
