@@ -33,7 +33,9 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v9
         with:
-          version: v2.1.6
+          # Must be built with Go >= the module's go directive (1.26); older
+          # builds error: "language version (go1.24) ... lower than targeted (1.26.0)".
+          version: v2.10.1
           args: --timeout=5m
       - name: Run tests
         run: go test -race ./...
