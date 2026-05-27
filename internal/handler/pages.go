@@ -2,13 +2,9 @@ package handler
 
 import (
 	"context"
-	"database/sql"
 	"log/slog"
 	"net/http"
 
-	"rowetech/internal/database/models"
-	"rowetech/internal/database/sqlc"
-	"rowetech/internal/notify"
 	"rowetech/internal/sitecontent"
 	"rowetech/templates/pages"
 
@@ -39,93 +35,9 @@ func (h *Handler) Capabilities(c echo.Context) error {
 	return pages.Capabilities(h.getPageContent(ctx)).Render(ctx, c.Response().Writer)
 }
 
-func (h *Handler) Gallery(c echo.Context) error {
-	ctx := c.Request().Context()
-
-	// Get gallery items from database
-	sqlcItems, err := h.db.Queries.ListGalleryItems(ctx)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, "Failed to load gallery")
-	}
-
-	// Convert to models
-	items := models.FromSqlcGalleryItems(sqlcItems)
-
-	// Get categories
-	categories, err := h.db.Queries.GetGalleryCategories(ctx)
-	if err != nil {
-		categories = []string{}
-	}
-
-	return pages.Gallery(items, categories).Render(ctx, c.Response().Writer)
-}
-
 func (h *Handler) Contact(c echo.Context) error {
 	ctx := c.Request().Context()
 	return pages.Contact(h.getPageContent(ctx), false, "").Render(ctx, c.Response().Writer)
-}
-
-func (h *Handler) ContactSubmit(c echo.Context) error {
-	ctx := c.Request().Context()
-
-	name := c.FormValue("name")
-	company := c.FormValue("company")
-	email := c.FormValue("email")
-	phone := c.FormValue("phone")
-	projectType := c.FormValue("projectType")
-	message := c.FormValue("message")
-	newsletter := c.FormValue("newsletter") == "1"
-	agreeToTerms := c.FormValue("agreeToTerms") == "1"
-
-	// Validate required fields
-	if name == "" || email == "" || message == "" {
-		return pages.Contact(h.getPageContent(ctx), false, "Please complete the required fields.").Render(ctx, c.Response().Writer)
-	}
-
-	// Validate terms acceptance
-	if !agreeToTerms {
-		return pages.Contact(h.getPageContent(ctx), false, "You must agree to the Terms of Service to submit this form.").Render(ctx, c.Response().Writer)
-	}
-
-	// Convert booleans to int64 for SQLite
-	newsletterInt := int64(0)
-	if newsletter {
-		newsletterInt = 1
-	}
-	termsInt := int64(1) // Always 1 since we validated above
-
-	// Save to database
-	_, err := h.db.Queries.CreateContactSubmission(ctx, sqlc.CreateContactSubmissionParams{
-		Name:            name,
-		Company:         sql.NullString{String: company, Valid: company != ""},
-		Email:           email,
-		Phone:           sql.NullString{String: phone, Valid: phone != ""},
-		ProjectType:     sql.NullString{String: projectType, Valid: projectType != ""},
-		Message:         message,
-		NewsletterOptIn: sql.NullInt64{Int64: newsletterInt, Valid: true},
-		AgreedToTerms:   sql.NullInt64{Int64: termsInt, Valid: true},
-	})
-	if err != nil {
-		slog.Error("failed to save contact submission", "error", err)
-		return pages.Contact(h.getPageContent(ctx), false, "There was an error submitting your message. Please try again.").Render(ctx, c.Response().Writer)
-	}
-
-	if h.mailer != nil && h.mailer.Enabled() {
-		if err := h.mailer.SendContactNotification(ctx, notify.ContactNotification{
-			Name:          name,
-			Company:       company,
-			Email:         email,
-			Phone:         phone,
-			ProjectType:   projectType,
-			Message:       message,
-			NewsletterOpt: newsletter,
-			SiteURL:       h.cfg.Site.URL,
-		}); err != nil {
-			slog.Error("failed to send contact notification email", "error", err, "email", email)
-		}
-	}
-
-	return pages.Contact(h.getPageContent(ctx), true, "").Render(ctx, c.Response().Writer)
 }
 
 func (h *Handler) getPageContent(ctx context.Context) map[string]string {

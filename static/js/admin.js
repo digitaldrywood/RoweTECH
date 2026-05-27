@@ -66,6 +66,11 @@ document.addEventListener('DOMContentLoaded', function() {
     window.Clerk.load().then(() => {
       updateAdminUserInfo();
     });
+  } else {
+    // No Clerk configured (e.g. dev auth bypass) — clear the loading placeholder
+    // so the sidebar doesn't sit on "Loading..." forever.
+    const sidebarEmail = document.getElementById('sidebar-user-email');
+    if (sidebarEmail) sidebarEmail.textContent = '';
   }
 });
 
