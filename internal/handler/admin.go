@@ -24,12 +24,6 @@ func (h *Handler) getAdminStats(ctx echo.Context) layouts.AdminStats {
 		stats.UnreadContacts = unread
 	}
 
-	// Count page images
-	images, err := h.db.Queries.ListAllPageImages(c)
-	if err == nil {
-		stats.PageImages = int64(len(images))
-	}
-
 	stats.EditableContent = int64(sitecontent.TotalFieldCount())
 
 	return stats
@@ -160,40 +154,4 @@ func (h *Handler) AdminUsers(c echo.Context) error {
 	}
 
 	return pages.AdminUsers(users, totalCount, stats, clerkEnabled).Render(ctx, c.Response().Writer)
-}
-
-// AdminImages renders the page images management page
-func (h *Handler) AdminImages(c echo.Context) error {
-	ctx := c.Request().Context()
-	stats := h.getAdminStats(c)
-
-	// Get all page images grouped by page
-	sqlcImages, err := h.db.Queries.ListAllPageImages(ctx)
-	if err != nil {
-		slog.Error("failed to list page images", "error", err)
-		sqlcImages = nil
-	}
-
-	// Group images by page name
-	imagesByPage := make(map[string][]models.PageImage)
-	pageOrder := []string{} // Track order of pages
-
-	for _, img := range sqlcImages {
-		pageImg := models.PageImage{
-			ID:        img.ID,
-			PageName:  img.PageName,
-			ImageKey:  img.ImageKey,
-			ImageUrl:  img.ImageUrl,
-			Label:     img.Label,
-			AltText:   img.AltText,
-			SortOrder: img.SortOrder.Int64,
-		}
-
-		if _, exists := imagesByPage[img.PageName]; !exists {
-			pageOrder = append(pageOrder, img.PageName)
-		}
-		imagesByPage[img.PageName] = append(imagesByPage[img.PageName], pageImg)
-	}
-
-	return pages.AdminImages(imagesByPage, pageOrder, stats).Render(ctx, c.Response().Writer)
 }

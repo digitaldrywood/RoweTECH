@@ -64,14 +64,3 @@ func FromSqlcContactSubmission(item sqlc.ContactSubmission) ContactSubmission {
 		CreatedAt:     createdAt,
 	}
 }
-
-// PageImage represents a page image for templates
-type PageImage struct {
-	ID        int64  `json:"id"`
-	PageName  string `json:"page_name"`
-	ImageKey  string `json:"image_key"`
-	ImageUrl  string `json:"image_url"`
-	Label     string `json:"label"`
-	AltText   string `json:"alt_text"`
-	SortOrder int64  `json:"sort_order"`
-}

@@ -46,7 +46,6 @@ func main() {
 	// Stats for static build
 	staticStats := layouts.AdminStats{
 		UnreadContacts:  0,
-		PageImages:      18,
 		EditableContent: int64(sitecontent.TotalFieldCount()),
 	}
 

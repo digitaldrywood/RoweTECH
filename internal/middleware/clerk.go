@@ -33,10 +33,6 @@ var clerkJWKS jwksCache
 func RequireAdminAccess(cfg *config.Config) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			if c.Request().URL.Path == "/admin/images" {
-				return c.Redirect(http.StatusFound, "/admin")
-			}
-
 			// Dev-only impersonation: under `-tags dev`, a loopback request with
 			// a valid dev session cookie is treated as the named admin without
 			// Clerk. Compiled out of production builds (see auth_dev_stub.go).
