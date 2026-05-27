@@ -32,6 +32,10 @@ var clerkJWKS jwksCache
 func RequireAdminAccess(cfg *config.Config) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
+			if c.Request().URL.Path == "/admin/gallery" || c.Request().URL.Path == "/admin/images" {
+				return c.Redirect(http.StatusFound, "/admin")
+			}
+
 			if !cfg.HasClerk() {
 				return next(c)
 			}

@@ -1,22 +1,27 @@
 package handler
 
 import (
+	"net/http"
+
 	"rowetech/internal/config"
 	"rowetech/internal/database"
 	"rowetech/internal/middleware"
+	"rowetech/internal/notify"
 
 	"github.com/labstack/echo/v4"
 )
 
 type Handler struct {
-	cfg *config.Config
-	db  *database.DB
+	cfg    *config.Config
+	db     *database.DB
+	mailer *notify.Mailer
 }
 
 func New(cfg *config.Config, db *database.DB) *Handler {
 	return &Handler{
-		cfg: cfg,
-		db:  db,
+		cfg:    cfg,
+		db:     db,
+		mailer: notify.NewMailer(cfg),
 	}
 }
 
@@ -42,6 +47,12 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 	e.GET("/sign-in", h.SignIn)
 	e.GET("/sign-up", h.SignUp)
 	e.GET("/unauthorized", h.Unauthorized)
+	e.GET("/admin/gallery", func(c echo.Context) error {
+		return c.Redirect(http.StatusFound, "/admin")
+	})
+	e.GET("/admin/images", func(c echo.Context) error {
+		return c.Redirect(http.StatusFound, "/admin")
+	})
 
 	// Admin routes
 	admin := e.Group("/admin")
@@ -49,10 +60,9 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 		admin.Use(middleware.RequireAdminAccess(h.cfg))
 	}
 	admin.GET("", h.AdminDashboard)
-	admin.GET("/gallery", h.AdminGallery)
+	admin.GET("/content", h.AdminContent)
 	admin.GET("/contacts", h.AdminContacts)
 	admin.GET("/users", h.AdminUsers)
-	admin.GET("/images", h.AdminImages)
 	admin.GET("/settings", h.AdminSettings)
 
 	// Admin API routes

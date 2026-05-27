@@ -16,6 +16,7 @@ import (
 	"rowetech/internal/database/models"
 	"rowetech/internal/database/sqlc"
 	"rowetech/internal/middleware"
+	"rowetech/internal/sitecontent"
 	"rowetech/templates/pages"
 
 	"github.com/labstack/echo/v4"
@@ -411,6 +412,10 @@ func (h *Handler) APIUpdateSetting(c echo.Context) error {
 	}
 
 	// Return the updated row partial
+	if page, field, ok := sitecontent.FindField(key); ok {
+		return pages.ContentFieldRowPartial(page.Slug, field, value).Render(ctx, c.Response().Writer)
+	}
+
 	return pages.SettingRowPartial(key, value).Render(ctx, c.Response().Writer)
 }
 

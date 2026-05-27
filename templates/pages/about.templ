@@ -5,18 +5,18 @@ import (
 	"rowetech/templates/layouts"
 )
 
-templ About() {
+templ About(content map[string]string) {
 	@layouts.Base(meta.New("About", "Learn about RoweTech Machine & Engineering's story, values, and the industries we serve.")) {
 		<!-- Hero -->
 		<section class="relative min-h-[100svh] flex items-center overflow-hidden">
 			<div class="absolute inset-0">
-				<img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1920&q=80" alt="Manufacturing" class="w-full h-full object-cover"/>
+				<img src="/static/images/customer/cmm-inspection-room.jpg" alt="Coordinate measuring machine inspection area" class="w-full h-full object-cover"/>
 				<div class="absolute inset-0 bg-secondary-950/40"></div>
 			</div>
 			<div class="container-custom relative z-10 text-center">
-				<h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-white uppercase mb-6">About Us</h1>
+				<h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-white uppercase mb-6">{ content["about.hero.title"] }</h1>
 				<p class="text-lg lg:text-xl text-white/80 max-w-xl mx-auto">
-					A Wisconsin machine shop built on precision, integrity, and manufacturing excellence.
+					{ content["about.hero.body"] }
 				</p>
 			</div>
 		</section>
@@ -26,10 +26,10 @@ templ About() {
 			<div class="container-custom">
 				<div class="grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
 					<div>
-						<span class="text-primary-400 font-semibold tracking-[0.2em] uppercase text-sm">Our Story</span>
-						<h2 class="section-heading mt-4 mb-6">Built on Experience</h2>
+						<span class="text-primary-400 font-semibold tracking-[0.2em] uppercase text-sm">{ content["about.story.eyebrow"] }</span>
+						<h2 class="section-heading mt-4 mb-6">{ content["about.story.heading"] }</h2>
 						<p class="text-secondary-200 text-lg leading-relaxed mb-8">
-							RoweTech Machine & Engineering provides precision machining and tooling solutions from Cadott, Wisconsin. We serve plastic injection molding operations throughout the Midwest -- specializing in mold repair, custom fixtures, EOAT, and CNC machining. When your production is down, every hour matters, and fast turnaround is what we do.
+							{ content["about.story.body"] }
 						</p>
 						<!-- Stats -->
 						<div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-secondary-800">
@@ -41,7 +41,7 @@ templ About() {
 					</div>
 					<div class="relative">
 						<div class="aspect-[4/3] overflow-hidden">
-							<img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80" alt="CNC Workshop" class="w-full h-full object-cover"/>
+							<img src="/static/images/customer/mold-repair-workstation.jpg" alt="Mold repair workstation" class="w-full h-full object-cover"/>
 						</div>
 					</div>
 				</div>
@@ -52,7 +52,7 @@ templ About() {
 		<section class="py-24 lg:py-32 bg-secondary-900 relative">
 			<div class="container-custom">
 				<div class="text-center mb-16">
-					<h2 class="section-heading">Our Values</h2>
+					<h2 class="section-heading">{ content["about.values.heading"] }</h2>
 				</div>
 				<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
 					@valueCard("Quality Workmanship", "Every part we produce meets exacting standards. We take pride in precision.")
@@ -65,12 +65,12 @@ templ About() {
 
 		<!-- CTA -->
 		<section class="relative min-h-[60vh] flex items-center overflow-hidden">
-			<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="" class="absolute inset-0 w-full h-full object-cover"/>
+			<img src="/static/images/customer/laser-marking-foba.jpg" alt="Laser marking cell at RoweTech" class="absolute inset-0 w-full h-full object-cover"/>
 			<div class="absolute inset-0 bg-secondary-950/50"></div>
 			<div class="container-custom relative z-10 text-center">
-				<h2 class="font-display text-4xl md:text-6xl text-white uppercase mb-6">Ready to Partner With Us?</h2>
+				<h2 class="font-display text-4xl md:text-6xl text-white uppercase mb-6">{ content["about.cta.heading"] }</h2>
 				<p class="text-white/70 text-lg mb-8 max-w-xl mx-auto">
-					Let's discuss how RoweTech can support your manufacturing needs.
+					{ content["about.cta.body"] }
 				</p>
 				<a href="/contact" class="btn-primary">Contact Us Today</a>
 			</div>

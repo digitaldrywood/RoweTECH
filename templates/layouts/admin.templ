@@ -11,6 +11,7 @@ type AdminStats struct {
 	GalleryCount   int64
 	UnreadContacts int64
 	PageImages     int64
+	EditableContent int64
 }
 
 templ Admin(m meta.PageMeta, currentPage string, stats AdminStats) {
@@ -93,10 +94,9 @@ templ adminSidebar(currentPage string, stats AdminStats) {
 			<!-- Navigation -->
 			<nav class="flex-1 p-4 space-y-1 overflow-y-auto">
 				@adminNavLink("/admin", "Dashboard", "dashboard", currentPage == "dashboard")
-				@adminNavLink("/admin/gallery", "Gallery", "gallery", currentPage == "gallery")
+				@adminNavLink("/admin/content", "Page Content", "content", currentPage == "content")
 				@adminNavLinkWithBadge("/admin/contacts", "Contacts", "contacts", currentPage == "contacts", stats.UnreadContacts)
 				@adminNavLink("/admin/users", "Users", "users", currentPage == "users")
-				@adminNavLink("/admin/images", "Page Images", "images", currentPage == "images")
 				@adminNavLink("/admin/settings", "Settings", "settings", currentPage == "settings")
 			</nav>
 			<!-- User Info -->
@@ -191,9 +191,9 @@ templ adminIcon(iconType string) {
 			<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
 			</svg>
-		case "gallery":
+		case "content":
 			<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6M7 4h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2z"></path>
 			</svg>
 		case "contacts":
 			<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -202,10 +202,6 @@ templ adminIcon(iconType string) {
 		case "users":
 			<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-			</svg>
-		case "images":
-			<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
 			</svg>
 		case "settings":
 			<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

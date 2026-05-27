@@ -5,21 +5,21 @@ import (
 	"rowetech/templates/layouts"
 )
 
-templ Home() {
+templ Home(content map[string]string) {
 	@layouts.Base(meta.New("Home", "Precision machining, mold repair, and custom tooling solutions for manufacturers across Wisconsin.")) {
 		<!-- Hero -->
 		<section class="relative min-h-[100svh] flex items-center overflow-hidden">
 			<div class="absolute inset-0 bg-secondary-950"></div>
-			<img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80" alt="Industrial manufacturing" class="absolute inset-0 w-full h-full object-cover"/>
+			<img src="/static/images/customer/laser-marking-foba.jpg" alt="Laser marking equipment at RoweTech" class="absolute inset-0 w-full h-full object-cover"/>
 			<div class="absolute inset-0 bg-secondary-950/40"></div>
 
 			<div class="container-custom relative z-10 text-center">
 				<h1 class="mb-6">
-					<span class="hero-title block">Industrial</span>
-					<span class="hero-title-accent block">Precision</span>
+					<span class="hero-title block">{ content["home.hero.title_line_1"] }</span>
+					<span class="hero-title-accent block">{ content["home.hero.title_line_2"] }</span>
 				</h1>
 				<p class="text-base md:text-lg text-white/80 max-w-xl mx-auto mb-10">
-					Mold repair, custom fixtures, EOAT tooling, and CNC machining for manufacturers who demand precision.
+					{ content["home.hero.body"] }
 				</p>
 				<div class="flex flex-wrap gap-4 justify-center">
 					<a href="/contact" class="btn-primary text-sm md:text-base px-8 py-4">
@@ -40,9 +40,9 @@ templ Home() {
 			<div class="container-custom">
 				<div class="max-w-4xl mx-auto">
 					<div class="text-center mb-16">
-						<h2 class="font-display text-3xl md:text-5xl text-white uppercase mb-4">What We Do</h2>
+						<h2 class="font-display text-3xl md:text-5xl text-white uppercase mb-4">{ content["home.services.heading"] }</h2>
 						<p class="text-secondary-300 text-base md:text-lg max-w-xl mx-auto">
-							Comprehensive machining and tooling solutions for plastic injection molding and manufacturing.
+							{ content["home.services.body"] }
 						</p>
 					</div>
 					<div class="grid md:grid-cols-2 gap-x-16 gap-y-12">
@@ -60,12 +60,12 @@ templ Home() {
 
 		<!-- CTA -->
 		<section class="relative min-h-[60vh] flex items-center overflow-hidden">
-			<img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&q=80" alt="" class="absolute inset-0 w-full h-full object-cover"/>
+			<img src="/static/images/customer/cmm-inspection-room.jpg" alt="Coordinate measuring machine at RoweTech" class="absolute inset-0 w-full h-full object-cover"/>
 			<div class="absolute inset-0 bg-secondary-950/50"></div>
 			<div class="container-custom relative z-10 text-center">
-				<h2 class="font-display text-4xl md:text-6xl text-white uppercase mb-6">Ready to Build?</h2>
+				<h2 class="font-display text-4xl md:text-6xl text-white uppercase mb-6">{ content["home.cta.heading"] }</h2>
 				<p class="text-white/70 text-base md:text-lg mb-8 max-w-xl mx-auto">
-					Contact us for a quote. We respond within 48 hours.
+					{ content["home.cta.body"] }
 				</p>
 				<div class="flex flex-col sm:flex-row gap-4 justify-center">
 					<a href="/contact" class="btn-primary text-sm md:text-base px-10 py-5">Request a Quote</a>

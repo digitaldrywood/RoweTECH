@@ -1,0 +1,88 @@
+package pages
+
+import (
+	"strings"
+
+	"rowetech/internal/meta"
+	"rowetech/internal/sitecontent"
+	"rowetech/templates/layouts"
+)
+
+templ AdminContent(definitions []sitecontent.Page, values map[string]string, stats layouts.AdminStats) {
+	@layouts.Admin(meta.New("Page Content", "Edit the main page copy used across the site.").WithNoIndex(), "content", stats) {
+		<div class="space-y-8">
+			<div>
+				<h1 class="font-display text-2xl md:text-3xl text-white uppercase">Page Content</h1>
+				<p class="text-secondary-400 mt-1">Edit the main headings and copy blocks on each page. Changes save directly into the site settings store.</p>
+			</div>
+			<div class="space-y-8">
+				for _, page := range definitions {
+					<div class="card-base border border-secondary-800 clip-lg overflow-hidden">
+						<div class="bg-secondary-800/50 px-6 py-4 border-b border-secondary-700">
+							<h2 class="font-display text-xl text-white uppercase tracking-wide">{ page.Title }</h2>
+							<p class="text-secondary-400 text-sm mt-1">{ page.Description }</p>
+						</div>
+						<div class="p-6 space-y-4">
+							for _, field := range page.Fields {
+								@contentFieldRow(page.Slug, field, values[field.Key])
+							}
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	}
+}
+
+templ contentFieldRow(pageSlug string, field sitecontent.Field, value string) {
+	<div id={ contentFieldRowID(field.Key) } class="border-b border-secondary-800 last:border-0 pb-4 last:pb-0">
+		<div class="mb-3">
+			<label class="block text-sm font-medium text-white">{ field.Label }</label>
+			<p class="text-xs text-secondary-500 mt-1">{ field.Key }</p>
+		</div>
+		<form
+			class="space-y-3"
+			hx-post="/admin/api/settings"
+			hx-target={ "#" + contentFieldRowID(field.Key) }
+			hx-swap="outerHTML"
+		>
+			<input type="hidden" name="key" value={ field.Key }/>
+			<input type="hidden" name="scope" value="content"/>
+			if field.InputType == "textarea" {
+				<textarea
+					name="value"
+					rows={ field.Rows }
+					placeholder={ field.Placeholder }
+					class="w-full px-4 py-3 bg-secondary-800 border border-secondary-700 text-white text-sm rounded focus:outline-none focus:border-primary-500"
+				>{ value }</textarea>
+			} else {
+				<input
+					type="text"
+					name="value"
+					value={ value }
+					placeholder={ field.Placeholder }
+					class="w-full px-4 py-3 bg-secondary-800 border border-secondary-700 text-white text-sm rounded focus:outline-none focus:border-primary-500"
+				/>
+			}
+			<div class="flex items-center justify-between gap-3">
+				<p class="text-xs text-secondary-500">
+					if field.HelpText != "" {
+						{ field.HelpText }
+					} else {
+						Basic editable copy for the { pageSlug } page.
+					}
+				</p>
+				<button type="submit" class="btn-primary px-4 py-2 text-sm whitespace-nowrap">Save</button>
+			</div>
+		</form>
+	</div>
+}
+
+templ ContentFieldRowPartial(pageSlug string, field sitecontent.Field, value string) {
+	@contentFieldRow(pageSlug, field, value)
+}
+
+func contentFieldRowID(key string) string {
+	replacer := strings.NewReplacer(".", "-", "_", "-")
+	return "content-" + replacer.Replace(key)
+}

@@ -5,18 +5,18 @@ import (
 	"rowetech/templates/layouts"
 )
 
-templ Contact(success bool, errorMsg string) {
+templ Contact(content map[string]string, success bool, errorMsg string) {
 	@layouts.Base(meta.New("Contact", "Request a quote from RoweTech Machine & Engineering in Cadott, Wisconsin.")) {
 		<!-- Hero -->
 		<section class="relative min-h-[50vh] flex items-center overflow-hidden">
 			<div class="absolute inset-0">
-				<img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1920&q=80" alt="Manufacturing" class="w-full h-full object-cover"/>
+				<img src="/static/images/customer/mold-repair-workstation.jpg" alt="Mold repair workstation at RoweTech" class="w-full h-full object-cover"/>
 				<div class="absolute inset-0 bg-secondary-950/40"></div>
 			</div>
 			<div class="container-custom relative z-10 py-32 lg:py-40 text-center">
-				<h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-white uppercase mb-6">Contact Us</h1>
+				<h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-white uppercase mb-6">{ content["contact.hero.title"] }</h1>
 				<p class="text-lg lg:text-xl text-white/80 max-w-xl mx-auto">
-					Get in touch for a quote or to discuss your machining and tooling needs.
+					{ content["contact.hero.body"] }
 				</p>
 			</div>
 		</section>
@@ -29,9 +29,9 @@ templ Contact(success bool, errorMsg string) {
 					<!-- Contact Form -->
 					<div class="lg:col-span-2">
 						<div class="card-base p-8 lg:p-10 clip-xl">
-							<h2 class="font-display text-2xl lg:text-3xl text-white uppercase mb-2">Request a Quote</h2>
+							<h2 class="font-display text-2xl lg:text-3xl text-white uppercase mb-2">{ content["contact.form.heading"] }</h2>
 							<p class="text-secondary-300 mb-8">
-								Fill out the form below and we'll get back to you as soon as possible.
+								{ content["contact.form.body"] }
 							</p>
 
 							if success {
@@ -141,10 +141,10 @@ templ Contact(success bool, errorMsg string) {
 								<svg class="w-6 h-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
 								</svg>
-								<h3 class="font-semibold text-primary-400">Quick Response</h3>
+								<h3 class="font-semibold text-primary-400">{ content["contact.response.heading"] }</h3>
 							</div>
 							<p class="text-secondary-300 text-sm">
-								We typically respond to quote requests within 1-2 business days. For urgent needs, please call us directly.
+								{ content["contact.response.body"] }
 							</p>
 						</div>
 					</div>

@@ -16,6 +16,7 @@ import (
 	"rowetech/internal/config"
 	"rowetech/internal/ctxkeys"
 	"rowetech/internal/database/models"
+	"rowetech/internal/sitecontent"
 	"rowetech/templates/layouts"
 	"rowetech/templates/pages"
 )
@@ -44,47 +45,45 @@ func main() {
 
 	// Stats for static build
 	staticStats := layouts.AdminStats{
-		GalleryCount:   30,
-		UnreadContacts: 0,
-		PageImages:     18,
+		GalleryCount:    30,
+		UnreadContacts:  0,
+		PageImages:      18,
+		EditableContent: int64(sitecontent.TotalFieldCount()),
 	}
 
-	// Gallery items for static build (stock photos)
+	staticContent := sitecontent.Defaults()
+
+	// Gallery items for static build
 	galleryItems := getStaticGalleryItems()
 	galleryCategories := getStaticGalleryCategories()
-
-	// Page images for static build
-	pageImages := getStaticPageImages()
-	pageNames := getStaticPageNames()
 
 	// Define pages to generate
 	staticPages := []struct {
 		path      string
 		component templ.Component
 	}{
-		{"/index.html", pages.Home()},
-		{"/about/index.html", pages.About()},
-		{"/services/index.html", pages.Services()},
-		{"/capabilities/index.html", pages.Capabilities()},
-		{"/contact/index.html", pages.Contact(false, "")},
+		{"/index.html", pages.Home(staticContent)},
+		{"/about/index.html", pages.About(staticContent)},
+		{"/services/index.html", pages.Services(staticContent)},
+		{"/capabilities/index.html", pages.Capabilities(staticContent)},
+		{"/contact/index.html", pages.Contact(staticContent, false, "")},
 		{"/terms/index.html", pages.Terms()},
 		{"/privacy/index.html", pages.Privacy()},
 		{"/gallery/index.html", pages.Gallery(galleryItems, galleryCategories)},
 		{"/sign-in/index.html", pages.SignIn()},
 		{"/sign-up/index.html", pages.SignUp()},
-		{"/admin/index.html", pages.AdminDashboard(staticStats)},
-		{"/admin/gallery/index.html", pages.AdminGallery(galleryItems, galleryCategories, staticStats)},
+		{"/admin/index.html", pages.AdminDashboard(staticStats, []models.ContactSubmission{})},
+		{"/admin/content/index.html", pages.AdminContent(sitecontent.Definitions(), staticContent, staticStats)},
 		{"/admin/contacts/index.html", pages.AdminContacts([]models.ContactSubmission{}, staticStats, "")},
 		{"/admin/users/index.html", pages.AdminUsers([]clerk.User{}, 0, staticStats, cfg.HasClerk())},
-		{"/admin/images/index.html", pages.AdminImages(pageImages, pageNames, staticStats)},
 		{"/admin/settings/index.html", pages.AdminSettings(map[string]string{
-				"company_name":    "RoweTech Machine & Engineering",
-				"tagline":         "",
-				"company_phone":   "",
-				"company_email":   "",
-				"company_address": "",
-				"business_hours":  "",
-			}, staticStats)},
+			"company_name":    "RoweTech Machine & Engineering",
+			"tagline":         "",
+			"company_phone":   "",
+			"company_email":   "",
+			"company_address": "",
+			"business_hours":  "",
+		}, staticStats)},
 	}
 
 	fmt.Printf("Building static site to %s/\n", outDir)
@@ -181,37 +180,37 @@ func copyFile(src, dst string) error {
 func getStaticGalleryItems() []models.GalleryItem {
 	return []models.GalleryItem{
 		// Original items
-		{ID: 1, Title: "CNC Milling Operation", Category: "CNC Machining", Description: "Precision 5-axis CNC milling for complex geometries", ImageUrl: "https://images.unsplash.com/photo-1567361808960-dec9cb578182?w=800&q=80", SortOrder: 1, IsFeatured: true},
-		{ID: 2, Title: "Laser Cutting", Category: "Laser", Description: "High-precision laser cutting and engraving", ImageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80", SortOrder: 2, IsFeatured: false},
-		{ID: 3, Title: "Welding & Fabrication", Category: "Welding", Description: "Professional TIG and MIG welding services", ImageUrl: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80", SortOrder: 3, IsFeatured: false},
-		{ID: 4, Title: "3D Printing", Category: "3D Printing", Description: "Rapid prototyping with industrial FDM and SLA", ImageUrl: "https://images.unsplash.com/photo-1581092335397-9583eb92d232?w=800&q=80", SortOrder: 4, IsFeatured: false},
-		{ID: 5, Title: "CNC Lathe Work", Category: "CNC Machining", Description: "Precision turning for cylindrical components", ImageUrl: "https://images.unsplash.com/photo-1567361808960-dec9cb578182?w=800&q=80", SortOrder: 5, IsFeatured: false},
-		{ID: 6, Title: "Plasma Cutting", Category: "Plasma", Description: "Heavy-duty plasma cutting for thick materials", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80", SortOrder: 6, IsFeatured: false},
-		{ID: 7, Title: "Metal Fabrication", Category: "Welding", Description: "Custom metal fabrication and assembly", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80", SortOrder: 7, IsFeatured: false},
-		{ID: 8, Title: "Industrial Automation", Category: "EOAT", Description: "End-of-arm tooling for robotics", ImageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80", SortOrder: 8, IsFeatured: false},
-		{ID: 9, Title: "Precision Grinding", Category: "CNC Machining", Description: "Surface grinding to tight tolerances", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80", SortOrder: 9, IsFeatured: false},
-		{ID: 10, Title: "Mold Components", Category: "Mold Repair", Description: "Precision mold inserts and components", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80", SortOrder: 10, IsFeatured: false},
-		{ID: 11, Title: "Laser Engraving", Category: "Laser", Description: "Detailed marking and engraving services", ImageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80", SortOrder: 11, IsFeatured: false},
-		{ID: 12, Title: "Prototyping", Category: "3D Printing", Description: "Fast turnaround prototype development", ImageUrl: "https://images.unsplash.com/photo-1581092335397-9583eb92d232?w=800&q=80", SortOrder: 12, IsFeatured: false},
+		{ID: 1, Title: "CNC Milling Operation", Category: "CNC Machining", Description: "Precision 5-axis CNC milling for complex geometries", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 1, IsFeatured: true},
+		{ID: 2, Title: "Laser Cutting", Category: "Laser", Description: "High-precision laser cutting and engraving", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 2, IsFeatured: false},
+		{ID: 3, Title: "Welding & Fabrication", Category: "Welding", Description: "Professional TIG and MIG welding services", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 3, IsFeatured: false},
+		{ID: 4, Title: "3D Printing", Category: "3D Printing", Description: "Rapid prototyping with industrial FDM and SLA", ImageUrl: "/static/images/customer/mold-repair-microscope.jpg", SortOrder: 4, IsFeatured: false},
+		{ID: 5, Title: "CNC Lathe Work", Category: "CNC Machining", Description: "Precision turning for cylindrical components", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 5, IsFeatured: false},
+		{ID: 6, Title: "Plasma Cutting", Category: "Plasma", Description: "Heavy-duty plasma cutting for thick materials", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 6, IsFeatured: false},
+		{ID: 7, Title: "Metal Fabrication", Category: "Welding", Description: "Custom metal fabrication and assembly", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 7, IsFeatured: false},
+		{ID: 8, Title: "Industrial Automation", Category: "EOAT", Description: "End-of-arm tooling for robotics", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 8, IsFeatured: false},
+		{ID: 9, Title: "Precision Grinding", Category: "CNC Machining", Description: "Surface grinding to tight tolerances", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 9, IsFeatured: false},
+		{ID: 10, Title: "Mold Components", Category: "Mold Repair", Description: "Precision mold inserts and components", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 10, IsFeatured: false},
+		{ID: 11, Title: "Laser Engraving", Category: "Laser", Description: "Detailed marking and engraving services", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 11, IsFeatured: false},
+		{ID: 12, Title: "Prototyping", Category: "3D Printing", Description: "Fast turnaround prototype development", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 12, IsFeatured: false},
 		// Additional items
-		{ID: 13, Title: "Injection Mold Repair", Category: "Mold Repair", Description: "Complete restoration of damaged injection molds to original specifications", ImageUrl: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80", SortOrder: 13, IsFeatured: true},
-		{ID: 14, Title: "Mold Polishing", Category: "Mold Repair", Description: "Mirror finish polishing for improved part quality", ImageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80", SortOrder: 14, IsFeatured: false},
-		{ID: 15, Title: "Mold Welding Repair", Category: "Mold Repair", Description: "Precision TIG welding for mold surface restoration", ImageUrl: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80", SortOrder: 15, IsFeatured: false},
-		{ID: 16, Title: "Assembly Fixture", Category: "Fixtures", Description: "Custom assembly fixtures for production efficiency", ImageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&q=80", SortOrder: 16, IsFeatured: true},
-		{ID: 17, Title: "Welding Fixture", Category: "Fixtures", Description: "Precision welding fixtures for consistent part alignment", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80", SortOrder: 17, IsFeatured: false},
-		{ID: 18, Title: "Inspection Fixture", Category: "Fixtures", Description: "Quality control fixtures for dimensional verification", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80", SortOrder: 18, IsFeatured: false},
-		{ID: 19, Title: "Machining Fixture", Category: "Fixtures", Description: "Work-holding fixtures for CNC operations", ImageUrl: "https://images.unsplash.com/photo-1567361808960-dec9cb578182?w=800&q=80", SortOrder: 19, IsFeatured: false},
-		{ID: 20, Title: "Robot Gripper", Category: "EOAT", Description: "Custom end-of-arm gripper for automated handling", ImageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80", SortOrder: 20, IsFeatured: true},
-		{ID: 21, Title: "Vacuum End Effector", Category: "EOAT", Description: "Suction cup tooling for sheet material handling", ImageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80", SortOrder: 21, IsFeatured: false},
-		{ID: 22, Title: "Multi-Part Gripper", Category: "EOAT", Description: "Complex gripper systems for multiple part pickup", ImageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80", SortOrder: 22, IsFeatured: false},
-		{ID: 23, Title: "5-Axis Machining", Category: "CNC Machining", Description: "Complex geometry machining with 5-axis capability", ImageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&q=80", SortOrder: 23, IsFeatured: false},
-		{ID: 24, Title: "Aluminum Machining", Category: "CNC Machining", Description: "High-speed machining of aluminum components", ImageUrl: "https://images.unsplash.com/photo-1567361808960-dec9cb578182?w=800&q=80", SortOrder: 24, IsFeatured: false},
-		{ID: 25, Title: "Steel Machining", Category: "CNC Machining", Description: "Heavy-duty machining of steel and tool steel", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80", SortOrder: 25, IsFeatured: false},
-		{ID: 26, Title: "Precision Boring", Category: "CNC Machining", Description: "Tight tolerance boring operations", ImageUrl: "https://images.unsplash.com/photo-1581092335397-9583eb92d232?w=800&q=80", SortOrder: 26, IsFeatured: false},
-		{ID: 27, Title: "Quality Inspection", Category: "Quality", Description: "CMM and dimensional inspection services", ImageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&q=80", SortOrder: 27, IsFeatured: false},
-		{ID: 28, Title: "Surface Finishing", Category: "Finishing", Description: "Bead blasting and surface treatment", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80", SortOrder: 28, IsFeatured: false},
-		{ID: 29, Title: "Assembly Services", Category: "Assembly", Description: "Complete mechanical assembly and testing", ImageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80", SortOrder: 29, IsFeatured: false},
-		{ID: 30, Title: "EDM Services", Category: "EDM", Description: "Wire and sinker EDM for complex shapes", ImageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80", SortOrder: 30, IsFeatured: false},
+		{ID: 13, Title: "Injection Mold Repair", Category: "Mold Repair", Description: "Complete restoration of damaged injection molds to original specifications", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 13, IsFeatured: true},
+		{ID: 14, Title: "Mold Polishing", Category: "Mold Repair", Description: "Mirror finish polishing for improved part quality", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 14, IsFeatured: false},
+		{ID: 15, Title: "Mold Welding Repair", Category: "Mold Repair", Description: "Precision TIG welding for mold surface restoration", ImageUrl: "/static/images/customer/mold-repair-bench.jpg", SortOrder: 15, IsFeatured: false},
+		{ID: 16, Title: "Assembly Fixture", Category: "Fixtures", Description: "Custom assembly fixtures for production efficiency", ImageUrl: "/static/images/customer/mold-repair-microscope.jpg", SortOrder: 16, IsFeatured: true},
+		{ID: 17, Title: "Welding Fixture", Category: "Fixtures", Description: "Precision welding fixtures for consistent part alignment", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 17, IsFeatured: false},
+		{ID: 18, Title: "Inspection Fixture", Category: "Fixtures", Description: "Quality control fixtures for dimensional verification", ImageUrl: "/static/images/customer/mold-repair-microscope.jpg", SortOrder: 18, IsFeatured: false},
+		{ID: 19, Title: "Machining Fixture", Category: "Fixtures", Description: "Work-holding fixtures for CNC operations", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 19, IsFeatured: false},
+		{ID: 20, Title: "Robot Gripper", Category: "EOAT", Description: "Custom end-of-arm gripper for automated handling", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 20, IsFeatured: true},
+		{ID: 21, Title: "Vacuum End Effector", Category: "EOAT", Description: "Suction cup tooling for sheet material handling", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 21, IsFeatured: false},
+		{ID: 22, Title: "Multi-Part Gripper", Category: "EOAT", Description: "Complex gripper systems for multiple part pickup", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", SortOrder: 22, IsFeatured: false},
+		{ID: 23, Title: "5-Axis Machining", Category: "CNC Machining", Description: "Complex geometry machining with 5-axis capability", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 23, IsFeatured: false},
+		{ID: 24, Title: "Aluminum Machining", Category: "CNC Machining", Description: "High-speed machining of aluminum components", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 24, IsFeatured: false},
+		{ID: 25, Title: "Steel Machining", Category: "CNC Machining", Description: "Heavy-duty machining of steel and tool steel", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 25, IsFeatured: false},
+		{ID: 26, Title: "Precision Boring", Category: "CNC Machining", Description: "Tight tolerance boring operations", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", SortOrder: 26, IsFeatured: false},
+		{ID: 27, Title: "Quality Inspection", Category: "Quality", Description: "CMM and dimensional inspection services", ImageUrl: "/static/images/customer/cmm-inspection-room.jpg", SortOrder: 27, IsFeatured: false},
+		{ID: 28, Title: "Surface Finishing", Category: "Finishing", Description: "Bead blasting and surface treatment", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", SortOrder: 28, IsFeatured: false},
+		{ID: 29, Title: "Assembly Services", Category: "Assembly", Description: "Complete mechanical assembly and testing", ImageUrl: "/static/images/customer/cmm-inspection-room.jpg", SortOrder: 29, IsFeatured: false},
+		{ID: 30, Title: "EDM Services", Category: "EDM", Description: "Wire and sinker EDM for complex shapes", ImageUrl: "/static/images/customer/sinker-edm-closeup.jpg", SortOrder: 30, IsFeatured: false},
 	}
 }
 
@@ -237,34 +236,34 @@ func getStaticGalleryCategories() []string {
 func getStaticPageImages() map[string][]models.PageImage {
 	return map[string][]models.PageImage{
 		"home": {
-			{ID: 1, PageName: "home", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80", Label: "Hero Background", AltText: "Industrial manufacturing", SortOrder: 1},
-			{ID: 2, PageName: "home", ImageKey: "service-mold-repair", ImageUrl: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80", Label: "Mold Repair Service", AltText: "Mold repair and maintenance", SortOrder: 2},
-			{ID: 3, PageName: "home", ImageKey: "service-fixtures", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80", Label: "Custom Fixtures Service", AltText: "Custom fixtures and tooling", SortOrder: 3},
-			{ID: 4, PageName: "home", ImageKey: "service-eoat", ImageUrl: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80", Label: "EOAT Service", AltText: "End-of-arm tooling", SortOrder: 4},
-			{ID: 5, PageName: "home", ImageKey: "service-cnc", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80", Label: "CNC Machining Service", AltText: "CNC machining equipment", SortOrder: 5},
-			{ID: 6, PageName: "home", ImageKey: "why-us-1", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&q=80", Label: "Why Choose Us Image 1", AltText: "CNC Machining", SortOrder: 6},
-			{ID: 7, PageName: "home", ImageKey: "why-us-2", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&q=80", Label: "Why Choose Us Image 2", AltText: "Manufacturing", SortOrder: 7},
-			{ID: 8, PageName: "home", ImageKey: "cta", ImageUrl: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80", Label: "CTA Background", AltText: "Industrial background", SortOrder: 8},
+			{ID: 1, PageName: "home", ImageKey: "hero", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", Label: "Hero Background", AltText: "Laser marking equipment at RoweTech", SortOrder: 1},
+			{ID: 2, PageName: "home", ImageKey: "service-mold-repair", ImageUrl: "/static/images/customer/mold-repair-bench.jpg", Label: "Mold Repair Service", AltText: "Mold repair and maintenance workstation", SortOrder: 2},
+			{ID: 3, PageName: "home", ImageKey: "service-fixtures", ImageUrl: "/static/images/customer/mold-repair-microscope.jpg", Label: "Custom Fixtures Service", AltText: "Microscope inspection workstation", SortOrder: 3},
+			{ID: 4, PageName: "home", ImageKey: "service-eoat", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", Label: "EOAT Service", AltText: "Advanced equipment at RoweTech", SortOrder: 4},
+			{ID: 5, PageName: "home", ImageKey: "service-cnc", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", Label: "CNC Machining Service", AltText: "Precision-machined mold cavity", SortOrder: 5},
+			{ID: 6, PageName: "home", ImageKey: "why-us-1", ImageUrl: "/static/images/customer/cmm-inspection-room.jpg", Label: "Why Choose Us Image 1", AltText: "CMM inspection equipment", SortOrder: 6},
+			{ID: 7, PageName: "home", ImageKey: "why-us-2", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", Label: "Why Choose Us Image 2", AltText: "Mold repair workstation", SortOrder: 7},
+			{ID: 8, PageName: "home", ImageKey: "cta", ImageUrl: "/static/images/customer/cmm-inspection-room.jpg", Label: "CTA Background", AltText: "Coordinate measuring machine at RoweTech", SortOrder: 8},
 		},
 		"about": {
-			{ID: 9, PageName: "about", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1920&q=80", Label: "Hero Background", AltText: "Manufacturing", SortOrder: 1},
-			{ID: 10, PageName: "about", ImageKey: "story", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80", Label: "Our Story Image", AltText: "CNC Workshop", SortOrder: 2},
+			{ID: 9, PageName: "about", ImageKey: "hero", ImageUrl: "/static/images/customer/cmm-inspection-room.jpg", Label: "Hero Background", AltText: "Coordinate measuring machine inspection area", SortOrder: 1},
+			{ID: 10, PageName: "about", ImageKey: "story", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", Label: "Our Story Image", AltText: "Mold repair workstation", SortOrder: 2},
 		},
 		"services": {
-			{ID: 11, PageName: "services", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&q=80", Label: "Hero Background", AltText: "CNC Machining", SortOrder: 1},
-			{ID: 12, PageName: "services", ImageKey: "mold-repair", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80", Label: "Mold Repair Section", AltText: "Plastic Injection Mold Repair", SortOrder: 2},
-			{ID: 13, PageName: "services", ImageKey: "fixtures", ImageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80", Label: "Fixtures Section", AltText: "Custom Fixtures and Tooling", SortOrder: 3},
-			{ID: 14, PageName: "services", ImageKey: "eoat", ImageUrl: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80", Label: "EOAT Section", AltText: "EOAT Manufacturing", SortOrder: 4},
-			{ID: 15, PageName: "services", ImageKey: "cnc", ImageUrl: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80", Label: "CNC Section", AltText: "CNC Machining Services", SortOrder: 5},
+			{ID: 11, PageName: "services", ImageKey: "hero", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", Label: "Hero Background", AltText: "Precision-machined mold cavity", SortOrder: 1},
+			{ID: 12, PageName: "services", ImageKey: "mold-repair", ImageUrl: "/static/images/customer/mold-repair-bench.jpg", Label: "Mold Repair Section", AltText: "Plastic injection mold repair bench", SortOrder: 2},
+			{ID: 13, PageName: "services", ImageKey: "fixtures", ImageUrl: "/static/images/customer/mold-repair-microscope.jpg", Label: "Fixtures Section", AltText: "Microscope inspection workstation", SortOrder: 3},
+			{ID: 14, PageName: "services", ImageKey: "eoat", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", Label: "EOAT Section", AltText: "Advanced equipment at RoweTech", SortOrder: 4},
+			{ID: 15, PageName: "services", ImageKey: "cnc", ImageUrl: "/static/images/customer/machined-cavity-detail.jpg", Label: "CNC Section", AltText: "Precision-machined mold cavity", SortOrder: 5},
 		},
 		"capabilities": {
-			{ID: 16, PageName: "capabilities", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1920&q=80", Label: "Hero Background", AltText: "CNC Equipment", SortOrder: 1},
+			{ID: 16, PageName: "capabilities", ImageKey: "hero", ImageUrl: "/static/images/customer/cmm-inspection-room.jpg", Label: "Hero Background", AltText: "CMM inspection equipment", SortOrder: 1},
 		},
 		"gallery": {
-			{ID: 17, PageName: "gallery", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80", Label: "Hero Background", AltText: "Workshop", SortOrder: 1},
+			{ID: 17, PageName: "gallery", ImageKey: "hero", ImageUrl: "/static/images/customer/laser-marking-foba.jpg", Label: "Hero Background", AltText: "Laser marking workstation", SortOrder: 1},
 		},
 		"contact": {
-			{ID: 18, PageName: "contact", ImageKey: "hero", ImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1920&q=80", Label: "Hero Background", AltText: "Manufacturing", SortOrder: 1},
+			{ID: 18, PageName: "contact", ImageKey: "hero", ImageUrl: "/static/images/customer/mold-repair-workstation.jpg", Label: "Hero Background", AltText: "Mold repair workstation at RoweTech", SortOrder: 1},
 		},
 	}
 }

@@ -12,6 +12,18 @@ type SiteConfig struct {
 	DefaultOGImage string
 }
 
+type SMTPConfig struct {
+	Host     string
+	Port     string
+	Username string
+	Password string
+	From     string
+}
+
+func (c SMTPConfig) Enabled() bool {
+	return c.Host != "" && c.Port != "" && c.From != ""
+}
+
 type Config struct {
 	DatabaseURL         string
 	Port                string
@@ -20,6 +32,8 @@ type Config struct {
 	ClerkSecretKey      string
 	ClerkPublishableKey string
 	AdminEmails         []string
+	SMTP                SMTPConfig
+	ContactNotifyTo     []string
 }
 
 func Load() *Config {
@@ -29,6 +43,14 @@ func Load() *Config {
 	}
 	if len(adminEmails) == 0 {
 		adminEmails = []string{"logan@lanou.com"}
+	}
+
+	contactNotifyTo := parseAdminEmails(os.Getenv("CONTACT_NOTIFICATION_EMAILS"))
+	if contactNotifyEmail := strings.TrimSpace(os.Getenv("CONTACT_NOTIFICATION_EMAIL")); contactNotifyEmail != "" {
+		contactNotifyTo = append(contactNotifyTo, strings.ToLower(contactNotifyEmail))
+	}
+	if len(contactNotifyTo) == 0 {
+		contactNotifyTo = append([]string{}, adminEmails...)
 	}
 
 	cfg := &Config{
@@ -43,6 +65,14 @@ func Load() *Config {
 		ClerkSecretKey:      os.Getenv("CLERK_SECRET_KEY"),
 		ClerkPublishableKey: os.Getenv("CLERK_PUBLISHABLE_KEY"),
 		AdminEmails:         adminEmails,
+		SMTP: SMTPConfig{
+			Host:     strings.TrimSpace(os.Getenv("SMTP_HOST")),
+			Port:     strings.TrimSpace(os.Getenv("SMTP_PORT")),
+			Username: strings.TrimSpace(os.Getenv("SMTP_USERNAME")),
+			Password: os.Getenv("SMTP_PASSWORD"),
+			From:     strings.TrimSpace(os.Getenv("SMTP_FROM")),
+		},
+		ContactNotifyTo: contactNotifyTo,
 	}
 
 	if cfg.DatabaseURL == "" {

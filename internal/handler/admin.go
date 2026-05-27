@@ -8,6 +8,7 @@ import (
 	"rowetech/internal/clerk"
 	"rowetech/internal/database/models"
 	"rowetech/internal/database/sqlc"
+	"rowetech/internal/sitecontent"
 	"rowetech/templates/layouts"
 	"rowetech/templates/pages"
 
@@ -37,13 +38,26 @@ func (h *Handler) getAdminStats(ctx echo.Context) layouts.AdminStats {
 		stats.PageImages = int64(len(images))
 	}
 
+	stats.EditableContent = int64(sitecontent.TotalFieldCount())
+
 	return stats
 }
 
 // AdminDashboard renders the admin dashboard
 func (h *Handler) AdminDashboard(c echo.Context) error {
+	ctx := c.Request().Context()
 	stats := h.getAdminStats(c)
-	return pages.AdminDashboard(stats).Render(c.Request().Context(), c.Response().Writer)
+
+	sqlcContacts, err := h.db.Queries.ListContactSubmissions(ctx, sqlc.ListContactSubmissionsParams{
+		Limit:  5,
+		Offset: 0,
+	})
+	if err != nil {
+		slog.Error("failed to load recent contacts", "error", err)
+		sqlcContacts = nil
+	}
+
+	return pages.AdminDashboard(stats, models.FromSqlcContactSubmissions(sqlcContacts)).Render(ctx, c.Response().Writer)
 }
 
 // AdminSettings renders the admin settings page
@@ -70,6 +84,26 @@ func (h *Handler) AdminSettings(c echo.Context) error {
 	}
 
 	return pages.AdminSettings(settingsMap, stats).Render(ctx, c.Response().Writer)
+}
+
+// AdminContent renders the editable page copy screen
+func (h *Handler) AdminContent(c echo.Context) error {
+	ctx := c.Request().Context()
+	stats := h.getAdminStats(c)
+
+	settings, err := h.db.Queries.ListSettings(ctx)
+	if err != nil {
+		slog.Error("failed to list settings for content", "error", err)
+	}
+
+	contentValues := sitecontent.Defaults()
+	for _, s := range settings {
+		if sitecontent.IsContentKey(s.Key) {
+			contentValues[s.Key] = s.Value
+		}
+	}
+
+	return pages.AdminContent(sitecontent.Definitions(), contentValues, stats).Render(ctx, c.Response().Writer)
 }
 
 // AdminGallery renders the gallery management page
