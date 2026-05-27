@@ -5,7 +5,7 @@ tmp_dir = "tmp"
 [build]
   args_bin = []
   bin = "./tmp/rowetech"
-  cmd = "go build -o ./tmp/rowetech ./cmd/server"
+  cmd = "go build -tags dev -o ./tmp/rowetech ./cmd/server"
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "testdata", "node_modules", "static", "internal/database/sqlc", ".next", "out"]
   exclude_file = ["go.sum"]
@@ -23,8 +23,8 @@ tmp_dir = "tmp"
   post_cmd = []
   pre_cmd = [
     "lsof -ti:${PORT:-3000} | xargs kill -9 2>/dev/null || true; sleep 0.5",
-    "templ generate",
-    "sqlc generate -f sqlc/sqlc.yaml 2>/dev/null || true",
+    "go tool templ generate",
+    "go tool sqlc generate -f sqlc/sqlc.yaml 2>/dev/null || true",
     "go mod tidy"
   ]
   rerun = false

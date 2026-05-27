@@ -98,13 +98,13 @@ func sendSMTP(ctx context.Context, smtpCfg config.SMTPConfig, to []string, messa
 		if err != nil {
 			return err
 		}
-		defer conn.Close()
+		defer func() { _ = conn.Close() }()
 
 		client, err := smtp.NewClient(conn, smtpCfg.Host)
 		if err != nil {
 			return err
 		}
-		defer client.Quit()
+		defer func() { _ = client.Quit() }()
 
 		return sendWithClient(client, auth, smtpCfg, to, message)
 	}
@@ -114,13 +114,13 @@ func sendSMTP(ctx context.Context, smtpCfg config.SMTPConfig, to []string, messa
 	if err != nil {
 		return err
 	}
-	defer conn.Close()
+	defer func() { _ = conn.Close() }()
 
 	client, err := smtp.NewClient(conn, smtpCfg.Host)
 	if err != nil {
 		return err
 	}
-	defer client.Quit()
+	defer func() { _ = client.Quit() }()
 
 	if ok, _ := client.Extension("STARTTLS"); ok {
 		if err := client.StartTLS(&tls.Config{

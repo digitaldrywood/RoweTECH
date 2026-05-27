@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -12,6 +13,7 @@ import (
 	"rowetech/internal/database"
 	"rowetech/internal/handler"
 	"rowetech/internal/middleware"
+	"rowetech/internal/portutil"
 
 	"github.com/labstack/echo/v4"
 )
@@ -40,9 +42,21 @@ func main() {
 	h := handler.New(cfg, db)
 	h.RegisterRoutes(e)
 
+	// Bind the configured port, falling back to the next free port when it's
+	// already in use so `make dev` doesn't die on a stray process.
+	addr, triedPorts := portutil.FindAvailable(":" + cfg.Port)
+	if len(triedPorts) > 0 {
+		slog.Warn("configured port in use, using next free port",
+			"configured", cfg.Port, "tried", strings.Join(triedPorts, ","), "using", strings.TrimPrefix(addr, ":"))
+	}
+	port := strings.TrimPrefix(addr, ":")
+
 	go func() {
-		addr := ":" + cfg.Port
-		slog.Info("starting server", "port", cfg.Port, "env", cfg.Env)
+		slog.Info("starting server", "port", port, "env", cfg.Env)
+		slog.Info("access URL", "url", "http://localhost:"+port)
+		if cfg.TailscaleHostname != "" {
+			slog.Info("access URL", "url", "http://"+cfg.TailscaleHostname+":"+port, "via", "tailscale")
+		}
 		if err := e.Start(addr); err != nil {
 			slog.Info("shutting down server")
 		}

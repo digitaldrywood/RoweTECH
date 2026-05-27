@@ -9,6 +9,11 @@ export PORT="3000"
 export ENV="development"
 export LOG_LEVEL="DEBUG"
 
+# Tailscale magic-DNS host for this machine (e.g. prometheus.tail60aac7.ts.net).
+# When set, the server logs a clickable http://<host>:<port> access URL at
+# startup so the dev server is reachable from any device on your tailnet.
+export TAILSCALE_HOSTNAME=""
+
 # Site / SEO (used for meta tags, OG, etc.)
 export SITE_NAME="RoweTech Machine & Engineering"
 export SITE_URL="http://localhost:3000"
