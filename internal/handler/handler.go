@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"net/http"
-
 	"rowetech/internal/config"
 	"rowetech/internal/database"
 	"rowetech/internal/middleware"
@@ -45,9 +43,6 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 	e.GET("/sign-in", h.SignIn)
 	e.GET("/sign-up", h.SignUp)
 	e.GET("/unauthorized", h.Unauthorized)
-	e.GET("/admin/images", func(c echo.Context) error {
-		return c.Redirect(http.StatusFound, "/admin")
-	})
 
 	// Dev-only auth bypass (loopback-only; compiled out of production builds).
 	middleware.RegisterDevAuthRoutes(e, h.cfg)
@@ -67,10 +62,6 @@ func (h *Handler) RegisterRoutes(e *echo.Echo) {
 	admin.POST("/api/contacts/:id/read", h.APIMarkContactRead)
 	admin.POST("/api/contacts/:id/unread", h.APIMarkContactUnread)
 	admin.DELETE("/api/contacts/:id", h.APIDeleteContact)
-	admin.PUT("/api/images/:id/url", h.APIUpdateImageURL)
-	admin.PUT("/api/images/:id/alt", h.APIUpdateImageAlt)
-	admin.PUT("/api/images/:id/sort", h.APIUpdateImageSortOrder)
-	admin.POST("/api/upload/page-image/:id", h.APIUploadPageImage)
 	admin.POST("/api/settings", h.APIUpdateSetting)
 
 	// Public API routes
