@@ -1,0 +1,77 @@
+name: Migration Lint
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "migrations/*.sql"
+      - "migrations/**/*.sql"
+
+permissions:
+  contents: read
+
+jobs:
+  sqlfluff:
+    name: SQLFluff (warning-only)
+    runs-on: [self-hosted, linux, x64, personal, prometheus]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Find modified migrations
+        id: changed
+        env:
+          MIGRATIONS_DIR: migrations
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          BASE_SHA="$(git merge-base HEAD "origin/${{ github.base_ref }}")"
+          files=$(git diff --name-only --diff-filter=ACMRT "$BASE_SHA" HEAD -- "$MIGRATIONS_DIR" | grep -E '\.sql$' | tr '\n' ' ' | sed 's/[[:space:]]*$//' || true)
+          echo "files=$files" >> "$GITHUB_OUTPUT"
+          if [ -z "$files" ]; then
+            echo "No modified migration SQL files."
+          else
+            echo "Modified migration SQL files: $files"
+          fi
+
+      - name: Install SQLFluff
+        if: steps.changed.outputs.files != ''
+        run: python -m pip install sqlfluff
+
+      - name: Lint modified migrations
+        if: steps.changed.outputs.files != ''
+        continue-on-error: true
+        run: sqlfluff lint ${{ steps.changed.outputs.files }}
+
+  migration-validity:
+    name: SQLite migration validity
+    runs-on: [self-hosted, linux, x64, personal, prometheus]
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          cache: false
+
+      - name: Install goose
+        run: |
+          if go tool goose -version >/dev/null 2>&1; then
+            exit 0
+          fi
+          go install github.com/pressly/goose/v3/cmd/goose@latest
+
+      - name: Apply migrations to temp SQLite database
+        env:
+          MIGRATIONS_DIR: migrations
+        run: |
+          db="$(mktemp "${RUNNER_TEMP}/migration-validate.XXXXXX.db")"
+          if go tool goose -version >/dev/null 2>&1; then
+            go tool goose -dir "$MIGRATIONS_DIR" sqlite3 "$db" up
+          else
+            "$(go env GOPATH)/bin/goose" -dir "$MIGRATIONS_DIR" sqlite3 "$db" up
+          fi
